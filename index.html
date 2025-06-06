@@ -16,6 +16,8 @@
             background-color: #0D0D0D; /* Background: Very dark grey/black */
             color: #FFFFFF; /* On-Background/On-Surface: White text */
             overflow-x: hidden; /* Prevent horizontal scroll */
+             cursor: url('image-removebg-preview.png'), auto;
+
         }
 
         /* Added for preventing scrolling when modals/menus are open */
@@ -348,7 +350,7 @@
         
     </style>
 </head>
-<body class="bg-[#0D0D0D] text-[#FFFFFF]">
+<body class="bg-[#0D0D0D] text-[#FFFFFF]" style="cursor: url('image-removebg-preview.png'), auto;">
 
     <!-- Message Box for Alerts/Confirmations -->
     <div id="custom-message-box" class="message-box">
@@ -556,35 +558,35 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Video 1: Placeholder Math Series -->
                 <div class="bg-[#2A2A2A] rounded-xl shadow-lg p-4 interactive-card scroll-reveal-item" style="--delay: 0.2s;">
-                    <h3 class="text-2xl font-semibold text-white mb-4">Algebra Fundamentals</h3>
+                    <h3 class="text-2xl font-semibold text-white mb-4">C++ programming</h3>
                     <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/DOORXtchwBU?si=_aWiYzmEqTmYx4aS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
-                    <p class="text-gray-400 mt-4">Essential concepts for strong mathematical foundations.</p>
+                    <p class="text-gray-400 mt-4">Essential concepts for strong c++ foundations.</p>
                 </div>
                 <!-- Video 2: Placeholder Science Series -->
                 <div class="bg-[#2A2A2A] rounded-xl shadow-lg p-4 interactive-card scroll-reveal-item" style="--delay: 0.3s;">
-                    <h3 class="text-2xl font-semibold text-white mb-4">Physics Principles Explained</h3>
+                    <h3 class="text-2xl font-semibold text-white mb-4">web devlopment</h3>
                     <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/xNgl1pp6lks?si=TW2-zFh2eNoEi3px" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
-                    <p class="text-gray-400 mt-4">Demystifying the laws that govern our universe.</p>
+                    <p class="text-gray-400 mt-4">complete web development course with html,css, js</p>
                 </div>
                  <!-- Video 3: Placeholder English Grammar -->
                 <div class="bg-[#2A2A2A] rounded-xl shadow-lg p-4 interactive-card scroll-reveal-item" style="--delay: 0.4s;">
-                    <h3 class="text-2xl font-semibold text-white mb-4">English Grammar Essentials</h3>
+                    <h3 class="text-2xl font-semibold text-white mb-4">python programming</h3>
                     <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/Ubogl-fIg_k?si=GFWhK4QqnQv7yl3G" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
-                    <p class="text-gray-400 mt-4">Mastering sentence structure and effective communication.</p>
+                    <p class="text-gray-400 mt-4">Master python .</p>
                 </div>
                  <!-- Video 4: Placeholder History Deep Dive -->
                 <div class="bg-[#2A2A2A] rounded-xl shadow-lg p-4 interactive-card scroll-reveal-item" style="--delay: 0.5s;">
-                    <h3 class="text-2xl font-semibold text-white mb-4">World History - Ancient Civilizations</h3>
+                    <h3 class="text-2xl font-semibold text-white mb-4">java programming</h3>
                     <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/IYuu1X_F4qc?si=TIFyESYEgauxv02R" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
-                    <p class="text-gray-400 mt-4">Journey through pivotal moments that shaped our world.</p>
+                    <p class="text-gray-400 mt-4">Journey through java world.</p>
                 </div>
             </div>
         </div>
@@ -611,16 +613,21 @@
     <!-- Testimonials Section -->
     <section class="py-16 md:py-24 bg-[#1A1A1A]"> <!-- Surface color -->
         <div class="container text-center max-w-4xl">
-            <h2 class="text-4xl md:text-5xl font-bold mb-12 text-[#FFFFFF] scroll-reveal-item">What Our Students Say</h2> <!-- On-Background text -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <h2 class="text-4xl md:text-5xl font-bold mb-12 text-[#FFFFFF] scroll-reveal-item">Founder</h2> <!-- On-Background text -->
+            <div class=" md:grid-cols-2 gap-8">
                 <div class="bg-[#2A2A2A] rounded-xl shadow-lg p-6 text-left scroll-reveal-item" style="--delay: 0.2s;">
-                    <p class="text-lg leading-relaxed italic mb-4">"Fortitude Frontier changed my perspective on learning. The interactive quizzes made studying fun, and the Fun Saturdays were a blast! Highly recommend!"</p>
-                    <p class="font-semibold text-[#FF8C00]">- Anya Sharma, Class of '24</p> <!-- Vibrant Orange -->
+                    <p class="text-lg leading-relaxed italic mb-4">"I started this institute because I was once the student who felt lost.
+I remember what it was like to struggle with self-doubt, to search endlessly for the right guidance, and to wonder if I was good enough to make it in the world of tech.
+Back then, all I needed was someone to believe in me, to show me not just how to code, but how to grow.
+That’s why this institute exists — not just to teach, but to mentor, to uplift, and to spark real transformation.
+We don’t produce students; we shape thinkers, creators, and future leaders.
+Today, I don't just follow the compass — I help build it for others."</p>
+                    <p class="font-semibold text-[#FF8C00]">- Mr. Divyansh Dewani</p> <!-- Vibrant Orange -->
                 </div>
-                <div class="bg-[#2A2A2A] rounded-xl shadow-lg p-6 text-left scroll-reveal-item" style="--delay: 0.3s;">
+                <!-- <div class="bg-[#2A2A2A] rounded-xl shadow-lg p-6 text-left scroll-reveal-item" style="--delay: 0.3s;">
                     <p class="text-lg leading-relaxed italic mb-4">"The personalized attention here is incredible. I felt supported every step of the way, and the extra activities really helped me think outside the box."</p>
                     <p class="font-semibold text-[#FF8C00]">- Rohan Singh, Class of '23</p> <!-- Vibrant Orange -->
-                </div>
+                </div> 
             </div>
         </div>
     </section>
@@ -651,7 +658,7 @@
                     <a href="https://www.instagram.com/fortitudefrontier/" class="hover:text-[#FF8C00] transition duration-300"><i class="fa fa-instagram"></i></a> <!-- Vibrant Orange hover -->
                     
                     <a href="https://www.facebook.com/profile.php?id=61577035017971" class="hover:text-[#FF8C00] transition duration-300"><i class="fa fa-facebook" style="font-size:24px"></i></a>
-                   
+                    <a href="" class="hover:text-[#FF8C00] transition duration-300"><i class="fa fa-linkedin" style="font-size:24px"></i></a>
                     <a href="mailto:frontierfortitude26@gmail.com?subject=enquire%20about%20fortitude%20frontier" class="hover:text-[#FF8C00] transition duration-300"><i class="fa fa-envelope" style="font-size:24px"></i></a>
                     
                     
