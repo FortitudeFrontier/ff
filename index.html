@@ -16,8 +16,7 @@
             background-color: #0D0D0D; /* Background: Very dark grey/black */
             color: #FFFFFF; /* On-Background/On-Surface: White text */
             overflow-x: hidden; /* Prevent horizontal scroll */
-             cursor: url('image-removebg-preview.png'), auto;
-
+            /* Removed cursor image as it was not provided */
         }
 
         /* Added for preventing scrolling when modals/menus are open */
@@ -28,7 +27,7 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 1rem;
+            padding: 0 1rem; /* Added padding to container for smaller screens */
         }
 
         /* Preloader styles */
@@ -276,8 +275,8 @@
             position: relative;
             transform: translateY(-20px);
             transition: transform 0.3s ease;
-            max-height: 90vh; 
-            overflow-y: auto; 
+            max-height: 90vh;
+            overflow-y: auto;
         }
         .modal.show .modal-content {
             transform: translateY(0);
@@ -343,14 +342,12 @@
             transform: scale(1.05);
         }
         #logoimg{
-          
            height: 10vh;
            padding: 0;
-}
-        
+        }
     </style>
 </head>
-<body class="bg-[#0D0D0D] text-[#FFFFFF]" style="cursor: url('image-removebg-preview.png'), auto;">
+<body class="bg-[#0D0D0D] text-white">
 
     <!-- Message Box for Alerts/Confirmations -->
     <div id="custom-message-box" class="message-box">
@@ -365,34 +362,33 @@
     </div>
 
     <!-- Navbar -->
-    <nav class="p-6 md:bg-[#1A1A1A] shadow-lg fixed top-0 w-full z-50"> <!-- Surface color, fixed, top-0, w-full, higher z-index -->
+    <nav class="p-6 md:bg-[#1A1A1A] shadow-lg fixed top-0 w-full z-50">
         <div class="container flex justify-between items-center">
-            <a href="#"  class=" md:text-xl"><img src="fflogo-removebg-preview.png" id="logoimg"></a> <!-- Primary text, darker orange on hover -->
-            <div class="hidden sm:flex flex-wrap justify-end items-center sm:gap-x-4 sm:gap-y-2"> <!-- Changed md:flex to sm:flex, and added adaptive gaps -->
+            <a href="#" class="md:text-xl"><img src="fflogo-removebg-preview.png" id="logoimg" alt="Fortitude Frontier Logo"></a>
+            <div class="hidden sm:flex flex-wrap justify-end items-center sm:gap-x-4 sm:gap-y-2">
                 <a href="#about" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">About Us</a>
                 <a href="#quizzes" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Quizzes</a>
                 <a href="#fun-saturday" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Fun Saturday</a>
                 <a href="#course-playlist" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Course Playlist</a>
                 <a href="#ai-study-buddy" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">AI Study Buddy ✨</a>
                 <a href="#contact" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Contact</a>
-                <!-- Login/Logout buttons -->
-                <div id="auth-buttons">
-                    <button id="login-signup-btn" class="action-button font-bold py-2 px-4 rounded-full text-sm">Login / Sign Up</button>
-                </div>
-                <div id="user-info" class="hidden flex items-center sm:space-x-2"> <!-- Adjusted spacing for user-info on small screens -->
-                    <span id="user-email" class="text-white text-sm whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px]"></span> <!-- Increased max-w for user-email -->
+                <!-- New Student Dashboard link pointing to the separate HTML file -->
+                <a href="student-dashboard.html" id="main-dashboard-link" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Student Dashboard</a>
+                <!-- User Info and Logout (always present, visibility controlled by JS) -->
+                <div id="user-info" class="hidden flex items-center sm:space-x-2">
+                    <span id="user-email" class="text-white text-sm whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px]"></span>
                     <button id="logout-btn" class="action-button font-bold py-2 px-4 rounded-full text-sm">Logout</button>
                 </div>
             </div>
             <!-- Mobile Menu Button -->
-            <button id="mobile-menu-button" class="sm:hidden text-[#FFFFFF] focus:outline-none"> <!-- Changed md:hidden to sm:hidden -->
+            <button id="mobile-menu-button" class="sm:hidden text-[#FFFFFF] focus:outline-none">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                 </svg>
             </button>
         </div>
         <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu-overlay" class="hidden sm:hidden fixed inset-0 bg-[#0D0D0D] bg-opacity-100 z-9996 flex flex-col items-center justify-center space-y-8 text-2xl"> <!-- Background color, changed md:hidden to sm:hidden -->
+        <div id="mobile-menu-overlay" class="hidden sm:hidden fixed inset-0 bg-[#0D0D0D] bg-opacity-100 z-9996 flex flex-col items-center justify-center space-y-8 text-2xl">
             <button id="close-mobile-menu" class="absolute top-6 right-6 text-[#FFFFFF] focus:outline-none">
                 <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -404,31 +400,17 @@
             <a href="#course-playlist" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Course Playlist</a>
             <a href="#ai-study-buddy" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">AI Study Buddy ✨</a>
             <a href="#contact" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Contact</a>
-            <button id="mobile-login-signup-btn" class="action-button font-bold py-2 px-4 rounded-full text-xl sm:hidden">Login / Sign Up</button> <!-- Changed md:hidden to sm:hidden -->
-            <div id="mobile-user-info" class="hidden flex-col items-center space-y-2 sm:hidden"> <!-- Changed md:hidden to sm:hidden -->
+            <!-- New Mobile Student Dashboard link pointing to the separate HTML file -->
+            <a href="student-dashboard.html" id="mobile-dashboard-link" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Student Dashboard</a>
+            <!-- Mobile User Info and Logout (always present, visibility controlled by JS) -->
+            <div id="mobile-user-info" class="hidden flex-col items-center space-y-2 sm:hidden">
                 <span id="mobile-user-email" class="text-white text-xl"></span>
                 <button id="mobile-logout-btn" class="action-button font-bold py-2 px-4 rounded-full text-xl">Logout</button>
             </div>
         </div>
     </nav>
 
-    <!-- Login/Signup Modal -->
-    <div id="auth-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" id="auth-close-button">&times;</span>
-            <h3 class="text-3xl font-bold text-[#FF8C00] mb-6 text-center" id="auth-modal-title">Login</h3>
-            <div class="flex flex-col space-y-4">
-                <input type="email" id="auth-email" class="w-full p-3 rounded-md bg-[#0D0D0D] text-[#FFFFFF] border border-[#FF8C00] focus:outline-none focus:ring-2 focus:ring-[#FF8C00]" placeholder="Email" required>
-                <input type="password" id="auth-password" class="w-full p-3 rounded-md bg-[#0D0D0D] text-[#FFFFFF] border border-[#FF8C00] focus:outline-none focus:ring-2 focus:ring-[#FF8C00]" placeholder="Password" required>
-                <button id="auth-submit-btn" class="action-button font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">Login</button>
-                <p id="auth-error-message" class="text-red-400 text-center"></p>
-                <button id="toggle-auth-mode" class="text-[#FF8C00] hover:underline text-sm mt-2">Don't have an account? Sign Up</button>
-                <button id="resend-verification-btn" class="action-button font-bold py-2 px-4 rounded-full text-sm mt-4 hidden">Resend Verification Email</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Quiz Modal -->
+    <!-- Quiz Modal (kept for existing quiz functionality) -->
     <div id="quiz-modal" class="modal">
         <div class="modal-content">
             <span class="close-button" id="quiz-close-button">&times;</span>
@@ -449,7 +431,7 @@
 
 
     <!-- Hero Section -->
-    <header class="relative h-screen flex items-center justify-center overflow-hidden hero-bg-overlay pt-24"> <!-- Added pt-24 -->
+    <header class="relative h-screen flex items-center justify-center overflow-hidden hero-bg-overlay pt-24">
         <!-- Animated Blob Background (colors updated) -->
         <div class="blob-container">
             <div class="blob blob-1"></div>
@@ -459,20 +441,20 @@
         <!-- Content -->
         <div class="relative z-10 text-center p-6">
             <h1 class="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4 hero-text">
-                <span class="block text-[#FF8C00]">FORTITUDE FRONTIER</span> <!-- Vibrant Orange -->
-                <span class="block text-[#FF8C00] slogan">Unleash Your Potential.</span> <!-- Vibrant Orange -->
+                <span class="block text-[#FF8C00]">FORTITUDE FRONTIER</span>
+                <span class="block text-[#FF8C00] slogan">Unleash Your Potential.</span>
             </h1>
             <p class="text-lg md:text-xl text-[#FFFFFF] mb-8 hero-text">Your journey to academic excellence and personal growth starts here.</p>
-            <a href="#quizzes" class="inline-block bg-[#FF8C00] hover:bg-[#FF7F00] text-[#0D0D0D] font-bold py-3 px-8 rounded-full shadow-lg hero-button"> <!-- Vibrant Orange BG, darker orange hover, dark text -->
+            <a href="#quizzes" class="inline-block bg-[#FF8C00] hover:bg-[#FF7F00] text-[#0D0D0D] font-bold py-3 px-8 rounded-full shadow-lg hero-button">
                 Start Learning Now!
             </a>
         </div>
     </header>
 
     <!-- About Us Section -->
-    <section id="about" class="py-16 md:py-24 bg-[#0D0D0D]"> <!-- Background color -->
+    <section id="about" class="py-16 md:py-24 bg-[#0D0D0D]">
         <div class="container text-center max-w-4xl">
-            <h2 class="text-4xl md:text-5xl font-bold mb-8 text-[#FF8C00] scroll-reveal-item">About Fortitude Frontier</h2> <!-- Vibrant Orange -->
+            <h2 class="text-4xl md:text-5xl font-bold mb-8 text-[#FF8C00] scroll-reveal-item">About Fortitude Frontier</h2>
             <p class="text-lg md:text-xl leading-relaxed text-[#FFFFFF] mb-6 scroll-reveal-item" style="--delay: 0.1s;">
                 At Fortitude Frontier, we are dedicated to providing top-tier coaching that goes beyond textbooks. We foster an environment where students not only excel academically but also develop critical thinking skills, problem-solving abilities, and unwavering confidence.
             </p>
@@ -483,13 +465,13 @@
     </section>
 
     <!-- Quizzes Section -->
-    <section id="quizzes" class="py-16 md:py-24 bg-[#1A1A1A]"> <!-- Surface color -->
+    <section id="quizzes" class="py-16 md:py-24 bg-[#1A1A1A]">
         <div class="container text-center">
-            <h2 class="text-4xl md:text-5xl font-bold mb-12 text-[#FF8C00] scroll-reveal-item">Challenge Yourself with Quizzes!</h2> <!-- Vibrant Orange -->
+            <h2 class="text-4xl md:text-5xl font-bold mb-12 text-[#FF8C00] scroll-reveal-item">Challenge Yourself with Quizzes!</h2>
             <p class="text-lg md:text-xl text-[#FFFFFF] mb-10 scroll-reveal-item" style="--delay: 0.1s;">Test your knowledge and sharpen your skills with our interactive quizzes, or generate new ones with AI!</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Quiz Card 1 -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center"> <!-- Slightly lighter surface variant -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=MATH" alt="Math Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Mathematics Mastery</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Algebra, Geometry, Calculus.</p>
@@ -514,9 +496,9 @@
     </section>
 
     <!-- Fun Saturday Section -->
-    <section id="fun-saturday" class="py-16 md:py-24 bg-[#0D0D0D]"> <!-- Background color -->
+    <section id="fun-saturday" class="py-16 md:py-24 bg-[#0D0D0D]">
         <div class="container text-center">
-            <h2 class="text-4xl md:text-5xl font-bold mb-12 text-[#FF8C00] scroll-reveal-item">Fortitude Fun Saturdays!</h2> <!-- Vibrant Orange -->
+            <h2 class="text-4xl md:text-5xl font-bold mb-12 text-[#FF8C00] scroll-reveal-item">Fortitude Fun Saturdays!</h2>
             <p class="text-lg md:text-xl text-[#FFFFFF] mb-10 scroll-reveal-item" style="--delay: 0.1s;">Learning isn't just about books! Join us for exciting and enriching activities every Saturday.</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Fun Activity Card 1 -->
@@ -551,9 +533,9 @@
     </section>
 
     <!-- Course Playlist Section -->
-    <section id="course-playlist" class="py-16 md:py-24 bg-[#1A1A1A]"> <!-- Surface color -->
+    <section id="course-playlist" class="py-16 md:py-24 bg-[#1A1A1A]">
         <div class="container text-center">
-            <h2 class="text-4xl md:text-5xl font-bold mb-12 text-[#FFFFFF] scroll-reveal-item">Our Course Playlists</h2> <!-- On-Surface text -->
+            <h2 class="text-4xl md:text-5xl font-bold mb-12 text-[#FFFFFF] scroll-reveal-item">Our Course Playlists</h2>
             <p class="text-lg md:text-xl text-[#FFFFFF] mb-10 scroll-reveal-item" style="--delay: 0.1s;">Access our curated video lessons and deepen your understanding.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Video 1: Placeholder Math Series -->
@@ -566,7 +548,7 @@
                 </div>
                 <!-- Video 2: Placeholder Science Series -->
                 <div class="bg-[#2A2A2A] rounded-xl shadow-lg p-4 interactive-card scroll-reveal-item" style="--delay: 0.3s;">
-                    <h3 class="text-2xl font-semibold text-white mb-4">Web devlopment</h3>
+                    <h3 class="text-2xl font-semibold text-white mb-4">web devlopment</h3>
                     <div class="video-container">
                         <iframe width="560" height="315" src="https://www.youtube.com/embed/xNgl1pp6lks?si=TW2-zFh2eNoEi3px" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
@@ -593,7 +575,7 @@
     </section>
 
     <!-- AI Study Buddy Section -->
-    <section id="ai-study-buddy" class="py-16 md:py-24 bg-[#0D0D0D]"> <!-- Background color -->
+    <section id="ai-study-buddy" class="py-16 md:py-24 bg-[#0D0D0D]">
         <div class="container text-center max-w-4xl">
             <h2 class="text-4xl md:text-5xl font-bold mb-8 text-[#FF8C00] scroll-reveal-item">AI Study Buddy ✨</h2>
             <p class="text-lg md:text-xl leading-relaxed text-[#FFFFFF] mb-6 scroll-reveal-item" style="--delay: 0.1s;">
@@ -623,18 +605,18 @@
 </section>
 
     <!-- Call to Action Section -->
-    <section class="py-16 md:py-24 bg-[#0D0D0D]"> <!-- Background color -->
+    <section class="py-16 md:py-24 bg-[#0D0D0D]">
         <div class="container text-center">
             <h2 class="text-4xl md:text-5xl font-bold text-white mb-8 scroll-reveal-item">Ready to Build Your Fortitude?</h2>
             <p class="text-lg md:text-xl text-[#FFFFFF] mb-10 scroll-reveal-item" style="--delay: 0.1s;">Enroll today and discover your true potential.</p>
-            <a href="https://wa.me/919352359645" class="inline-block bg-[#FF8C00] hover:bg-[#FF7F00] text-[#0D0D0D] font-bold py-4 px-10 rounded-full shadow-xl transition duration-300 transform hover:scale-105 hover:animate-pulse scroll-reveal-item" style="--delay: 0.2s;"> <!-- Vibrant Orange BG, darker orange hover, dark text -->
+            <a href="https://wa.me/919352359645" class="inline-block bg-[#FF8C00] hover:bg-[#FF7F00] text-[#0D0D0D] font-bold py-4 px-10 rounded-full shadow-xl transition duration-300 transform hover:scale-105 hover:animate-pulse scroll-reveal-item" style="--delay: 0.2s;">
                 Enroll Now
             </a>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer id="contact" class="bg-[#1A1A1A] py-12 md:py-16"> <!-- Surface color -->
+    <footer id="contact" class="bg-[#1A1A1A] py-12 md:py-16">
         <div class="container text-center text-gray-400">
             <p class="mb-4">&copy; Fortitude Frontier. All rights reserved.</p>
             <div class="flex justify-center space-x-6">
@@ -645,13 +627,10 @@
                 <p>Connect with Us:</p>
                 <div class="flex justify-center space-x-6 mt-4 text-2xl">
                     <!-- Social icons with theme colors on hover -->
-                    <a href="https://www.instagram.com/fortitudefrontier/" class="hover:text-[#FF8C00] transition duration-300"><i class="fa fa-instagram"></i></a> <!-- Vibrant Orange hover -->
-                    
+                    <a href="https://www.instagram.com/fortitudefrontier/" class="hover:text-[#FF8C00] transition duration-300"><i class="fa fa-instagram"></i></a>
                     <a href="https://www.facebook.com/profile.php?id=61577035017971" class="hover:text-[#FF8C00] transition duration-300"><i class="fa fa-facebook" style="font-size:24px"></i></a>
                     <a href="" class="hover:text-[#FF8C00] transition duration-300"><i class="fa fa-linkedin" style="font-size:24px"></i></a>
                     <a href="mailto:frontierfortitude26@gmail.com?subject=enquire%20about%20fortitude%20frontier" class="hover:text-[#FF8C00] transition duration-300"><i class="fa fa-envelope" style="font-size:24px"></i></a>
-                    
-                    
                 </div>
             </div>
             <p class="mt-8 text-lg">Email: frontierfortitude26@gmail.com</p>
@@ -664,106 +643,50 @@
 
     <!-- Firebase SDKs -->
     <script type="module" defer>
-        // Log to confirm script starts execution
         console.log("Script started.");
 
-        // Import necessary Firebase modules
-        // ALL Firebase SDK imports are now using version 11.8.1 for consistency.
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-        import { getAuth, signInWithCustomToken, signInAnonymously, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
-        // Firebase App and Services initialization variables
         let app;
         let auth;
         let db;
-        let currentUserId = null; // To store the authenticated user's UID for Firestore operations
-        let isLoginMode = true; // Moved declaration here to ensure it's defined before use
-        let quizData = []; // Store the current quiz questions and answers
+        let currentUserId = null;
+        let quizData = [];
 
-        // YOUR PROVIDED FIREBASE CONFIGURATION
         const firebaseConfig = {
             apiKey: "AIzaSyCqWbcgSdseuGSd6aLBqG76lAyr647xgQ4",
             authDomain: "signup-b09e6.firebaseapp.com",
-            projectId: "signup-b09e6", // This is your project ID
+            projectId: "signup-b09e6",
             storageBucket: "signup-b09e6.firebasestorage.app",
             messagingSenderId: "203916695845",
             appId: "1:203916695845:web:5310b5ca37c7809be862cc"
         };
 
-        // This appId variable is used for constructing the Firestore paths.
-        // It's correctly set to firebaseConfig.projectId.
-        const appId = firebaseConfig.projectId;
-        // The initialAuthToken is for Canvas-specific setups. For local email/password login, it remains null.
-        const initialAuthToken = null;
-
-        // Initialize Firebase services with the provided configuration immediately.
         app = initializeApp(firebaseConfig);
         auth = getAuth(app);
         db = getFirestore(app);
         console.log("Firebase services initialized.");
 
-        /**
-         * Custom message box function to replace alert/confirm.
-         */
         const showMessageBox = (message, onConfirm = null) => {
             const msgBox = document.getElementById('custom-message-box');
             const msgText = document.getElementById('message-box-text');
             const confirmBtn = document.getElementById('message-box-confirm-btn');
 
-            msgText.innerHTML = message; // Use innerHTML for bold tag
+            msgText.innerHTML = message;
             confirmBtn.onclick = () => {
                 msgBox.classList.remove('show');
-                // Allow scrolling after message box is closed
                 document.body.classList.remove('overflow-hidden');
                 if (onConfirm) onConfirm();
             };
             msgBox.classList.add('show');
-            document.body.classList.add('overflow-hidden'); // Prevent scrolling while message box is open
+            document.body.classList.add('overflow-hidden');
             console.log("Message box shown:", message);
         };
 
-        /**
-         * Handles initial authentication using a custom token or anonymous sign-in.
-         * This ensures the app has a user session for Firestore access from the start.
-         */
-        const handleInitialAuth = async () => {
-            try {
-                if (initialAuthToken) {
-                    // If an initialAuthToken is provided (e.g., by the Canvas environment), use it.
-                    await signInWithCustomToken(auth, initialAuthToken);
-                    console.log('Firebase: Signed in with custom token.');
-                } else {
-                    // **MODIFICATION**: Removed signInAnonymously.
-                    // Now, if no initialAuthToken is present (typical for local development),
-                    // the user will remain unauthenticated until they explicitly log in or sign up.
-                    console.log('Firebase: No initial token, user will not be signed in anonymously.');
-                }
-            } catch (error) {
-                console.error('Firebase: Initial authentication error:', error);
-                // Inform the user if initial auth fails, e.g., by hiding auth buttons.
-                const authButtons = document.getElementById('auth-buttons');
-                if (authButtons) {
-                    authButtons.innerHTML = '<span class="text-red-400 text-sm">Auth Unavailable</span>';
-                }
-                const mobileLoginSignupBtn = document.getElementById('mobile-login-signup-btn');
-                if (mobileLoginSignupBtn) {
-                    mobileLoginSignupBtn.classList.add('hidden');
-                }
-                showMessageBox("Authentication services are currently unavailable. Please check your internet connection and Firebase project settings.", () => {
-                    // Optional: redirect or perform other actions after user acknowledges
-                });
-            }
-        };
-
-        /**
-         * Listens for changes in the Firebase authentication state (user login/logout).
-         * Updates the UI accordingly.
-         */
         onAuthStateChanged(auth, async (user) => {
-            const loginSignupBtn = document.getElementById('login-signup-btn');
             const logoutBtn = document.getElementById('logout-btn');
-            const mobileLoginSignupBtn = document.getElementById('mobile-login-signup-btn');
             const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
             const userInfoDisplay = document.getElementById('user-info');
             const mobileUserInfoDisplay = document.getElementById('mobile-user-info');
@@ -771,25 +694,17 @@
             const mobileUserEmailDisplay = document.getElementById('mobile-user-email');
 
             if (user) {
-                // User is logged in
-                currentUserId = user.uid; // Store the authenticated user's UID
+                currentUserId = user.uid;
                 console.log('Firebase: User is logged in:', user.email || 'Anonymous', 'UID:', user.uid);
 
-                // Update UI for logged-in state (desktop and mobile)
-                if (loginSignupBtn) loginSignupBtn.classList.add('hidden');
-                if (mobileLoginSignupBtn) mobileLoginSignupBtn.classList.add('hidden');
                 if (userInfoDisplay) userInfoDisplay.classList.remove('hidden');
                 if (mobileUserInfoDisplay) mobileUserInfoDisplay.classList.remove('hidden');
                 if (userEmailDisplay) userEmailDisplay.textContent = user.email || 'Anonymous User';
                 if (mobileUserEmailDisplay) mobileUserEmailDisplay.textContent = user.email || 'Anonymous User';
             } else {
-                // User is logged out
-                currentUserId = null; // Clear the user ID
+                currentUserId = null;
                 console.log('Firebase: User is logged out.');
 
-                // Update UI for logged-out state (desktop and mobile)
-                if (loginSignupBtn) loginSignupBtn.classList.remove('hidden');
-                if (mobileLoginSignupBtn) mobileLoginSignupBtn.classList.remove('hidden');
                 if (userInfoDisplay) userInfoDisplay.classList.add('hidden');
                 if (mobileUserInfoDisplay) mobileUserInfoDisplay.classList.add('hidden');
                 if (userEmailDisplay) userEmailDisplay.textContent = '';
@@ -797,10 +712,9 @@
             }
         });
 
-        // Preloader and Scroll Reveal Initialization
         document.addEventListener('DOMContentLoaded', () => {
             console.log("DOMContentLoaded fired.");
-            // Hide preloader as soon as DOM is ready, for faster interaction
+
             const preloader = document.getElementById('preloader');
             if (preloader) {
                 preloader.classList.add('hidden');
@@ -809,12 +723,6 @@
                 console.warn('Preloader element not found.');
             }
 
-            // Trigger initial authentication check here, after DOM is ready
-            // This ensures auth setup runs, but doesn't block DOM parsing.
-            handleInitialAuth();
-            console.log('handleInitialAuth called on DOMContentLoaded');
-
-            // Initialize mobile menu functionality
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const closeMobileMenuButton = document.getElementById('close-mobile-menu');
             const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
@@ -822,7 +730,7 @@
             if (mobileMenuButton) {
                 mobileMenuButton.addEventListener('click', () => {
                     mobileMenuOverlay.classList.remove('hidden');
-                    document.body.classList.add('overflow-hidden'); // Prevent scrolling
+                    document.body.classList.add('overflow-hidden');
                 });
             } else {
                 console.warn('Mobile menu button not found.');
@@ -831,33 +739,89 @@
             if (closeMobileMenuButton) {
                 closeMobileMenuButton.addEventListener('click', () => {
                     mobileMenuOverlay.classList.add('hidden');
-                    document.body.classList.remove('overflow-hidden'); // Allow scrolling
+                    document.body.classList.remove('overflow-hidden');
                 });
             } else {
                 console.warn('Close mobile menu button not found.');
             }
+
+            // Removed showSection function and related tab logic as Student Dashboard is now a separate page.
+
+            // Initialize AI Study Buddy logic
+            const studyBuddyInput = document.getElementById('study-buddy-input');
+            const getExplanationBtn = document.getElementById('get-explanation-btn');
+            const studyBuddyLoading = document.getElementById('study-buddy-loading');
+            const studyBuddyOutput = document.getElementById('study-buddy-output');
+
+            if (getExplanationBtn) {
+                getExplanationBtn.addEventListener('click', async () => {
+                    const prompt = studyBuddyInput.value.trim();
+                    if (!prompt) {
+                        studyBuddyOutput.textContent = "Please enter a topic to explain.";
+                        return;
+                    }
+
+                    studyBuddyOutput.textContent = '';
+                    studyBuddyLoading.classList.remove('hidden');
+
+                    try {
+                        let chatHistory = [];
+                        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                        const payload = { contents: chatHistory };
+                        const apiKey = "";
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            throw new Error(`API error: ${response.status} - ${errorData.message || 'Unknown error'}`);
+                        }
+
+                        const result = await response.json();
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            const text = result.candidates[0].content.parts[0].text;
+                            studyBuddyOutput.textContent = text;
+                        } else {
+                            studyBuddyOutput.textContent = "Sorry, I couldn't generate an explanation. Please try a different query.";
+                        }
+                    } catch (error) {
+                        console.error('Error fetching AI explanation:', error);
+                        studyBuddyOutput.textContent = `Error: ${error.message}. Could not get an explanation. Please try again.`;
+                    } finally {
+                        studyBuddyLoading.classList.add('hidden');
+                    }
+                });
+            }
+
+            // No specific showSection call needed here as pages are linked directly.
         });
 
-        // Placeholder for initScrollReveal (if you have one, include it here)
-        // This function would typically handle animations that depend on elements being in view.
-        // If not defined, this call will produce an error, preventing other scripts from running.
-        // Defining it as a no-op to prevent errors if not fully implemented yet.
+        window.addEventListener('load', () => {
+            console.log('window.load fired.');
+            initScrollReveal();
+            console.log('initScrollReveal called on window load');
+        });
+
         const initScrollReveal = () => {
             console.log('initScrollReveal called.');
-            // Implement your scroll reveal logic here.
-            // Example: using IntersectionObserver for elements with class 'scroll-reveal-item'
             const scrollRevealItems = document.querySelectorAll('.scroll-reveal-item');
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.1 // Trigger when 10% of item is visible
+                threshold: 0.1
             };
 
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
-                        // Optional: Stop observing once visible if animation only runs once
                         observer.unobserve(entry.target);
                     }
                 });
@@ -868,249 +832,29 @@
             });
         };
 
-        window.addEventListener('load', () => {
-            console.log('window.load fired.');
-            // Only run scroll reveal after all assets (like images) are loaded
-            initScrollReveal();
-            console.log('initScrollReveal called on window load');
-        });
-
-
-        // --- Login/Signup Modal UI and Logic ---
-        const authModal = document.getElementById('auth-modal');
-        const authCloseButton = document.getElementById('auth-close-button');
-        const loginSignupBtn = document.getElementById('login-signup-btn'); // Desktop login/signup button
-        const mobileLoginSignupBtn = document.getElementById('mobile-login-signup-btn'); // Mobile login/signup button
-        const authModalTitle = document.getElementById('auth-modal-title');
-        const authEmailInput = document.getElementById('auth-email');
-        const authPasswordInput = document.getElementById('auth-password');
-        const authSubmitBtn = document.getElementById('auth-submit-btn');
-        const authErrorMessage = document.getElementById('auth-error-message');
-        const toggleAuthModeBtn = document.getElementById('toggle-auth-mode');
-        const resendVerificationBtn = document.getElementById('resend-verification-btn');
-
-        // Function to reset modal state
-        const resetAuthModal = () => {
-            if (authErrorMessage) authErrorMessage.textContent = '';
-            if (authEmailInput) authEmailInput.value = '';
-            if (authPasswordInput) authPasswordInput.value = '';
-            if (resendVerificationBtn) resendVerificationBtn.classList.add('hidden');
-        };
-
-        // Check if elements exist before adding listeners to avoid errors if HTML structure changes
-        if (loginSignupBtn) {
-            loginSignupBtn.addEventListener('click', () => {
-                if (authModal) authModal.classList.add('show');
-                document.body.classList.add('overflow-hidden'); // Prevent scrolling
-                isLoginMode = true; // Set to login mode by default
-                if (authModalTitle) authModalTitle.textContent = 'Login';
-                if (authSubmitBtn) authSubmitBtn.textContent = 'Login';
-                if (toggleAuthModeBtn) toggleAuthModeBtn.textContent = "Don't have an account? Sign Up";
-                resetAuthModal();
-            });
-        }
-
-        if (mobileLoginSignupBtn) {
-            mobileLoginSignupBtn.addEventListener('click', () => {
-                if (authModal) authModal.classList.add('show');
-                document.body.classList.add('overflow-hidden'); // Prevent scrolling
-                isLoginMode = true; // Set to login mode by default
-                if (authModalTitle) authModalTitle.textContent = 'Login';
-                if (authSubmitBtn) authSubmitBtn.textContent = 'Login';
-                if (toggleAuthModeBtn) toggleAuthModeBtn.textContent = "Don't have an account? Sign Up";
-                resetAuthModal();
-                // Ensure mobile menu is closed when the modal opens
-                const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
-                if (mobileMenuOverlay) mobileMenuOverlay.classList.add('hidden');
-            });
-        }
-
-        if (authCloseButton) {
-            authCloseButton.addEventListener('click', () => {
-                if (authModal) authModal.classList.remove('show');
-                document.body.classList.remove('overflow-hidden'); // Allow scrolling
-                resetAuthModal();
-            });
-        }
-
-        if (authModal) {
-            authModal.addEventListener('click', (e) => {
-                if (e.target === authModal) {
-                    authModal.classList.remove('show');
-                    document.body.classList.remove('overflow-hidden'); // Allow scrolling
-                    resetAuthModal();
-                }
-            });
-        }
-
-        if (toggleAuthModeBtn) {
-            toggleAuthModeBtn.addEventListener('click', () => {
-                isLoginMode = !isLoginMode; // Toggle the mode
-                if (isLoginMode) {
-                    if (authModalTitle) authModalTitle.textContent = 'Login';
-                    if (authSubmitBtn) authSubmitBtn.textContent = 'Login';
-                    if (toggleAuthModeBtn) toggleAuthModeBtn.textContent = "Don't have an account? Sign Up";
-                } else {
-                    if (authModalTitle) authModalTitle.textContent = 'Sign Up';
-                    if (authSubmitBtn) authSubmitBtn.textContent = 'Sign Up';
-                    if (toggleAuthModeBtn) toggleAuthModeBtn.textContent = 'Already have an account? Login';
-                }
-                resetAuthModal(); // Reset fields and messages when switching modes
-            });
-        }
-
-        // Event listener for the Login/Sign Up submission button
-        if (authSubmitBtn && authEmailInput && authPasswordInput && authErrorMessage && resendVerificationBtn && authModal) {
-            authSubmitBtn.addEventListener('click', async () => {
-                const email = authEmailInput.value.trim();
-                const password = authPasswordInput.value.trim();
-                authErrorMessage.textContent = ''; // Clear previous errors
-                resendVerificationBtn.classList.add('hidden'); // Hide resend button initially
-
-                if (!email || !password) {
-                    authErrorMessage.textContent = 'Please enter both email and password.';
-                    return;
-                }
-
-                try {
-                    if (isLoginMode) {
-                        // --- Login Logic ---
-                        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                        const user = userCredential.user;
-
-                        if (user && !user.emailVerified) {
-                            // User logged in but email is not verified
-                            showMessageBox("Your email is not verified. Please check your inbox for a verification link.", async () => {
-                                // After user acknowledges, log them out to enforce verification
-                                await signOut(auth);
-                                // Show the resend button if needed
-                                if (resendVerificationBtn) resendVerificationBtn.classList.remove('hidden');
-                            });
-                            authErrorMessage.textContent = 'Email not verified. Please check your inbox.';
-                            authModal.classList.remove('show'); // Close modal
-                            // Log out to ensure they must verify before next login
-                            await signOut(auth);
-                        } else {
-                            // Successful login with verified email
-                            console.log('Firebase: User logged in successfully with verified email!');
-                            authModal.classList.remove('show'); // Close modal on success
-                            document.body.classList.remove('overflow-hidden'); // Allow scrolling
-                            showMessageBox("Logged in successfully!");
-                        }
-                    } else {
-                        // --- Signup Logic ---
-                        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                        const user = userCredential.user;
-
-                        // Send email verification to the newly created user
-                        await sendEmailVerification(user);
-                        console.log('Firebase: Verification email sent.');
-
-                        // Immediately log out the user to enforce email verification before re-login
-                        await signOut(auth);
-                        console.log('Firebase: User logged out after sending verification email.');
-
-                        authModal.classList.remove('show'); // Close modal
-                        document.body.classList.remove('overflow-hidden'); // Allow scrolling
-                        showMessageBox(`Account created for ${email}! Please check your inbox and verify your email before logging in.`, () => {
-                            // Optional action after user acknowledges, e.g., clear form or redirect
-                        });
-                    }
-                } catch (error) {
-                    // Handle specific Firebase authentication errors and display user-friendly messages
-                    let errorMessage = 'An unknown authentication error occurred.';
-                    switch (error.code) {
-                        case 'auth/invalid-email':
-                            errorMessage = 'Invalid email address format.';
-                            break;
-                        case 'auth/user-not-found':
-                            errorMessage = 'No user found with this email. Please sign up or check your email.';
-                            break;
-                        case 'auth/wrong-password':
-                            errorMessage = 'Incorrect password. Please try again.';
-                            break;
-                        case 'auth/email-already-in-use':
-                            errorMessage = 'This email is already registered. Please log in instead or use a different email.';
-                            break;
-                        case 'auth/weak-password':
-                            errorMessage = 'Password should be at least 6 characters long.';
-                            break;
-                        case 'auth/network-request-failed':
-                            errorMessage = 'Network error. Please check your internet connection.';
-                            break;
-                        default:
-                            errorMessage = `Error: ${error.message}`;
-                            break;
-                    }
-                    if (authErrorMessage) authErrorMessage.textContent = errorMessage; // Display error message in the modal
-                    console.error('Firebase: Authentication error details:', error);
-                }
-            });
-        }
-
-
-        // Event listener for Resend Verification Email button
-        if (resendVerificationBtn && authEmailInput && authPasswordInput && authErrorMessage) {
-            resendVerificationBtn.addEventListener('click', async () => {
-                const email = authEmailInput.value.trim();
-                if (!email) {
-                    if (authErrorMessage) authErrorMessage.textContent = 'Please enter your email to resend verification.';
-                    return;
-                }
-
-                // Attempt to sign in first to get the user object if they are not signed in
-                try {
-                    // Note: This signInWithEmailAndPassword will only work if the user has a valid password
-                    // corresponding to the email, even if not verified.
-                    const userCredential = await signInWithEmailAndPassword(auth, email, authPasswordInput.value.trim());
-                    const user = userCredential.user;
-
-                    if (user && !user.emailVerified) {
-                        await sendEmailVerification(user);
-                        showMessageBox("Verification email re-sent! Please check your inbox.");
-                        console.log('Firebase: Verification email re-sent.');
-                    } else if (user && user.emailVerified) {
-                        showMessageBox("Your email is already verified. You can now log in.");
-                    } else {
-                        showMessageBox("Could not find a user with this email or user not found. Please sign up or check your credentials.");
-                    }
-                    await signOut(auth); // Keep them logged out until verified
-                } catch (error) {
-                    let errorMessage = 'Failed to resend verification email. Please ensure your email and password are correct and try again.';
-                    console.error('Firebase: Error re-sending verification email:', error);
-                    if (authErrorMessage) authErrorMessage.textContent = errorMessage;
-                }
-            });
-        }
-
-
         // --- Logout Logic ---
-        const logoutBtn = document.getElementById('logout-btn'); // Desktop logout button
-        const mobileLogoutBtn = document.getElementById('mobile-logout-btn'); // Mobile logout button
+        const logoutBtn = document.getElementById('logout-btn');
+        const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
 
-        // Event listener for desktop logout button
         if (logoutBtn) {
             logoutBtn.addEventListener('click', async () => {
                 try {
-                    await signOut(auth); // Sign out the current user
+                    await signOut(auth);
                     console.log('Firebase: User logged out.');
                     showMessageBox("Logged out successfully!");
-                }
-                 catch (error) {
+                } catch (error) {
                     console.error('Firebase: Logout error:', error);
                     showMessageBox(`Logout failed: ${error.message}`);
                 }
             });
         }
 
-        // Event listener for mobile logout button
         if (mobileLogoutBtn) {
             mobileLogoutBtn.addEventListener('click', async () => {
                 try {
-                    await signOut(auth); // Sign out the current user
+                    await signOut(auth);
                     console.log('Firebase: User logged out from mobile.');
                     showMessageBox("Logged out successfully!");
-                    // Close the mobile menu after logout
                     const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
                     if (mobileMenuOverlay) mobileMenuOverlay.classList.add('hidden');
                 } catch (error) {
@@ -1142,11 +886,10 @@
         const quizResults = document.getElementById('quiz-results');
         const generateQuizButtons = document.querySelectorAll('.generate-quiz-btn');
 
-        // Close quiz modal
         if (quizCloseButton) {
             quizCloseButton.addEventListener('click', () => {
                 if (quizModal) quizModal.classList.remove('show');
-                document.body.classList.remove('overflow-hidden'); // Allow scrolling
+                document.body.classList.remove('overflow-hidden');
                 resetQuizModal();
             });
         }
@@ -1155,13 +898,12 @@
             quizModal.addEventListener('click', (e) => {
                 if (e.target === quizModal) {
                     quizModal.classList.remove('show');
-                    document.body.classList.remove('overflow-hidden'); // Allow scrolling
+                    document.body.classList.remove('overflow-hidden');
                     resetQuizModal();
                 }
             });
         }
 
-        // Reset quiz modal state
         const resetQuizModal = () => {
             quizTitle.textContent = '';
             quizQuestionsContainer.innerHTML = '';
@@ -1169,18 +911,17 @@
             quizSubmitBtn.classList.add('hidden');
             quizRetakeBtn.classList.add('hidden');
             quizLoadingSpinner.classList.add('hidden');
-            quizData = []; // Clear stored quiz data
+            quizData = [];
         };
 
-        // Event listeners for "Generate Quiz" buttons
         generateQuizButtons.forEach(button => {
             button.addEventListener('click', async (event) => {
                 const topic = event.target.dataset.topic;
                 console.log(`Generating quiz for topic: ${topic}`);
 
-                resetQuizModal(); // Clear any previous quiz
+                resetQuizModal();
                 quizModal.classList.add('show');
-                document.body.classList.add('overflow-hidden'); // Prevent background scrolling
+                document.body.classList.add('overflow-hidden');
                 quizTitle.textContent = `Generating ${topic} Quiz...`;
                 quizLoadingSpinner.classList.remove('hidden');
 
@@ -1215,7 +956,7 @@
                         }
                     };
 
-                    const apiKey = "AIzaSyDQWI0TBEyNibnSXePrPUjhWg8bq0t-Z9E"; // Canvas will automatically provide this at runtime.
+                    const apiKey = "";
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                     const response = await fetch(apiUrl, {
@@ -1236,7 +977,7 @@
                         result.candidates[0].content && result.candidates[0].content.parts &&
                         result.candidates[0].content.parts.length > 0) {
                         const jsonString = result.candidates[0].content.parts[0].text;
-                        quizData = JSON.parse(jsonString); // Store the quiz data globally
+                        quizData = JSON.parse(jsonString);
                         console.log("Parsed Quiz Data:", quizData);
                         renderQuiz(quizData, topic);
                     } else {
@@ -1247,24 +988,23 @@
                     console.error('Error generating quiz:', error);
                     quizTitle.textContent = `Failed to generate quiz.`;
                     quizQuestionsContainer.innerHTML = `<p class="text-red-400 text-center">${error.message || 'Please try again later.'}</p>`;
-                    quizRetakeBtn.classList.remove('hidden'); // Allow retake attempt
+                    quizRetakeBtn.classList.remove('hidden');
                 } finally {
                     quizLoadingSpinner.classList.add('hidden');
                 }
             });
         });
 
-        // Function to render the quiz questions
         const renderQuiz = (questions, topic) => {
-            quizQuestionsContainer.innerHTML = ''; // Clear previous questions
+            quizQuestionsContainer.innerHTML = '';
             quizTitle.textContent = `${topic} Quiz`;
             quizResults.textContent = '';
             quizSubmitBtn.classList.remove('hidden');
-            quizRetakeBtn.classList.add('hidden'); // Hide retake until results are shown
+            quizRetakeBtn.classList.add('hidden');
 
             questions.forEach((q, qIndex) => {
                 const questionDiv = document.createElement('div');
-                questionDiv.className = 'bg-[#0D0D0D] p-5 rounded-md shadow-md'; // Dark background for questions
+                questionDiv.className = 'bg-[#0D0D0D] p-5 rounded-md shadow-md';
 
                 const questionText = document.createElement('p');
                 questionText.className = 'font-semibold text-lg mb-3';
@@ -1288,30 +1028,28 @@
             });
         };
 
-        // Function to submit and score the quiz
         if (quizSubmitBtn) {
             quizSubmitBtn.addEventListener('click', () => {
                 let score = 0;
                 const totalQuestions = quizData.length;
                 quizQuestionsContainer.querySelectorAll('.quiz-option').forEach(optionInput => {
-                    optionInput.disabled = true; // Disable options after submission
+                    optionInput.disabled = true;
                 });
 
                 quizData.forEach((q, qIndex) => {
                     const selectedOption = document.querySelector(`input[name="question-${qIndex}"]:checked`);
-                    const questionDiv = quizQuestionsContainer.children[qIndex]; // Get the question div
+                    const questionDiv = quizQuestionsContainer.children[qIndex];
 
                     if (selectedOption) {
                         const isCorrect = selectedOption.value === q.correctAnswer;
                         const optionLabels = questionDiv.querySelectorAll('label');
 
-                        // Highlight selected option and correct answer
                         optionLabels.forEach(label => {
                             const input = label.querySelector('input');
                             if (input.value === q.correctAnswer) {
-                                label.classList.add('bg-green-600', 'font-bold'); // Correct answer
+                                label.classList.add('bg-green-600', 'font-bold');
                             } else if (input === selectedOption && !isCorrect) {
-                                label.classList.add('bg-red-600', 'font-bold'); // Incorrectly selected
+                                label.classList.add('bg-red-600', 'font-bold');
                             }
                         });
 
@@ -1319,7 +1057,6 @@
                             score++;
                         }
                     } else {
-                        // If no option is selected, just highlight the correct one
                         const optionLabels = questionDiv.querySelectorAll('label');
                         optionLabels.forEach(label => {
                             const input = label.querySelector('input');
@@ -1331,77 +1068,18 @@
                 });
 
                 quizResults.textContent = `You scored ${score} out of ${totalQuestions}!`;
-                quizSubmitBtn.classList.add('hidden'); // Hide submit button
-                quizRetakeBtn.classList.remove('hidden'); // Show retake button
+                quizSubmitBtn.classList.add('hidden');
+                quizRetakeBtn.classList.remove('hidden');
             });
         }
 
-        // Retake Quiz button action
         if (quizRetakeBtn) {
             quizRetakeBtn.addEventListener('click', () => {
-                // This will re-trigger the generation of a new quiz based on the last topic clicked
-                // For simplicity, we can simulate a click on the last topic button if needed.
-                // Or, simply reset the modal and allow the user to click a topic again.
                 resetQuizModal();
-                // Optionally close the modal, or keep it open for new quiz selection
                 quizModal.classList.remove('show');
                 document.body.classList.remove('overflow-hidden');
             });
         }
-
-        // --- AI Study Buddy Logic (existing, verified) ---
-        const studyBuddyInput = document.getElementById('study-buddy-input');
-        const getExplanationBtn = document.getElementById('get-explanation-btn');
-        const studyBuddyLoading = document.getElementById('study-buddy-loading');
-        const studyBuddyOutput = document.getElementById('study-buddy-output');
-
-        if (getExplanationBtn) {
-            getExplanationBtn.addEventListener('click', async () => {
-                const prompt = studyBuddyInput.value.trim();
-                if (!prompt) {
-                    studyBuddyOutput.textContent = "Please enter a topic to explain.";
-                    return;
-                }
-
-                studyBuddyOutput.textContent = ''; // Clear previous output
-                studyBuddyLoading.classList.remove('hidden'); // Show loading spinner
-
-                try {
-                    let chatHistory = [];
-                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                    const payload = { contents: chatHistory };
-                    const apiKey = "AIzaSyDQWI0TBEyNibnSXePrPUjhWg8bq0t-Z9E"; // Canvas will automatically provide this at runtime.
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(`API error: ${response.status} - ${errorData.message || 'Unknown error'}`);
-                    }
-
-                    const result = await response.json();
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        const text = result.candidates[0].content.parts[0].text;
-                        studyBuddyOutput.textContent = text;
-                    } else {
-                        studyBuddyOutput.textContent = "Sorry, I couldn't generate an explanation. Please try a different query.";
-                    }
-                } catch (error) {
-                    console.error('Error fetching AI explanation:', error);
-                    studyBuddyOutput.textContent = `Error: ${error.message}. Could not get an explanation. Please try again.`;
-                } finally {
-                    studyBuddyLoading.classList.add('hidden'); // Hide loading spinner
-                }
-            });
-        }
-
     </script>
 </body>
 </html>
