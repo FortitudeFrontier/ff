@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Fortitude Frontier</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        /* Custom CSS for Fortitude Frontier - Orange & Black Theme */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0D0D0D; /* Background: Very dark grey/black */
+            color: #FFFFFF; /* On-Background/On-Surface: White text */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Custom styles for consistent look with main page */
+        .action-button {
+            background-color: #FF8C00; /* Vibrant Orange */
+            color: #0D0D0D; /* On-Primary: Dark text */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .action-button:hover {
+            background-color: #FF7F00; /* Darker Orange on hover */
+            transform: scale(1.05);
+            color: #FFFFFF; /* On-Secondary: White text */
+        }
+
+        /* Scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #f97316; /* Orange-500 */
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ea580c; /* Orange-600 */
+        }
+        #logoimg{
+           height: 10vh;
+           padding: 0;
+        }
+
+        /* Modal styling */
+        .modal {
+            position: fixed;
+            z-index: 9997;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: #1A1A1A;
+            margin: auto;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+        .close-button {
+            color: #FFFFFF;
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #FF8C00;
+        }
+        /* Message box styling */
+        .message-box {
+            background-color: #2A2A2A;
+            color: #FFFFFF;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            text-align: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9998;
+            min-width: 300px;
+            max-width: 90%;
+            display: none; /* Hidden by default */
+        }
+        .message-box.show {
+            display: block;
+        }
+        .message-box button {
+            margin-top: 1rem;
+            background-color: #FF8C00;
+            color: #0D0D0D;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .message-box button:hover {
+            background-color: #FF7F00;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-[#0D0D0D] text-white">
+
+    <!-- Message Box for Alerts/Confirmations -->
+    <div id="custom-message-box" class="message-box">
+        <p id="message-box-text" class="text-lg mb-4"></p>
+        <button id="message-box-confirm-btn">OK</button>
+    </div>
+
+    <!-- Student Login Modal -->
+    <div id="student-login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="student-login-close-button">&times;</span>
+            <h3 class="text-3xl font-bold text-[#FF8C00] mb-6 text-center">Student Login</h3>
+            <form id="student-auth-form" class="space-y-4">
+                <div>
+                    <label for="student-email" class="block text-lg font-medium text-orange-300 mb-2">Email:</label>
+                    <input type="email" id="student-email" class="w-full p-3 rounded-md bg-[#0D0D0D] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF8C00]" placeholder="your.email@example.com" required>
+                </div>
+                <div>
+                    <label for="student-password" class="block text-lg font-medium text-orange-300 mb-2">Password:</label>
+                    <input type="password" id="student-password" class="w-full p-3 rounded-md bg-[#0D0D0D] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF8C00]" placeholder="********" required>
+                </div>
+                <button type="submit" id="student-login-btn" class="w-full action-button font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105">Login as Student</button>
+                <p id="student-auth-message" class="text-center text-sm mt-4 text-red-400 hidden"></p>
+                <!-- Link to admin-panel.html -->
+                <a href="admin_panel.html" id="go-to-admin-login-link" class="block text-center mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 no-underline">Admin Login</a>
+            </form>
+        </div>
+    </div>
+
+    <div class="min-h-screen flex flex-col py-10 px-4">
+        <!-- Navbar for Student Dashboard Page -->
+        <nav class="p-6 md:bg-[#1A1A1A] shadow-lg fixed top-0 w-full z-50">
+            <div class="container flex justify-between items-center">
+                <a href="index.html" class="md:text-xl"><img src="fflogo-removebg-preview.png" id="logoimg" alt="Fortitude Frontier Logo"></a>
+                <div class="hidden sm:flex flex-wrap justify-end items-center sm:gap-x-4 sm:gap-y-2">
+                    <a href="index.html#about" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">About Us</a>
+                    <a href="index.html#quizzes" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Quizzes</a>
+                    <a href="index.html#fun-saturday" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Fun Saturday</a>
+                    <a href="index.html#course-playlist" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Course Playlist</a>
+                    <a href="index.html#ai-study-buddy" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">AI Study Buddy ✨</a>
+                    <a href="index.html#contact" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Contact</a>
+                    <a href="student-dashboard.html" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300 active">Student Dashboard</a>
+                    <!-- User Info and Logout (always present, visibility controlled by JS) -->
+                    <div id="user-info" class="hidden flex items-center sm:space-x-2">
+                        <span id="user-email-nav" class="text-white text-sm whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px]"></span>
+                        <button id="logout-btn" class="action-button font-bold py-2 px-4 rounded-full text-sm">Logout</button>
+                    </div>
+                </div>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="sm:hidden text-[#FFFFFF] focus:outline-none">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+            <!-- Mobile Menu Overlay -->
+            <div id="mobile-menu-overlay" class="hidden sm:hidden fixed inset-0 bg-[#0D0D0D] bg-opacity-100 z-9996 flex flex-col items-center justify-center space-y-8 text-2xl">
+                <button id="close-mobile-menu" class="absolute top-6 right-6 text-[#FFFFFF] focus:outline-none">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                <a href="index.html#about" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">About Us</a>
+                <a href="index.html#quizzes" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Quizzes</a>
+                <a href="index.html#fun-saturday" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Fun Saturday</a>
+                <a href="index.html#course-playlist" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Course Playlist</a>
+                <a href="index.html#ai-study-buddy" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">AI Study Buddy ✨</a>
+                <a href="index.html#contact" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Contact</a>
+                <a href="student-dashboard.html" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300 active" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Student Dashboard</a>
+                <!-- Mobile User Info and Logout (always present, visibility controlled by JS) -->
+                <div id="mobile-user-info" class="hidden flex-col items-center space-y-2 sm:hidden">
+                    <span id="mobile-user-email-nav" class="text-white text-xl"></span>
+                    <button id="mobile-logout-btn" class="action-button font-bold py-2 px-4 rounded-full text-xl">Logout</button>
+                </div>
+            </div>
+        </nav>
+
+        <main id="dashboard-main-content" class="container mx-auto p-4 flex-grow pt-24 hidden"> <!-- Added pt-24 to offset fixed navbar, hidden by default -->
+            <header class="text-center mb-12">
+                <h1 class="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-yellow-500 mb-4">
+                    Student Dashboard
+                </h1>
+                <p class="text-xl text-gray-300">Welcome, <span id="current-user-name" class="font-bold">Student</span>!</p>
+                <p id="current-user-email-display" class="text-sm text-gray-400 mt-2"></p>
+            </header>
+
+            <!-- Student Dashboard Content -->
+            <section id="student-dashboard-content" class="p-8 bg-gradient-to-br from-[#1A1A1A] to-[#0D0D0D] rounded-lg shadow-xl mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Dashboard Card 1: Courses Enrolled -->
+                    <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-semibold text-orange-300 uppercase">Courses Enrolled</p>
+                            <p id="courses-enrolled-count" class="text-5xl font-bold text-white mt-2">0</p>
+                        </div>
+                        <i class="fa fa-book text-6xl text-[#FF8C00] opacity-50"></i>
+                    </div>
+
+                    <!-- Dashboard Card 2: Assignments Due -->
+                    <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-semibold text-orange-300 uppercase">Assignments Due</p>
+                            <p id="assignments-due-count" class="text-5xl font-bold text-white mt-2">0</p>
+                        </div>
+                        <i class="fa fa-clipboard text-6xl text-[#FF8C00] opacity-50"></i>
+                    </div>
+
+                    <!-- Dashboard Card 3: Overall Progress -->
+                    <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-semibold text-orange-300 uppercase">Overall Progress</p>
+                            <p id="overall-progress-percentage" class="text-5xl font-bold text-white mt-2">0%</p>
+                        </div>
+                        <i class="fa fa-line-chart text-6xl text-[#FF8C00] opacity-50"></i>
+                    </div>
+                </div>
+
+                <!-- Simulate Progress Button (for demonstration) -->
+                <div class="text-center mb-8">
+                    <button id="simulate-progress-btn" class="action-button font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">Simulate Progress</button>
+                </div>
+
+
+                <!-- Recent Activity / Notifications -->
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Recent Activity</h3>
+                    <ul id="recent-activity-list" class="space-y-4">
+                        <li class="text-gray-400 text-center">No recent activity.</li>
+                    </ul>
+                </div>
+
+                <!-- Quick Links / Courses List -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-white mb-4">My Courses</h3>
+                        <ul id="my-courses-list" class="space-y-3">
+                            <li class="text-gray-400 text-center">No courses enrolled.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-white mb-4">Upcoming Deadlines</h3>
+                        <ul id="upcoming-deadlines-list" class="space-y-3">
+                            <li class="text-gray-400 text-center">No upcoming deadlines.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="mt-12 text-gray-500 text-sm text-center">
+            &copy; 2025 Fortitude Frontier. All rights reserved.
+        </footer>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module" defer>
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+        import { getAuth, signOut, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+
+        let app;
+        let auth;
+        let db;
+        let currentUserId = null;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id'; // Using __app_id for Firestore paths
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCqWbcgSdseuGSd6aLBqG76lAyr647xgQ4",
+            authDomain: "signup-b09e6.firebaseapp.com",
+            projectId: "signup-b09e6",
+            storageBucket: "signup-b09e6.firebasestorage.app",
+            messagingSenderId: "203916695845",
+            appId: "1:203916695845:web:5310b5ca37c7809be862cc"
+        };
+
+        // Initialize Firebase
+        app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+
+        // DOM elements for Student Login Modal
+        const studentLoginModal = document.getElementById('student-login-modal');
+        const studentLoginCloseButton = document.getElementById('student-login-close-button');
+        const studentAuthForm = document.getElementById('student-auth-form');
+        const studentEmailInput = document.getElementById('student-email');
+        const studentPasswordInput = document.getElementById('student-password');
+        const studentLoginBtn = document.getElementById('student-login-btn');
+        const studentAuthMessage = document.getElementById('student-auth-message');
+
+        // Main dashboard content
+        const dashboardMainContent = document.getElementById('dashboard-main-content');
+
+        // Dashboard content elements
+        const currentUserNameDisplay = document.getElementById('current-user-name');
+        const currentUserEmailDisplay = document.getElementById('current-user-email-display');
+        const coursesEnrolledCount = document.getElementById('courses-enrolled-count');
+        const assignmentsDueCount = document.getElementById('assignments-due-count');
+        const overallProgressPercentage = document.getElementById('overall-progress-percentage');
+        const recentActivityList = document.getElementById('recent-activity-list');
+        const myCoursesList = document.getElementById('my-courses-list');
+        const upcomingDeadlinesList = document.getElementById('upcoming-deadlines-list');
+        const simulateProgressBtn = document.getElementById('simulate-progress-btn');
+
+        // Navbar user info displays
+        const userEmailNavDisplay = document.getElementById('user-email-nav');
+        const mobileUserEmailNavDisplay = document.getElementById('mobile-user-email-nav');
+
+        // Message Box function
+        const showMessageBox = (message, onConfirm = null) => {
+            const msgBox = document.getElementById('custom-message-box');
+            const msgText = document.getElementById('message-box-text');
+            const confirmBtn = document.getElementById('message-box-confirm-btn');
+
+            msgText.innerHTML = message;
+            confirmBtn.onclick = () => {
+                msgBox.classList.remove('show');
+                document.body.classList.remove('overflow-hidden');
+                if (onConfirm) onConfirm();
+            };
+            msgBox.classList.add('show');
+            document.body.classList.add('overflow-hidden');
+        };
+
+        // Function to show/hide modals
+        const hideAllModals = () => {
+            studentLoginModal.classList.remove('show');
+            document.body.classList.remove('overflow-hidden');
+        };
+
+        const showStudentLoginModal = () => {
+            hideAllModals();
+            studentLoginModal.classList.add('show');
+            document.body.classList.add('overflow-hidden');
+            studentAuthMessage.classList.add('hidden'); // Clear previous messages
+        };
+
+        // Close modal listeners
+        if (studentLoginCloseButton) {
+            studentLoginCloseButton.addEventListener('click', () => hideAllModals());
+        }
+        if (studentLoginModal) {
+            studentLoginModal.addEventListener('click', (e) => {
+                if (e.target === studentLoginModal) {
+                    hideAllModals();
+                }
+            });
+        }
+
+        /**
+         * Loads and listens for real-time updates to the user's dashboard data from Firestore.
+         * @param {string} userId The UID of the currently logged-in user.
+         * @param {string} userEmail The email of the currently logged-in user.
+         */
+        const loadDashboardData = (userId, userEmail) => {
+            const userProfileRef = doc(db, "artifacts", appId, "users", userId, "profile", "details");
+            const userDashboardRef = doc(db, "artifacts", appId, "users", userId, "dashboard", "summary");
+
+            // Listen for profile data
+            onSnapshot(userProfileRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const profileData = docSnap.data();
+                    currentUserNameDisplay.textContent = profileData.name || 'Student'; // Display name or fallback
+                    currentUserEmailDisplay.textContent = userEmail; // Display email
+                } else {
+                    console.log("No profile data found for user. Displaying email.");
+                    currentUserNameDisplay.textContent = 'Student'; // Default if no name
+                    currentUserEmailDisplay.textContent = userEmail; // Display email
+                    // Potentially create a default profile here if desired
+                    setDoc(userProfileRef, {
+                        name: 'Student', // Default name
+                        email: userEmail,
+                        createdAt: new Date()
+                    }, { merge: true }).catch(e => console.error("Error setting default profile:", e));
+                }
+            }, (error) => {
+                console.error("Error listening to user profile data:", error);
+                currentUserEmailDisplay.textContent = userEmail; // Still show email on error
+            });
+
+            // Listen for dashboard summary data
+            onSnapshot(userDashboardRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    console.log("Dashboard data fetched:", data);
+                    coursesEnrolledCount.textContent = data.coursesEnrolled || 0;
+                    assignmentsDueCount.textContent = data.assignmentsDue || 0;
+                    overallProgressPercentage.textContent = `${data.overallProgress || 0}%`;
+
+                    // Populate Recent Activity
+                    recentActivityList.innerHTML = '';
+                    if (data.recentActivity && data.recentActivity.length > 0) {
+                        data.recentActivity.forEach(activity => {
+                            const li = document.createElement('li');
+                            li.className = 'flex items-start';
+                            li.innerHTML = `
+                                <i class="${activity.icon} mt-1 mr-3 text-xl ${activity.color}"></i>
+                                <div>
+                                    <p class="text-gray-200">${activity.text}</p>
+                                    <span class="text-xs text-gray-400">${activity.time}</span>
+                                </div>
+                            `;
+                            recentActivityList.appendChild(li);
+                        });
+                    } else {
+                        recentActivityList.innerHTML = '<li class="text-gray-400 text-center">No recent activity.</li>';
+                    }
+
+                    // Populate My Courses
+                    myCoursesList.innerHTML = '';
+                    if (data.myCourses && data.myCourses.length > 0) {
+                        data.myCourses.forEach(course => {
+                            const li = document.createElement('li');
+                            li.innerHTML = `<a href="#" class="text-[#FF8C00] hover:text-[#FF7F00] transition-colors duration-200"><i class="fa fa-graduation-cap mr-2"></i>${course}</a>`;
+                            myCoursesList.appendChild(li);
+                        });
+                    } else {
+                        myCoursesList.innerHTML = '<li class="text-gray-400 text-center">No courses enrolled.</li>';
+                    }
+
+                    // Populate Upcoming Deadlines
+                    upcomingDeadlinesList.innerHTML = '';
+                    if (data.upcomingDeadlines && data.upcomingDeadlines.length > 0) {
+                        data.upcomingDeadlines.forEach(deadline => {
+                            const li = document.createElement('li');
+                            li.innerHTML = `
+                                <p class="text-gray-200"><i class="${deadline.icon} mr-2 ${deadline.color}"></i>${deadline.text} - <span class="font-bold">${deadline.date}</span></p>
+                                <span class="text-xs text-gray-400 ml-6">Course: ${deadline.course}</span>
+                            `;
+                            upcomingDeadlinesList.appendChild(li);
+                        });
+                    } else {
+                        upcomingDeadlinesList.innerHTML = '<li class="text-gray-400 text-center">No upcoming deadlines.</li>';
+                    }
+
+                } else {
+                    console.log("No dashboard summary data found for user. Setting defaults.");
+                    // Initialize default data if document doesn't exist
+                    const defaultData = {
+                        coursesEnrolled: 0,
+                        assignmentsDue: 0,
+                        overallProgress: 0,
+                        recentActivity: [
+                            { icon: 'fa fa-info-circle', color: 'text-blue-400', text: 'Welcome to your dashboard!', time: 'Just now' }
+                        ],
+                        myCourses: [],
+                        upcomingDeadlines: []
+                    };
+                    setDoc(userDashboardRef, defaultData)
+                        .then(() => console.log("Default dashboard summary data set."))
+                        .catch((error) => console.error("Error setting default dashboard summary data:", error));
+                }
+            }, (error) => {
+                console.error("Error listening to dashboard summary data:", error);
+                showMessageBox(`Error loading dashboard: ${error.message}. Please try again.`);
+            });
+        };
+
+        /**
+         * Simulates progress and updates dashboard data in Firestore.
+         */
+        if (simulateProgressBtn) {
+            simulateProgressBtn.addEventListener('click', async () => {
+                if (!currentUserId) {
+                    showMessageBox("Please log in to simulate progress.");
+                    return;
+                }
+
+                const userDashboardRef = doc(db, "artifacts", appId, "users", currentUserId, "dashboard", "summary");
+
+                try {
+                    const docSnap = await getDoc(userDashboardRef);
+                    let currentData = docSnap.exists() ? docSnap.data() : {
+                        coursesEnrolled: 0,
+                        assignmentsDue: 0,
+                        overallProgress: 0,
+                        recentActivity: [],
+                        myCourses: [],
+                        upcomingDeadlines: []
+                    };
+
+                    currentData.coursesEnrolled = (currentData.coursesEnrolled || 0) + 1;
+                    currentData.overallProgress = Math.min(100, (currentData.overallProgress || 0) + 5);
+
+                    const newActivity = {
+                        icon: 'fa fa-plus-circle',
+                        color: 'text-purple-400',
+                        text: `Enrolled in a new course. Total: ${currentData.coursesEnrolled}`,
+                        time: new Date().toLocaleTimeString()
+                    };
+                    currentData.recentActivity = [newActivity, ...(currentData.recentActivity || [])].slice(0, 3); // Keep last 3
+
+                    await setDoc(userDashboardRef, currentData);
+                    showMessageBox("Progress simulated and saved!");
+                    console.log("Simulated progress saved.");
+                } catch (error) {
+                    console.error("Error simulating progress:", error);
+                    showMessageBox(`Failed to simulate progress: ${error.message}`);
+                }
+            });
+        }
+
+
+        // Student Login Form Submission
+        if (studentAuthForm) {
+            studentAuthForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = studentEmailInput.value;
+                const password = studentPasswordInput.value;
+                studentAuthMessage.classList.add('hidden');
+
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    showMessageBox("Logged in successfully as student!");
+                    hideAllModals();
+                    // onAuthStateChanged will handle showing the dashboard and loading data
+                } catch (error) {
+                    console.error("Student Login error:", error.code, error.message);
+                    let errorMessage = `Login failed: ${error.message}.`;
+                    if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                        errorMessage = "Invalid email or password. Please check your student credentials.";
+                    } else if (error.code === 'auth/invalid-email') {
+                        errorMessage = "Invalid email format for student login.";
+                    } else if (error.code === 'auth/too-many-requests') {
+                        errorMessage = "Too many failed login attempts. Please try again later.";
+                    } else {
+                        errorMessage = `An unexpected error occurred during student login: ${error.message}.`;
+                    }
+                    studentAuthMessage.textContent = errorMessage;
+                    studentAuthMessage.classList.remove('hidden');
+                }
+            });
+        }
+
+        // OnAuthStateChanged listener to handle user state and show/hide dashboard
+        onAuthStateChanged(auth, (user) => {
+            const logoutBtn = document.getElementById('logout-btn');
+            const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+            const userInfoDisplay = document.getElementById('user-info');
+            const mobileUserInfoDisplay = document.getElementById('mobile-user-info');
+
+            if (user) {
+                currentUserId = user.uid;
+                // Update navbar email display
+                if (userEmailNavDisplay) userEmailNavDisplay.textContent = user.email || '';
+                if (mobileUserEmailNavDisplay) mobileUserEmailNavDisplay.textContent = user.email || '';
+
+                if (userInfoDisplay) userInfoDisplay.classList.remove('hidden');
+                if (mobileUserInfoDisplay) mobileUserInfoDisplay.classList.remove('hidden');
+
+                dashboardMainContent.classList.remove('hidden'); // Show dashboard content if logged in
+                loadDashboardData(currentUserId, user.email || 'N/A'); // Load personalized data and pass email
+                hideAllModals(); // Hide any open login/signup modals
+            } else {
+                currentUserId = null;
+                // Clear navbar email display
+                if (userEmailNavDisplay) userEmailNavDisplay.textContent = '';
+                if (mobileUserEmailNavDisplay) mobileUserEmailNavDisplay.textContent = '';
+
+                if (userInfoDisplay) userInfoDisplay.classList.add('hidden');
+                if (mobileUserInfoDisplay) mobileUserInfoDisplay.classList.add('hidden');
+
+                dashboardMainContent.classList.add('hidden'); // Hide dashboard content if logged out
+                showStudentLoginModal(); // Show student login modal if not logged in
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const closeMobileMenuButton = document.getElementById('close-mobile-menu');
+            const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenuOverlay.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden');
+                });
+            }
+
+            if (closeMobileMenuButton) {
+                closeMobileMenuButton.addEventListener('click', () => {
+                    mobileMenuOverlay.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                });
+            }
+
+            // Logout logic for this page
+            const logoutBtn = document.getElementById('logout-btn');
+            const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async () => {
+                    try {
+                        await signOut(auth);
+                        showMessageBox("Logged out successfully! Redirecting to homepage.", () => {
+                            window.location.href = 'index.html'; // Redirect to home after logout
+                        });
+                    } catch (error) {
+                        console.error('Logout error:', error);
+                        showMessageBox(`Logout failed: ${error.message}`);
+                    }
+                });
+            }
+
+            if (mobileLogoutBtn) {
+                mobileLogoutBtn.addEventListener('click', async () => {
+                    try {
+                        await signOut(auth);
+                        showMessageBox("Logged out successfully! Redirecting to homepage.", () => {
+                            mobileMenuOverlay.classList.add('hidden');
+                            document.body.classList.remove('overflow-hidden');
+                            window.location.href = 'index.html'; // Redirect to home after logout
+                        });
+                    } catch (error) {
+                        console.error('Mobile logout error:', error);
+                        showMessageBox(`Mobile logout failed: ${error.message}`);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

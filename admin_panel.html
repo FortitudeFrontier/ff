@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - Fortitude Frontier</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        /* Custom CSS for Fortitude Frontier - Orange & Black Theme */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0D0D0D; /* Background: Very dark grey/black */
+            color: #FFFFFF; /* On-Background/On-Surface: White text */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Custom styles for consistent look with main page */
+        .action-button {
+            background-color: #FF8C00; /* Vibrant Orange */
+            color: #0D0D0D; /* On-Primary: Dark text */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .action-button:hover {
+            background-color: #FF7F00; /* Darker Orange on hover */
+            transform: scale(1.05);
+            color: #FFFFFF; /* On-Secondary: White text */
+        }
+
+        /* Modal styling - re-included for this page */
+        .modal {
+            position: fixed;
+            z-index: 9997;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: #1A1A1A;
+            margin: auto;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+        .close-button {
+            color: #FFFFFF;
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #FF8C00;
+        }
+        /* Message box styling */
+        .message-box {
+            background-color: #2A2A2A;
+            color: #FFFFFF;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            text-align: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9998;
+            min-width: 300px;
+            max-width: 90%;
+            display: none; /* Hidden by default */
+        }
+        .message-box.show {
+            display: block;
+        }
+        .message-box button {
+            margin-top: 1rem;
+            background-color: #FF8C00;
+            color: #0D0D0D;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .message-box button:hover {
+            background-color: #FF7F00;
+            transform: scale(1.05);
+        }
+        #logoimg{
+           height: 10vh;
+           padding: 0;
+        }
+    </style>
+</head>
+<body class="bg-[#0D0D0D] text-white">
+
+    <!-- Message Box for Alerts/Confirmations -->
+    <div id="custom-message-box" class="message-box">
+        <p id="message-box-text" class="text-lg mb-4"></p>
+        <button id="message-box-confirm-btn">OK</button>
+    </div>
+
+    <!-- Admin Login Modal (This is the primary content for admin-panel.html initially) -->
+    <div id="admin-login-modal" class="modal show"> <!-- Start showing by default -->
+        <div class="modal-content">
+            <!-- No close button for the primary login modal, user must log in or go back -->
+            <h3 class="text-3xl font-bold text-[#FF8C00] mb-6 text-center">Admin Login</h3>
+            <form id="admin-auth-form" class="space-y-4">
+                <div>
+                    <label for="admin-email" class="block text-lg font-medium text-orange-300 mb-2">Admin Email:</label>
+                    <input type="email" id="admin-email" class="w-full p-3 rounded-md bg-[#0D0D0D] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF8C00]" placeholder="admin@example.com" required>
+                </div>
+                <div>
+                    <label for="admin-password" class="block text-lg font-medium text-orange-300 mb-2">Admin Password:</label>
+                    <input type="password" id="admin-password" class="w-full p-3 rounded-md bg-[#0D0D0D] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF8C00]" placeholder="********" required>
+                </div>
+                <button type="submit" id="admin-login-btn" class="w-full action-button font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105">Login as Admin</button>
+                <p id="admin-auth-message" class="text-center text-sm mt-4 text-red-400 hidden"></p>
+                <a href="student-dashboard.html" class="block text-center mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 no-underline">Back to Student Dashboard</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin: Sign Up New Student Modal -->
+    <div id="admin-signup-student-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="admin-signup-student-close-button">&times;</span>
+            <h3 class="text-3xl font-bold text-[#FF8C00] mb-6 text-center">Admin: Sign Up New Student</h3>
+            <form id="admin-signup-student-form" class="space-y-4">
+                <div>
+                    <label for="new-student-name" class="block text-lg font-medium text-orange-300 mb-2">Student Name:</label>
+                    <input type="text" id="new-student-name" class="w-full p-3 rounded-md bg-[#0D0D0D] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF8C00]" placeholder="Student's Name (e.g., Alice)" required>
+                </div>
+                <div>
+                    <label for="new-student-email" class="block text-lg font-medium text-orange-300 mb-2">Student Email:</label>
+                    <input type="email" id="new-student-email" class="w-full p-3 rounded-md bg-[#0D0D0D] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF8C00]" placeholder="student.email@example.com" required>
+                </div>
+                <div>
+                    <label for="new-student-password" class="block text-lg font-medium text-orange-300 mb-2">Student Password:</label>
+                    <input type="password" id="new-student-password" class="w-full p-3 rounded-md bg-[#0D0D0D] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF8C00]" placeholder="At least 6 characters" required>
+                </div>
+                <button type="submit" id="admin-create-student-btn" class="w-full action-button font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105">Create Student Account</button>
+                <p id="admin-signup-student-message" class="text-center text-sm mt-4 text-red-400 hidden"></p>
+                <button type="button" id="back-to-admin-portal-btn" class="w-full mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105">Close</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="min-h-screen flex flex-col py-10 px-4">
+        <!-- Navbar for Admin Panel Page -->
+        <nav class="p-6 md:bg-[#1A1A1A] shadow-lg fixed top-0 w-full z-50">
+            <div class="container flex justify-between items-center">
+                <a href="index.html" class="md:text-xl"><img src="fflogo-removebg-preview.png" id="logoimg" alt="Fortitude Frontier Logo"></a>
+                <div class="hidden sm:flex flex-wrap justify-end items-center sm:gap-x-4 sm:gap-y-2">
+                    <a href="index.html#about" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">About Us</a>
+                    <a href="index.html#quizzes" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Quizzes</a>
+                    <a href="index.html#fun-saturday" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Fun Saturday</a>
+                    <a href="index.html#course-playlist" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Course Playlist</a>
+                    <a href="index.html#ai-study-buddy" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">AI Study Buddy ✨</a>
+                    <a href="index.html#contact" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Contact</a>
+                    <a href="student-dashboard.html" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Student Dashboard</a>
+                    <!-- Admin specific links -->
+                    <a href="admin-panel.html" class="nav-link text-lg text-[#FF8C00] hover:text-white transition duration-300 active">Admin Portal</a>
+                    <!-- User Info and Logout (always present, visibility controlled by JS) -->
+                    <div id="user-info" class="hidden flex items-center sm:space-x-2">
+                        <span id="user-email-nav" class="text-white text-sm whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px]"></span>
+                        <button id="logout-btn" class="action-button font-bold py-2 px-4 rounded-full text-sm">Logout</button>
+                    </div>
+                </div>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="sm:hidden text-[#FFFFFF] focus:outline-none">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+            <!-- Mobile Menu Overlay -->
+            <div id="mobile-menu-overlay" class="hidden sm:hidden fixed inset-0 bg-[#0D0D0D] bg-opacity-100 z-9996 flex flex-col items-center justify-center space-y-8 text-2xl">
+                <button id="close-mobile-menu" class="absolute top-6 right-6 text-[#FFFFFF] focus:outline-none">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                <a href="index.html#about" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">About Us</a>
+                <a href="index.html#quizzes" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Quizzes</a>
+                <a href="index.html#fun-saturday" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Fun Saturday</a>
+                <a href="index.html#course-playlist" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Course Playlist</a>
+                <a href="index.html#ai-study-buddy" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">AI Study Buddy ✨</a>
+                <a href="index.html#contact" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Contact</a>
+                <a href="student-dashboard.html" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Student Dashboard</a>
+                <!-- Admin specific links -->
+                <a href="admin-panel.html" class="nav-link text-[#FF8C00] hover:text-white transition duration-300 active" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Admin Portal</a>
+                <!-- Mobile User Info and Logout (always present, visibility controlled by JS) -->
+                <div id="mobile-user-info" class="hidden flex-col items-center space-y-2 sm:hidden">
+                    <span id="mobile-user-email-nav" class="text-white text-xl"></span>
+                    <button id="mobile-logout-btn" class="action-button font-bold py-2 px-4 rounded-full text-xl">Logout</button>
+                </div>
+            </div>
+        </nav>
+
+        <main id="admin-main-content" class="container mx-auto p-4 flex-grow pt-24 hidden">
+            <header class="text-center mb-12">
+                <h1 class="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-yellow-500 mb-4">
+                    Admin Portal
+                </h1>
+                <p class="text-xl text-gray-300">Welcome, Administrator!</p>
+                <p id="admin-email-display" class="text-sm text-gray-400 mt-2"></p>
+            </header>
+
+            <section class="p-8 bg-gradient-to-br from-[#1A1A1A] to-[#0D0D0D] rounded-lg shadow-xl mb-8">
+                <h2 class="text-3xl font-bold text-[#FF8C00] mb-6 text-center">Manage Students</h2>
+                <div class="text-center">
+                    <button id="open-signup-student-btn" class="action-button font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">Sign Up New Student</button>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Student Accounts</h3>
+                    <div id="student-list" class="space-y-4">
+                        <p class="text-gray-400 text-center">Loading student accounts...</p>
+                        <!-- Student accounts will be listed here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="mt-12 text-gray-500 text-sm text-center">
+            &copy; 2025 Fortitude Frontier. All rights reserved.
+        </footer>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module" defer>
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+        import { getAuth, signOut, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, query, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+
+        let app;
+        let auth;
+        let db;
+        let currentUserId = null;
+        // Updated appId to explicitly be 'default-app-id'
+        const appId = 'default-app-id';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCqWbcgSdseuGSd6aLBqG76lAyr647xgQ4",
+            authDomain: "signup-b09e6.firebaseapp.com",
+            projectId: "signup-b09e6",
+            storageBucket: "signup-b09e6.firebasestorage.app",
+            messagingSenderId: "203916695845",
+            appId: "1:203916695845:web:5310b5ca37c7809be862cc"
+        };
+
+        // Initialize Firebase
+        app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+
+        // DOM elements for Admin Login Modal
+        const adminLoginModal = document.getElementById('admin-login-modal');
+        const adminAuthForm = document.getElementById('admin-auth-form');
+        const adminEmailInput = document.getElementById('admin-email');
+        const adminPasswordInput = document.getElementById('admin-password');
+        const adminLoginBtn = document.getElementById('admin-login-btn');
+        const adminAuthMessage = document.getElementById('admin-auth-message');
+
+        // DOM elements for Admin Sign Up Student Modal
+        const adminSignupStudentModal = document.getElementById('admin-signup-student-modal');
+        const adminSignupStudentCloseButton = document.getElementById('admin-signup-student-close-button');
+        const adminSignupStudentForm = document.getElementById('admin-signup-student-form');
+        const newStudentNameInput = document.getElementById('new-student-name');
+        const newStudentEmailInput = document.getElementById('new-student-email');
+        const newStudentPasswordInput = document.getElementById('new-student-password');
+        // Fixed: Removed erroneous 'document = ' assignment
+        const adminCreateStudentBtn = document.getElementById('admin-create-student-btn');
+        const adminSignupStudentMessage = document.getElementById('admin-signup-student-message');
+        const backToAdminPortalBtn = document.getElementById('back-to-admin-portal-btn'); // New close button
+
+        // Main admin content
+        const adminMainContent = document.getElementById('admin-main-content');
+        const adminEmailDisplay = document.getElementById('admin-email-display');
+        const openSignupStudentBtn = document.getElementById('open-signup-student-btn');
+        const studentList = document.getElementById('student-list');
+
+        // Navbar user info displays
+        const userEmailNavDisplay = document.getElementById('user-email-nav');
+        const mobileUserEmailNavDisplay = document.getElementById('mobile-user-email-nav');
+
+        // Message Box function
+        const showMessageBox = (message, onConfirm = null) => {
+            const msgBox = document.getElementById('custom-message-box');
+            const msgText = document.getElementById('message-box-text');
+            const confirmBtn = document.getElementById('message-box-confirm-btn');
+
+            msgText.innerHTML = message;
+            confirmBtn.onclick = () => {
+                msgBox.classList.remove('show');
+                document.body.classList.remove('overflow-hidden');
+                if (onConfirm) onConfirm();
+            };
+            msgBox.classList.add('show');
+            document.body.classList.add('overflow-hidden');
+        };
+
+        // Functions to show/hide modals
+        const hideAllModals = () => {
+            adminLoginModal.classList.remove('show');
+            adminSignupStudentModal.classList.remove('show');
+            document.body.classList.remove('overflow-hidden');
+        };
+
+        const showAdminLoginModal = () => {
+            hideAllModals();
+            adminLoginModal.classList.add('show');
+            document.body.classList.add('overflow-hidden');
+            adminAuthMessage.classList.add('hidden'); // Clear previous messages
+            adminMainContent.classList.add('hidden'); // Hide main content during login
+        };
+
+        const showAdminSignupStudentModal = () => {
+            hideAllModals();
+            adminSignupStudentModal.classList.add('show');
+            document.body.classList.add('overflow-hidden');
+            adminSignupStudentMessage.classList.add('hidden'); // Clear previous messages
+            adminSignupStudentForm.reset(); // Clear form fields
+        };
+
+        // Close modal listeners
+        // For admin-signup-student-modal
+        if (adminSignupStudentCloseButton) {
+            adminSignupStudentCloseButton.addEventListener('click', () => {
+                hideAllModals();
+                adminMainContent.classList.remove('hidden'); // Show main admin content after closing
+            });
+        }
+        if (adminSignupStudentModal) {
+            adminSignupStudentModal.addEventListener('click', (e) => {
+                if (e.target === adminSignupStudentModal) {
+                    hideAllModals();
+                    adminMainContent.classList.remove('hidden'); // Show main admin content after closing
+                }
+            });
+        }
+        if (backToAdminPortalBtn) {
+             backToAdminPortalBtn.addEventListener('click', () => {
+                hideAllModals();
+                adminMainContent.classList.remove('hidden'); // Show main admin content after closing
+            });
+        }
+
+
+        /**
+         * Loads and displays the list of registered student accounts.
+         */
+        const loadStudentAccounts = async () => {
+            studentList.innerHTML = '<p class="text-gray-400 text-center">Loading student accounts...</p>';
+            try {
+                // Ensure current user is an admin before trying to fetch all user data
+                if (!auth.currentUser || !(await getDoc(doc(db, "artifacts", appId, "admins", auth.currentUser.uid))).exists()) {
+                    studentList.innerHTML = '<p class="text-red-400 text-center">Access denied: Not authenticated as an admin.</p>';
+                    return;
+                }
+
+                const studentsCollectionRef = collection(db, "artifacts", appId, "users");
+                const q = query(studentsCollectionRef);
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    studentList.innerHTML = '<p class="text-gray-400 text-center">No student accounts found.</p>';
+                    return;
+                }
+
+                studentList.innerHTML = ''; // Clear loading message
+                querySnapshot.forEach((docSnap) => {
+                    const studentData = docSnap.data();
+                    const studentUid = docSnap.id; // The document ID is the user's UID
+                    const studentName = studentData.name || 'N/A';
+                    const studentEmail = studentData.email || 'N/A';
+
+                    const studentItem = document.createElement('div');
+                    studentItem.className = 'bg-[#0D0D0D] p-4 rounded-md shadow-md flex justify-between items-center';
+                    studentItem.innerHTML = `
+                        <div>
+                            <p class="font-bold text-lg">${studentName}</p>
+                            <p class="text-sm text-gray-400">${studentEmail}</p>
+                            <p class="text-xs text-gray-500">UID: ${studentUid}</p>
+                        </div>
+                        <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded-md text-sm ml-4 delete-student-btn" data-uid="${studentUid}">Delete</button>
+                    `;
+                    studentList.appendChild(studentItem);
+                });
+
+                // Add event listeners to delete buttons
+                document.querySelectorAll('.delete-student-btn').forEach(button => {
+                    button.addEventListener('click', async (event) => {
+                        const studentUidToDelete = event.target.dataset.uid;
+                        showMessageBox(`Are you sure you want to delete student ${studentUidToDelete}? This action cannot be undone. Firebase Auth deletion requires server-side logic.`, async () => {
+                            try {
+                                // Delete user's profile data
+                                const profileDocRef = doc(db, "artifacts", appId, "users", studentUidToDelete, "profile", "details");
+                                await deleteDoc(profileDocRef);
+
+                                // Delete user's dashboard data
+                                const dashboardDocRef = doc(db, "artifacts", appId, "users", studentUidToDelete, "dashboard", "summary");
+                                await deleteDoc(dashboardDocRef);
+
+                                showMessageBox(`Student ${studentUidToDelete} data deleted from Firestore. (Firebase Auth deletion requires server-side logic).`);
+                                loadStudentAccounts(); // Refresh the list
+                            } catch (error) {
+                                console.error("Error deleting student:", error);
+                                showMessageBox(`Failed to delete student: ${error.message}`);
+                            }
+                        });
+                    });
+                });
+
+            } catch (error) {
+                console.error("Error loading student accounts:", error);
+                studentList.innerHTML = `<p class="text-red-400 text-center">Error loading student accounts: ${error.message}</p>`;
+            }
+        };
+
+
+        // Admin Login Form Submission
+        if (adminAuthForm) {
+            adminAuthForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = adminEmailInput.value;
+                const password = adminPasswordInput.value;
+                adminAuthMessage.classList.add('hidden');
+
+                try {
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    const adminUser = userCredential.user;
+
+                    // Check if this user is an admin in Firestore
+                    const adminDocRef = doc(db, "artifacts", appId, "admins", adminUser.uid);
+                    const adminDocSnap = await getDoc(adminDocRef);
+
+                    if (adminDocSnap.exists()) {
+                        currentUserId = adminUser.uid; // Set currentUserId for admin context
+                        adminEmailDisplay.textContent = adminUser.email; // Display admin email
+                        adminMainContent.classList.remove('hidden'); // Show main admin content
+                        hideAllModals(); // Hide login modal
+                        loadStudentAccounts(); // Load student accounts for admin
+                    } else {
+                        // Not an authorized admin, even if Firebase auth succeeded
+                        await signOut(auth); // Log them out immediately
+                        adminAuthMessage.textContent = "You are not authorized as an admin.";
+                        adminAuthMessage.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error("Admin Login error:", error.code, error.message);
+                    let errorMessage = `Admin login failed: ${error.message}.`;
+                    if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                        errorMessage = "Invalid admin email or password.";
+                    } else if (error.code === 'auth/invalid-email') {
+                        errorMessage = "Invalid email format for admin login.";
+                    } else if (error.code === 'auth/too-many-requests') {
+                        errorMessage = "Too many failed login attempts. Please try again later.";
+                    } else {
+                        errorMessage = `An unexpected error occurred during admin login: ${error.message}.`;
+                    }
+                    adminAuthMessage.textContent = errorMessage;
+                    adminAuthMessage.classList.remove('hidden');
+                }
+            });
+        }
+
+        // Admin: Create New Student Account
+        if (adminSignupStudentForm) {
+            adminSignupStudentForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = newStudentNameInput.value.trim();
+                const email = newStudentEmailInput.value.trim();
+                const password = newStudentPasswordInput.value.trim();
+                adminSignupStudentMessage.classList.add('hidden');
+
+                if (!name || !email || !password) {
+                    adminSignupStudentMessage.textContent = "All fields are required.";
+                    adminSignupStudentMessage.classList.remove('hidden');
+                    return;
+                }
+
+                try {
+                    // It's important to re-authenticate the admin user if they were signed out
+                    // for the createUserWithEmailAndPassword operation.
+                    // However, we must ensure that the admin is still logged in before attempting to create new users.
+                    if (!auth.currentUser) {
+                        showMessageBox("Admin session expired. Please log in again.");
+                        showAdminLoginModal();
+                        return;
+                    }
+
+                    // Create the new student user in Firebase Authentication
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+
+                    // Update user profile with display name
+                    await updateProfile(user, { displayName: name });
+
+                    // Store student's profile data in Firestore
+                    const userProfileRef = doc(db, "artifacts", appId, "users", user.uid, "profile", "details");
+                    await setDoc(userProfileRef, {
+                        name: name,
+                        email: email,
+                        createdAt: new Date(),
+                        role: 'student' // Assign a role for future security rules
+                    }, { merge: true });
+
+                    // Initialize default dashboard data for the new student
+                    const userDashboardRef = doc(db, "artifacts", appId, "users", user.uid, "dashboard", "summary");
+                    const defaultData = {
+                        coursesEnrolled: 0,
+                        assignmentsDue: 0,
+                        overallProgress: 0,
+                        recentActivity: [
+                            { icon: 'fa fa-info-circle', color: 'text-blue-400', text: `Welcome, ${name}! Your student dashboard is ready.`, time: new Date().toLocaleTimeString() }
+                        ],
+                        myCourses: [],
+                        upcomingDeadlines: []
+                    };
+                    await setDoc(userDashboardRef, defaultData);
+
+
+                    showMessageBox(`Student account for ${name} (${email}) created successfully!`, async () => {
+                        adminSignupStudentForm.reset(); // Clear the form
+                        loadStudentAccounts(); // Refresh the list of students
+                        hideAllModals(); // Close the student signup modal
+                        adminMainContent.classList.remove('hidden'); // Show main admin content
+                    });
+
+                } catch (error) {
+                    console.error("Admin Signup Student error:", error.code, error.message);
+                    let errorMessage = `Failed to create student account: ${error.message}.`;
+                    if (error.code === 'auth/email-already-in-use') {
+                        errorMessage = "This email is already registered. Please use a different one.";
+                    } else if (error.code === 'auth/weak-password') {
+                        errorMessage = "Password is too weak. Please use at least 6 characters.";
+                    } else {
+                        errorMessage = `An unexpected error occurred: ${error.message}.`;
+                    }
+                    adminSignupStudentMessage.textContent = errorMessage;
+                    adminSignupStudentMessage.classList.remove('hidden');
+                }
+            });
+        }
+
+        // Event listener to open the student signup modal from admin portal
+        if (openSignupStudentBtn) {
+            openSignupStudentBtn.addEventListener('click', showAdminSignupStudentModal);
+        }
+
+        // OnAuthStateChanged listener for Admin Panel
+        onAuthStateChanged(auth, async (user) => {
+            const logoutBtn = document.getElementById('logout-btn');
+            const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+            const userInfoDisplay = document.getElementById('user-info');
+            const mobileUserInfoDisplay = document.getElementById('mobile-user-info');
+
+            if (user) {
+                currentUserId = user.uid;
+                // Check if the current user is an admin
+                const adminDocRef = doc(db, "artifacts", appId, "admins", user.uid);
+                const adminDocSnap = await getDoc(adminDocRef);
+
+                if (adminDocSnap.exists()) {
+                    // User is an admin, show admin content
+                    if (userEmailNavDisplay) userEmailNavDisplay.textContent = user.email || 'Admin';
+                    if (mobileUserEmailNavDisplay) mobileUserEmailNavDisplay.textContent = user.email || 'Admin';
+                    if (userInfoDisplay) userInfoDisplay.classList.remove('hidden');
+                    if (mobileUserInfoDisplay) mobileUserInfoDisplay.classList.remove('hidden');
+
+                    adminEmailDisplay.textContent = user.email || 'N/A';
+                    adminMainContent.classList.remove('hidden');
+                    hideAllModals(); // Hide login modal
+                    loadStudentAccounts(); // Load student accounts for admin
+                } else {
+                    // Not an admin, redirect to student dashboard
+                    console.log("Non-admin user tried to access admin panel. Redirecting to student dashboard.");
+                    await signOut(auth); // Log out non-admin
+                    window.location.href = 'student-dashboard.html';
+                }
+            } else {
+                currentUserId = null;
+                // Clear navbar email display
+                if (userEmailNavDisplay) userEmailNavDisplay.textContent = '';
+                if (mobileUserEmailNavDisplay) mobileUserEmailNavDisplay.textContent = '';
+                if (userInfoDisplay) userInfoDisplay.classList.add('hidden');
+                if (mobileUserInfoDisplay) mobileUserInfoDisplay.classList.add('hidden');
+
+                adminMainContent.classList.add('hidden'); // Hide admin content
+                showAdminLoginModal(); // Show admin login modal if not logged in
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const closeMobileMenuButton = document.getElementById('close-mobile-menu');
+            const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenuOverlay.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden');
+                });
+            }
+
+            if (closeMobileMenuButton) {
+                closeMobileMenuButton.addEventListener('click', () => {
+                    mobileMenuOverlay.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                });
+            }
+
+            // Logout logic for this page
+            const logoutBtn = document.getElementById('logout-btn');
+            const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async () => {
+                    try {
+                        await signOut(auth);
+                        showMessageBox("Logged out successfully! Redirecting to student dashboard.", () => {
+                            window.location.href = 'student-dashboard.html'; // Redirect to student dashboard after admin logout
+                        });
+                    } catch (error) {
+                        console.error('Logout error:', error);
+                        showMessageBox(`Logout failed: ${error.message}`);
+                    }
+                });
+            }
+
+            if (mobileLogoutBtn) {
+                mobileLogoutBtn.addEventListener('click', async () => {
+                    try {
+                        await signOut(auth);
+                        showMessageBox("Logged out successfully! Redirecting to student dashboard.", () => {
+                            mobileMenuOverlay.classList.add('hidden');
+                            document.body.classList.remove('overflow-hidden');
+                            window.location.href = 'student-dashboard.html'; // Redirect to student dashboard after admin logout
+                        });
+                    } catch (error) {
+                        console.error('Mobile logout error:', error);
+                        showMessageBox(`Mobile logout failed: ${error.message}`);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
