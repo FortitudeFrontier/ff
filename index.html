@@ -163,9 +163,10 @@
         }
 
         /* Scroll reveal animation for individual elements */
+        /* TEMPORARILY DISABLED FOR DEBUGGING */
         .scroll-reveal-item {
-            opacity: 0;
-            transform: translateY(50px) scale(0.95); /* Initial state: slightly down and scaled */
+            /* opacity: 0; */
+            /* transform: translateY(50px) scale(0.95); */
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
             /* transition-delay will be set by JS */
         }
@@ -345,6 +346,39 @@
            height: 10vh;
            padding: 0;
         }
+        /* AI Study Buddy Output Styling */
+        #study-buddy-output p {
+            margin-bottom: 0.75rem; /* Add space after paragraphs */
+        }
+        #study-buddy-output ul,
+        #study-buddy-output ol {
+            margin-left: 1.5rem; /* Indent lists */
+            list-style-type: disc; /* Default bullet for unordered lists */
+            margin-bottom: 0.75rem; /* Space after lists */
+        }
+        #study-buddy-output ol {
+            list-style-type: decimal; /* Numbered for ordered lists */
+        }
+        #study-buddy-output li {
+            margin-bottom: 0.25rem; /* Space between list items */
+        }
+        #study-buddy-output h1,
+        #study-buddy-output h2,
+        #study-buddy-output h3,
+        #study-buddy-output h4,
+        #study-buddy-output h5,
+        #study-buddy-output h6 {
+            font-weight: bold;
+            margin-top: 1.5rem; /* Space above headings */
+            margin-bottom: 0.75rem; /* Space below headings */
+            color: #FF8C00; /* Highlight headings */
+        }
+        #study-buddy-output h1 { font-size: 2.25rem; } /* text-4xl */
+        #study-buddy-output h2 { font-size: 1.875rem; } /* text-3xl */
+        #study-buddy-output h3 { font-size: 1.5rem; }    /* text-2xl */
+        #study-buddy-output h4 { font-size: 1.25rem; }   /* text-xl */
+        #study-buddy-output h5 { font-size: 1.125rem; }  /* text-lg */
+        #study-buddy-output h6 { font-size: 1rem; }      /* text-base */
     </style>
 </head>
 <body class="bg-[#0D0D0D] text-white">
@@ -367,6 +401,8 @@
             <a href="#" class="md:text-xl"><img src="fflogo-removebg-preview.png" id="logoimg" alt="Fortitude Frontier Logo"></a>
             <div class="hidden sm:flex flex-wrap justify-end items-center sm:gap-x-4 sm:gap-y-2">
                 <a href="#about" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">About Us</a>
+                <a href="#" id="enrollment-nav-link" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Enrollment</a> <!-- Updated: Enrollment Link -->
+                <a href="#courses-offered" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Courses</a> <!-- New: Courses Offered Link -->
                 <a href="#quizzes" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Quizzes</a>
                 <a href="#fun-saturday" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Fun Saturday</a>
                 <a href="#course-playlist" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Course Playlist</a>
@@ -388,13 +424,15 @@
             </button>
         </div>
         <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu-overlay" class="hidden sm:hidden fixed inset-0 bg-[#0D0D0D] bg-opacity-100 z-9996 flex flex-col items-center justify-center space-y-8 text-2xl">
+        <div id="mobile-menu-overlay" class="hidden sm:hidden fixed inset-0 bg-[#0D0D0D] bg-opacity:100 z-9996 flex flex-col items-center justify-center space-y-8 text-2xl">
             <button id="close-mobile-menu" class="absolute top-6 right-6 text-[#FFFFFF] focus:outline-none">
                 <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
             </button>
             <a href="#about" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">About Us</a>
+            <a href="#" id="mobile-enrollment-nav-link" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Enrollment</a> <!-- Updated: Enrollment Link Mobile -->
+            <a href="#courses-offered" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Courses</a> <!-- New: Courses Offered Link Mobile -->
             <a href="#quizzes" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Quizzes</a>
             <a href="#fun-saturday" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Fun Saturday</a>
             <a href="#course-playlist" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Course Playlist</a>
@@ -429,6 +467,50 @@
         </div>
     </div>
 
+    <!-- Enrollment Modal (New) -->
+    <div id="enrollment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="enrollment-close-button">&times;</span>
+            <h3 class="text-3xl font-bold text-[#FF8C00] mb-6 text-center">Enroll in Your Future!</h3>
+            <p class="text-lg md:text-xl leading-relaxed text-[#FFFFFF] mb-6 text-center">
+                Ready to take the next step? Fill out the form below to enroll in your preferred course.
+            </p>
+            <div class="bg-[#0D0D0D] p-8 rounded-xl shadow-lg">
+                <form id="enrollment-form" class="space-y-6 text-left">
+                    <div>
+                        <label for="fullName" class="block text-white text-lg font-medium mb-2">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" class="w-full p-3 rounded-md bg-[#2A2A2A] text-white border border-[#FF8C00] focus:outline-none focus:ring-2 focus:ring-[#FF8C00]" placeholder="Your Full Name" required>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-white text-lg font-medium mb-2">Email Address</label>
+                        <input type="email" id="email" name="email" class="w-full p-3 rounded-md bg-[#2A2A2A] text-white border border-[#FF8C00] focus:outline-none focus:ring-2 focus:ring-[#FF8C00]" placeholder="your.email@example.com" required>
+                    </div>
+                    <div>
+                        <label for="contactNumber" class="block text-white text-lg font-medium mb-2">Contact Number</label>
+                        <input type="tel" id="contactNumber" name="contactNumber" class="w-full p-3 rounded-md bg-[#2A2A2A] text-white border border-[#FF8C00] focus:outline-none focus:ring-2 focus:ring-[#FF8C00]" placeholder="e.g., +919876543210" required>
+                    </div>
+                    <div>
+                        <label for="collegeName" class="block text-white text-lg font-medium mb-2">College Name</label>
+                        <input type="text" id="collegeName" name="collegeName" class="w-full p-3 rounded-md bg-[#2A2A2A] text-white border border-[#FF8C00] focus:outline-none focus:ring-2 focus:ring-[#FF8C00]" placeholder="Your College Name" required>
+                    </div>
+                    <div>
+                        <label for="course" class="block text-white text-lg font-medium mb-2">Select Your Course</label>
+                        <select id="course" name="course" class="w-full p-3 rounded-md bg-[#2A2A2A] text-white border border-[#FF8C00] focus:outline-none focus:ring-2 focus:ring-[#FF8C00]" required>
+                            <option value="">-- Please select a course --</option>
+                            <option value="Java">Java Programming</option>
+                            <option value="C++">C++ Programming</option>
+                            <option value="Python">Python Programming</option>
+                            <option value="Web Development">Web Development</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="action-button w-full font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">
+                        Proceed to Payment (Google Form)
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Hero Section -->
     <header class="relative h-screen flex items-center justify-center overflow-hidden hero-bg-overlay pt-24">
@@ -439,15 +521,15 @@
             <div class="blob blob-3"></div>
         </div>
         <!-- Content -->
-        <div class="relative z-10 text-center p-6">
+        <div class="relative z-10 text-center py-12 px-6"> <!-- Adjusted padding here -->
             <h1 class="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4 hero-text">
                 <span class="block text-[#FF8C00]">FORTITUDE FRONTIER</span>
                 <span class="block text-[#FF8C00] slogan">Unleash Your Potential.</span>
             </h1>
-            <p class="text-lg md:text-xl text-[#FFFFFF] mb-8 hero-text">Your journey to academic excellence and personal growth starts here.</p>
-            <a href="#quizzes" class="inline-block bg-[#FF8C00] hover:bg-[#FF7F00] text-[#0D0D0D] font-bold py-3 px-8 rounded-full shadow-lg hero-button">
-                Start Learning Now!
-            </a>
+            <p class="text-lg md:text-xl text-[#FFFFFF] mb-6 hero-text">Your journey to academic excellence and personal growth starts here.</p> <!-- Adjusted margin here -->
+            <button id="hero-enroll-btn" class="inline-block bg-[#FF8C00] hover:bg-[#FF7F00] text-[#0D0D0D] font-bold py-3 px-8 rounded-full shadow-lg hero-button">
+                Enroll Now!
+            </button>
         </div>
     </header>
 
@@ -464,32 +546,73 @@
         </div>
     </section>
 
+    <!-- Courses Offered Section (New) -->
+    <section id="courses-offered" class="py-16 md:py-24 bg-[#1A1A1A]">
+        <div class="container text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-12 text-[#FFFFFF] scroll-reveal-item">Our Comprehensive Courses</h2>
+            <p class="text-lg md:text-xl text-[#FFFFFF] mb-10 scroll-reveal-item" style="--delay: 0.1s;">Dive deep into specialized topics with our structured and engaging courses.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Course Card: Java -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=Java" alt="Java Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Java Programming</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Master object-oriented programming, data structures, and algorithms.</p>
+                </div>
+                <!-- Course Card: C++ -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=C++" alt="C++ Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">C++ Programming</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Learn powerful system-level programming and competitive coding.</p>
+                </div>
+                <!-- Course Card: Python -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=Python" alt="Python Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Python Programming</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Explore data science, web development, and automation with Python.</p>
+                </div>
+                <!-- Course Card: Web Development -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=WebDev" alt="Web Development Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Web Development</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Build dynamic and responsive websites from front-end to back-end.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Quizzes Section -->
-    <section id="quizzes" class="py-16 md:py-24 bg-[#1A1A1A]">
+    <section id="quizzes" class="py-16 md:py-24 bg-[#0D0D0D]">
         <div class="container text-center">
             <h2 class="text-4xl md:text-5xl font-bold mb-12 text-[#FF8C00] scroll-reveal-item">Challenge Yourself with Quizzes!</h2>
             <p class="text-lg md:text-xl text-[#FFFFFF] mb-10 scroll-reveal-item" style="--delay: 0.1s;">Test your knowledge and sharpen your skills with our interactive quizzes, or generate new ones with AI!</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Quiz Card 1 -->
+                <!-- Quiz Card 1: Java -->
                 <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
-                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=MATH" alt="Math Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
-                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Mathematics Mastery</h3>
-                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Algebra, Geometry, Calculus.</p>
-                    <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="Mathematics" style="--delay: 0.5s;">Generate Quiz ✨</button>
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=JAVA" alt="Java Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Java Programming</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Core Java, OOP, Data Structures.</p>
+                    <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="Java Programming" style="--delay: 0.5s;">Generate Quiz ✨</button>
                 </div>
-                <!-- Quiz Card 2 -->
+                <!-- Quiz Card 2: C++ -->
                 <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
-                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=SCIENCE" alt="Science Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
-                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Science Explorer</h3>
-                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Physics, Chemistry, Biology.</p>
-                    <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="Science" style="--delay: 0.5s;">Generate Quiz ✨</button>
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=C++" alt="C++ Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">C++ Programming</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Pointers, Classes, STL.</p>
+                    <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="C++ Programming" style="--delay: 0.5s;">Generate Quiz ✨</button>
                 </div>
-                <!-- Quiz Card 3 -->
+                <!-- Quiz Card 3: Web Development -->
                 <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
-                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=HISTORY" alt="History Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
-                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">History Highlights</h3>
-                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Ancient, Modern, World.</p>
-                    <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="History" style="--delay: 0.5s;">Generate Quiz ✨</button>
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=WEB+DEV" alt="Web Development Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Web Development</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">HTML, JavaScript, APIs.</p>
+                    <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="Web Development" style="--delay: 0.5s;">Generate Quiz ✨</button>
+                </div>
+                <!-- Quiz Card 4: Python (added a new card for Python) -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=PYTHON" alt="Python Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Python Basics</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Syntax, Data Types, Control Flow.</p>
+                    <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="Python Programming" style="--delay: 0.5s;">Generate Quiz ✨</button>
                 </div>
             </div>
         </div>
@@ -540,7 +663,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Video 1: Placeholder Math Series -->
                 <div class="bg-[#2A2A2A] rounded-xl shadow-lg p-4 interactive-card scroll-reveal-item" style="--delay: 0.2s;">
-                    <h3 class="text-2xl font-semibold text-white mb-4">C++ Programming</h3>
+                    <h3 class="text-2xl font-semibold text-white mb-4">C++ programming</h3>
                     <div class="video-container">
                         <iframe width="560" height="315" src="https://www.youtube.com/embed/DOORXtchwBU?si=_aWiYzmEqTmYx4aS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
@@ -548,7 +671,7 @@
                 </div>
                 <!-- Video 2: Placeholder Science Series -->
                 <div class="bg-[#2A2A2A] rounded-xl shadow-lg p-4 interactive-card scroll-reveal-item" style="--delay: 0.3s;">
-                    <h3 class="text-2xl font-semibold text-white mb-4">Web Development</h3>
+                    <h3 class="text-2xl font-semibold text-white mb-4">web devlopment</h3>
                     <div class="video-container">
                         <iframe width="560" height="315" src="https://www.youtube.com/embed/xNgl1pp6lks?si=TW2-zFh2eNoEi3px" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
@@ -556,15 +679,15 @@
                 </div>
                  <!-- Video 3: Placeholder English Grammar -->
                 <div class="bg-[#2A2A2A] rounded-xl shadow-lg p-4 interactive-card scroll-reveal-item" style="--delay: 0.4s;">
-                    <h3 class="text-2xl font-semibold text-white mb-4">Python Programming</h3>
+                    <h3 class="text-2xl font-semibold text-white mb-4">python programming</h3>
                     <div class="video-container">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/Ubogl-fIg_k?si=GFWhK4QqnQv7yl3G" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/Ubogl-fIg_k?si=GFWhK4QqnQv7yl3G" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                     <p class="text-gray-400 mt-4">Master python .</p>
                 </div>
                  <!-- Video 4: Placeholder History Deep Dive -->
                 <div class="bg-[#2A2A2A] rounded-xl shadow-lg p-4 interactive-card scroll-reveal-item" style="--delay: 0.5s;">
-                    <h3 class="text-2xl font-semibold text-white mb-4">Java Programming</h3>
+                    <h3 class="text-2xl font-semibold text-white mb-4">java programming</h3>
                     <div class="video-container">
                         <iframe width="560" height="315" src="https://www.youtube.com/embed/IYuu1X_F4qc?si=TIFyESYEgauxv02R" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
@@ -585,7 +708,7 @@
                 <textarea id="study-buddy-input" class="w-full p-4 rounded-md bg-[#0D0D0D] text-[#FFFFFF] border border-[#FF8C00] focus:outline-none focus:ring-2 focus:ring-[#FF8C00]" rows="4" placeholder="e.g., Explain photosynthesis for a high school student..."></textarea>
                 <button id="get-explanation-btn" class="action-button font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">Get Explanation ✨</button>
                 <div id="study-buddy-loading" class="loading-spinner hidden mt-4"></div>
-                <div id="study-buddy-output" class="text-left mt-6 p-4 bg-[#0D0D0D] rounded-md border border-[#FF8C00] whitespace-pre-wrap">
+                <div id="study-buddy-output" class="text-left mt-6 p-4 bg-[#0D0D0D] rounded-md border border-[#FF8C00]">
                     <!-- AI explanation will appear here -->
                 </div>
             </div>
@@ -609,9 +732,9 @@
         <div class="container text-center">
             <h2 class="text-4xl md:text-5xl font-bold text-white mb-8 scroll-reveal-item">Ready to Build Your Fortitude?</h2>
             <p class="text-lg md:text-xl text-[#FFFFFF] mb-10 scroll-reveal-item" style="--delay: 0.1s;">Enroll today and discover your true potential.</p>
-            <a href="https://wa.me/9929511099" class="inline-block bg-[#FF8C00] hover:bg-[#FF7F00] text-[#0D0D0D] font-bold py-4 px-10 rounded-full shadow-xl transition duration-300 transform hover:scale-105 hover:animate-pulse scroll-reveal-item" style="--delay: 0.2s;">
-                Enroll Now
-            </a>
+            <button id="cta-enroll-btn" class="inline-block bg-[#FF8C00] hover:bg-[#FF7F00] text-[#0D0D0D] font-bold py-4 px-10 rounded-full shadow-xl transition duration-300 transform hover:scale-105 hover:animate-pulse scroll-reveal-item" style="--delay: 0.2s;">
+                Know More
+            </button>
         </div>
     </section>
 
@@ -640,34 +763,58 @@
 
     <!-- FontAwesome for social icons -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
 
     <!-- Firebase SDKs -->
     <script type="module" defer>
         console.log("Script started.");
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+        import { getAuth, signOut, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+        // Firebase Storage is no longer needed for direct client-side uploads, but keeping the import just in case for future use
+        // import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-storage.js";
+
 
         let app;
         let auth;
         let db;
+        // let storage; // Storage variable is no longer needed for this flow
         let currentUserId = null;
         let quizData = [];
 
+        // USER-PROVIDED FIREBASE CONFIGURATION
         const firebaseConfig = {
-            apiKey: "AIzaSyCqWbcgSdseuGSd6aLBqG76lAyr647xgQ4",
-            authDomain: "signup-b09e6.firebaseapp.com",
-            projectId: "signup-b09e6",
-            storageBucket: "signup-b09e6.firebasestorage.app",
-            messagingSenderId: "203916695845",
-            appId: "1:203916695845:web:5310b5ca37c7809be862cc"
+            apiKey: "AIzaSyC_q6116PoSbmt-3fI1dYKHHsLMK8oRimc",
+            authDomain: "hausofhype-f4b1d.firebaseapp.com",
+            databaseURL: "https://hausofhype-f4b1d-default-rtdb.firebaseio.com",
+            projectId: "hausofhype-f4b1d",
+            storageBucket: "hausofhype-f4b1d.appspot.com", // Keeping for config completeness, but not actively used for payment screenshot upload now
+            messagingSenderId: "979961834080",
+            appId: "1:979961834080:web:20bacae5d268c57d82b105",
+            measurementId: "G-61EXT0HJTC"
         };
+
 
         app = initializeApp(firebaseConfig);
         auth = getAuth(app);
         db = getFirestore(app);
+        // storage = getStorage(app); // No longer initializing storage for payment flow
         console.log("Firebase services initialized.");
+
+        // Define course details (QR codes and amounts are now descriptive for Google Form)
+        const courseDetails = {
+            "Java": { amount: "₹999" },
+            "C++": { amount: "₹799" },
+            "Python": { amount: "₹899" },
+            "Web Development": { amount: "₹1299" }
+        };
+
+        // Google Form URL
+        const GOOGLE_FORM_URL = "https://forms.fillout.com/t/38fWVyXv1gus"; // Updated URL
+
+        let currentEnrollmentDocRef = null; // To store the Firestore document reference for the current enrollment
 
         const showMessageBox = (message, onConfirm = null) => {
             const msgBox = document.getElementById('custom-message-box');
@@ -704,6 +851,14 @@
             } else {
                 currentUserId = null;
                 console.log('Firebase: User is logged out.');
+                // Sign in anonymously if no user is logged in
+                try {
+                    await signInAnonymously(auth);
+                    console.log("Firebase: Signed in anonymously.");
+                } catch (anonError) {
+                    console.error("Firebase: Anonymous sign-in failed", anonError);
+                    showMessageBox(`Error: Could not sign in anonymously. Some features may not work. ${anonError.message}`);
+                }
 
                 if (userInfoDisplay) userInfoDisplay.classList.add('hidden');
                 if (mobileUserInfoDisplay) mobileUserInfoDisplay.classList.add('hidden');
@@ -745,7 +900,57 @@
                 console.warn('Close mobile menu button not found.');
             }
 
-            // Removed showSection function and related tab logic as Student Dashboard is now a separate page.
+            // --- Enrollment Modal Logic (still triggered by nav links) ---
+            const enrollmentModal = document.getElementById('enrollment-modal');
+            const enrollmentCloseButton = document.getElementById('enrollment-close-button');
+            // Removed heroEnrollBtn and ctaEnrollBtn from this section's event listeners
+            const enrollmentNavLink = document.getElementById('enrollment-nav-link');
+            const mobileEnrollmentNavLink = document.getElementById('mobile-enrollment-nav-link');
+
+
+            const openEnrollmentModal = () => {
+                if (enrollmentModal) {
+                    enrollmentModal.classList.add('show');
+                    document.body.classList.add('overflow-hidden');
+                }
+            };
+
+            const closeEnrollmentModal = () => {
+                if (enrollmentModal) {
+                    enrollmentModal.classList.remove('show');
+                    document.body.classList.remove('overflow-hidden');
+                    document.getElementById('enrollment-form').reset(); // Reset form on close
+                }
+            };
+
+            // Only nav links open the modal now
+            if (enrollmentNavLink) enrollmentNavLink.addEventListener('click', openEnrollmentModal);
+            if (mobileEnrollmentNavLink) mobileEnrollmentNavLink.addEventListener('click', openEnrollmentModal);
+
+            if (enrollmentCloseButton) {
+                enrollmentCloseButton.addEventListener('click', closeEnrollmentModal);
+            }
+
+            if (enrollmentModal) {
+                enrollmentModal.addEventListener('click', (e) => {
+                    if (e.target === enrollmentModal) {
+                        closeEnrollmentModal();
+                    }
+                });
+            }
+
+
+            // --- Direct Google Form Redirection for Hero and CTA Buttons ---
+            const heroEnrollBtn = document.getElementById('hero-enroll-btn');
+            const ctaEnrollBtn = document.getElementById('cta-enroll-btn');
+
+            const redirectToGoogleForm = () => {
+                window.open(GOOGLE_FORM_URL, '_blank');
+            };
+
+            if (heroEnrollBtn) heroEnrollBtn.addEventListener('click', redirectToGoogleForm);
+            if (ctaEnrollBtn) ctaEnrollBtn.addEventListener('click', redirectToGoogleForm);
+
 
             // Initialize AI Study Buddy logic
             const studyBuddyInput = document.getElementById('study-buddy-input');
@@ -757,18 +962,18 @@
                 getExplanationBtn.addEventListener('click', async () => {
                     const prompt = studyBuddyInput.value.trim();
                     if (!prompt) {
-                        studyBuddyOutput.textContent = "Please enter a topic to explain.";
+                        studyBuddyOutput.innerHTML = "Please enter a topic to explain."; // Changed to innerHTML for consistency
                         return;
                     }
 
-                    studyBuddyOutput.textContent = '';
+                    studyBuddyOutput.innerHTML = ''; // Changed to innerHTML
                     studyBuddyLoading.classList.remove('hidden');
 
                     try {
                         let chatHistory = [];
                         chatHistory.push({ role: "user", parts: [{ text: prompt }] });
                         const payload = { contents: chatHistory };
-                        const apiKey = "";
+                        const apiKey = "AIzaSyB5Sd3QAJuMNPjftmT-5rkFTHXB2vhEgRE";
                         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                         const response = await fetch(apiUrl, {
@@ -787,21 +992,101 @@
                             result.candidates[0].content && result.candidates[0].content.parts &&
                             result.candidates[0].content.parts.length > 0) {
                             const text = result.candidates[0].content.parts[0].text;
-                            studyBuddyOutput.textContent = text;
+                            // Parse Markdown to HTML
+                            studyBuddyOutput.innerHTML = marked.parse(text);
                         } else {
-                            studyBuddyOutput.textContent = "Sorry, I couldn't generate an explanation. Please try a different query.";
+                            studyBuddyOutput.innerHTML = "Sorry, I couldn't generate an explanation. Please try a different query.";
                         }
                     } catch (error) {
                         console.error('Error fetching AI explanation:', error);
-                        studyBuddyOutput.textContent = `Error: ${error.message}. Could not get an explanation. Please try again.`;
+                        studyBuddyOutput.innerHTML = `Error: ${error.message}. Could not get an explanation. Please try again.`;
                     } finally {
                         studyBuddyLoading.classList.add('hidden');
                     }
                 });
             }
 
-            // No specific showSection call needed here as pages are linked directly.
-        });
+            // --- Enrollment Form Submission Logic (within the modal) ---
+            const enrollmentForm = document.getElementById('enrollment-form');
+            if (enrollmentForm) {
+                enrollmentForm.addEventListener('submit', async (event) => { // Made async
+                    event.preventDefault(); // Prevent default form submission
+
+                    const fullName = document.getElementById('fullName').value;
+                    const email = document.getElementById('email').value;
+                    const contactNumber = document.getElementById('contactNumber').value;
+                    const collegeName = document.getElementById('collegeName').value;
+                    const selectedCourse = document.getElementById('course').value;
+
+                    if (fullName && email && contactNumber && collegeName && selectedCourse) {
+                        currentEnrollmentDetails = {
+                            fullName,
+                            email,
+                            contactNumber,
+                            collegeName,
+                            course: selectedCourse,
+                            enrollmentDate: new Date().toISOString(),
+                            userId: currentUserId,
+                            paymentStatus: 'pending_google_form' // New status for Google Form flow
+                        };
+
+                        try {
+                            // Ensure Firebase auth state is ready before trying to use currentUserId
+                            if (!auth.currentUser) {
+                                showMessageBox("Initializing user authentication. Please try submitting again in a moment.");
+                                await new Promise(resolve => setTimeout(resolve, 1000)); // Wait a bit
+                                if (!auth.currentUser) { // Check again after waiting
+                                     showMessageBox("User authentication failed. Please refresh the page.");
+                                     return;
+                                }
+                                currentUserId = auth.currentUser.uid; // Update currentUserId after potential anonymous sign-in
+                            }
+
+                            if (!currentUserId) {
+                                showMessageBox("Error: User ID not available for enrollment. Please refresh the page.");
+                                return;
+                            }
+
+                            // Use the defined appId
+                            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                            console.log("Firestore Path (Enrollment):", `artifacts/${appId}/users/${currentUserId}/enrollments`);
+
+
+                            // Save enrollment details to Firestore under user-specific path
+                            const enrollmentsCollectionRef = collection(db, `artifacts/${appId}/users/${currentUserId}/enrollments`);
+                            const newEnrollmentDoc = await addDoc(enrollmentsCollectionRef, currentEnrollmentDetails);
+                            currentEnrollmentDocRef = newEnrollmentDoc; // Store the reference
+
+                            console.log("Enrollment saved to Firestore with ID:", newEnrollmentDoc.id);
+
+                            closeEnrollmentModal(); // Close enrollment modal
+
+                            showMessageBox(`
+                                <p class="text-xl font-bold mb-4">Enrollment Initiated!</p>
+                                <p class="text-lg">Thank you, <span class="text-[#FF8C00]">${currentEnrollmentDetails.fullName}</span>!</p>
+                                <p>You will now be redirected to a Google Form to complete your payment and finalize your enrollment for the <span class="text-[#FF8C00] font-semibold">${currentEnrollmentDetails.course}</span> course.</p>
+                                <p class="mt-4">Please fill out the form carefully.</p>
+                            `, () => {
+                                // Redirect to Google Form
+                                window.open(GOOGLE_FORM_URL, '_blank');
+                                // Optionally reset currentEnrollmentDetails
+                                currentEnrollmentDetails = {};
+                                currentEnrollmentDocRef = null;
+                            });
+
+                        } catch (error) {
+                            console.error("Error saving enrollment to Firestore:", error);
+                            showMessageBox(`Error: Could not process enrollment. Please try again. ${error.message}`);
+                        }
+
+                    } else {
+                        showMessageBox("Please fill in all enrollment details.");
+                    }
+                });
+            }
+
+
+        }); // DOMContentLoaded end
 
         window.addEventListener('load', () => {
             console.log('window.load fired.');
@@ -857,7 +1142,8 @@
                     showMessageBox("Logged out successfully!");
                     const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
                     if (mobileMenuOverlay) mobileMenuOverlay.classList.add('hidden');
-                } catch (error) {
+                }
+                catch (error) {
                     console.error('Firebase: Mobile logout error:', error);
                     showMessageBox(`Mobile logout failed: ${error.message}`);
                 }
@@ -956,7 +1242,7 @@
                         }
                     };
 
-                    const apiKey = "";
+                    const apiKey = "AIzaSyB5Sd3QAJuMNPjftmT-5rkFTHXB2vhEgRE";
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                     const response = await fetch(apiUrl, {
@@ -966,8 +1252,10 @@
                     });
 
                     if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(`API error: ${response.status} - ${errorData.message || 'Unknown error'}`);
+                        // Attempt to read error message from response body
+                        const errorResponse = await response.json().catch(() => ({}));
+                        const errorMessage = errorResponse.error && errorResponse.error.message ? errorResponse.error.message : response.statusText;
+                        throw new Error(`API request failed with status ${response.status}: ${errorMessage}`);
                     }
 
                     const result = await response.json();
