@@ -169,8 +169,7 @@
                 </div>
                 <button type="submit" id="student-login-btn" class="w-full action-button font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105">Login as Student</button>
                 <p id="student-auth-message" class="text-center text-sm mt-4 text-red-400 hidden"></p>
-                <!-- Link to admin-panel.html -->
-                <a href="admin_panel.html" id="go-to-admin-login-link" class="block text-center mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 no-underline">Admin Login</a>
+                <!-- Removed the link to admin-panel.html -->
             </form>
         </div>
     </div>
@@ -181,12 +180,9 @@
             <div class="container flex justify-between items-center">
                 <a href="index.html" class="md:text-xl"><img src="fflogo-removebg-preview.png" id="logoimg" alt="Fortitude Frontier Logo"></a>
                 <div class="hidden sm:flex flex-wrap justify-end items-center sm:gap-x-4 sm:gap-y-2">
-                    <a href="index.html#about" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">About Us</a>
+                    <a href="index.html" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Home</a>
                     <a href="index.html#quizzes" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Quizzes</a>
-                    <a href="index.html#fun-saturday" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Fun Saturday</a>
                     <a href="index.html#course-playlist" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Course Playlist</a>
-                    <a href="index.html#ai-study-buddy" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">AI Study Buddy ✨</a>
-                    <a href="index.html#contact" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Contact</a>
                     <a href="student-dashboard.html" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300 active">Student Dashboard</a>
                     <!-- User Info and Logout (always present, visibility controlled by JS) -->
                     <div id="user-info" class="hidden flex items-center sm:space-x-2">
@@ -208,12 +204,9 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
-                <a href="index.html#about" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">About Us</a>
+                <a href="index.html" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Home</a>
                 <a href="index.html#quizzes" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Quizzes</a>
-                <a href="index.html#fun-saturday" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Fun Saturday</a>
                 <a href="index.html#course-playlist" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Course Playlist</a>
-                <a href="index.html#ai-study-buddy" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">AI Study Buddy ✨</a>
-                <a href="index.html#contact" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Contact</a>
                 <a href="student-dashboard.html" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300 active" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Student Dashboard</a>
                 <!-- Mobile User Info and Logout (always present, visibility controlled by JS) -->
                 <div id="mobile-user-info" class="hidden flex-col items-center space-y-2 sm:hidden">
@@ -230,6 +223,8 @@
                 </h1>
                 <p class="text-xl text-gray-300">Welcome, <span id="current-user-name" class="font-bold">Student</span>!</p>
                 <p id="current-user-email-display" class="text-sm text-gray-400 mt-2"></p>
+                <p id="student-id-display" class="text-base text-gray-300 mt-2">Student ID: <span class="font-semibold">N/A</span></p>
+                <p id="enrollment-date-display" class="text-base text-gray-300 mt-2">Enrolled On: <span class="font-semibold">N/A</span></p>
             </header>
 
             <!-- Student Dashboard Content -->
@@ -247,8 +242,8 @@
                     <!-- Dashboard Card 2: Assignments Due -->
                     <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md flex items-center justify-between">
                         <div>
-                            <p class="text-sm font-semibold text-orange-300 uppercase">Assignments Due</p>
-                            <p id="assignments-due-count" class="text-5xl font-bold text-white mt-2">0</p>
+                            <p class="text-sm font-semibold text-orange-300 uppercase">Assignments Count</p>
+                            <p id="assignments-count" class="text-5xl font-bold text-white mt-2">0</p>
                         </div>
                         <i class="fa fa-clipboard text-6xl text-[#FF8C00] opacity-50"></i>
                     </div>
@@ -257,17 +252,56 @@
                     <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md flex items-center justify-between">
                         <div>
                             <p class="text-sm font-semibold text-orange-300 uppercase">Overall Progress</p>
-                            <p id="overall-progress-percentage" class="text-5xl font-bold text-white mt-2">0%</p>
+                            <p id="overall-progress-percentage" class="text-5xl font-bold text-white mt-2">N/A</p>
                         </div>
                         <i class="fa fa-line-chart text-6xl text-[#FF8C00] opacity-50"></i>
                     </div>
                 </div>
 
-                <!-- Simulate Progress Button (for demonstration) -->
-                <div class="text-center mb-8">
-                    <button id="simulate-progress-btn" class="action-button font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">Simulate Progress</button>
+                <!-- Enrollment Details -->
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Enrollment Information</h3>
+                    <div class="mb-4">
+                        <p class="text-gray-300 font-semibold mb-2">Enrollment Receipt:</p>
+                        <a id="enrollment-receipt-link" href="#" target="_blank" class="text-[#60A5FA] hover:underline text-lg">No receipt URL provided.</a>
+                    </div>
                 </div>
 
+                <!-- My Courses (Detailed List) -->
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8">
+                    <h3 class="text-2xl font-semibold text-white mb-4">My Registered Courses</h3>
+                    <ul id="my-courses-list" class="space-y-3">
+                        <li class="text-gray-400 text-center">No courses registered.</li>
+                    </ul>
+                </div>
+
+                <!-- My Assignments -->
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8">
+                    <h3 class="text-2xl font-semibold text-white mb-4">My Assignments</h3>
+                    <ul id="my-assignments-list" class="space-y-3">
+                        <li class="text-gray-400 text-center">No assignments provided.</li>
+                    </ul>
+                </div>
+
+                <!-- My Certificates -->
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8">
+                    <h3 class="text-2xl font-semibold text-white mb-4">My Certificates</h3>
+                    <ul id="my-certificates-list" class="space-y-3">
+                        <li class="text-gray-400 text-center">No certificates provided.</li>
+                    </ul>
+                </div>
+
+                <!-- My Notes -->
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8">
+                    <h3 class="text-2xl font-semibold text-white mb-4">My Notes</h3>
+                    <div id="my-notes-content" class="text-gray-300 leading-relaxed mb-3">
+                        <p class="text-gray-400 text-center">No notes provided.</p>
+                    </div>
+                    <p class="text-gray-300 font-semibold mb-2">Notes Attachments:</p>
+                    <ul id="my-notes-attachments-list" class="space-y-2">
+                        <li class="text-gray-400 text-center text-sm">No attachments.</li>
+                    </ul>
+                </div>
 
                 <!-- Recent Activity / Notifications -->
                 <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8">
@@ -277,20 +311,12 @@
                     </ul>
                 </div>
 
-                <!-- Quick Links / Courses List -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md">
-                        <h3 class="text-2xl font-semibold text-white mb-4">My Courses</h3>
-                        <ul id="my-courses-list" class="space-y-3">
-                            <li class="text-gray-400 text-center">No courses enrolled.</li>
-                        </ul>
-                    </div>
-                    <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md">
-                        <h3 class="text-2xl font-semibold text-white mb-4">Upcoming Deadlines</h3>
-                        <ul id="upcoming-deadlines-list" class="space-y-3">
-                            <li class="text-gray-400 text-center">No upcoming deadlines.</li>
-                        </ul>
-                    </div>
+                <!-- Upcoming Deadlines -->
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Upcoming Deadlines</h3>
+                    <ul id="upcoming-deadlines-list" class="space-y-3">
+                        <li class="text-gray-400 text-center">No upcoming deadlines.</li>
+                    </ul>
                 </div>
             </section>
         </main>
@@ -304,7 +330,7 @@
     <script type="module" defer>
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
         import { getAuth, signOut, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
 
         let app;
         let auth;
@@ -316,7 +342,7 @@
             apiKey: "AIzaSyCqWbcgSdseuGSd6aLBqG76lAyr647xgQ4",
             authDomain: "signup-b09e6.firebaseapp.com",
             projectId: "signup-b09e6",
-            storageBucket: "signup-b09e6.firebasestorage.app",
+            storageBucket: "signup-b09e6.appspot.com", // Corrected storageBucket to appspot.com
             messagingSenderId: "203916695845",
             appId: "1:203916695845:web:5310b5ca37c7809be862cc"
         };
@@ -325,6 +351,10 @@
         app = initializeApp(firebaseConfig);
         auth = getAuth(app);
         db = getFirestore(app);
+
+        // Variables to hold unsubscribe functions for Firestore listeners
+        let unsubscribeProfile = null;
+        let unsubscribeStudentRecord = null;
 
         // DOM elements for Student Login Modal
         const studentLoginModal = document.getElementById('student-login-modal');
@@ -341,13 +371,19 @@
         // Dashboard content elements
         const currentUserNameDisplay = document.getElementById('current-user-name');
         const currentUserEmailDisplay = document.getElementById('current-user-email-display');
+        const studentIdDisplay = document.getElementById('student-id-display').querySelector('span'); // Get the span inside
+        const enrollmentDateDisplay = document.getElementById('enrollment-date-display').querySelector('span'); // Get the span inside
         const coursesEnrolledCount = document.getElementById('courses-enrolled-count');
-        const assignmentsDueCount = document.getElementById('assignments-due-count');
+        const assignmentsCount = document.getElementById('assignments-count');
         const overallProgressPercentage = document.getElementById('overall-progress-percentage');
         const recentActivityList = document.getElementById('recent-activity-list');
         const myCoursesList = document.getElementById('my-courses-list');
         const upcomingDeadlinesList = document.getElementById('upcoming-deadlines-list');
-        const simulateProgressBtn = document.getElementById('simulate-progress-btn');
+        const enrollmentReceiptLink = document.getElementById('enrollment-receipt-link');
+        const myAssignmentsList = document.getElementById('my-assignments-list');
+        const myCertificatesList = document.getElementById('my-certificates-list');
+        const myNotesContent = document.getElementById('my-notes-content'); // Notes text
+        const myNotesAttachmentsList = document.getElementById('my-notes-attachments-list'); // Notes URLs list
 
         // Navbar user info displays
         const userEmailNavDisplay = document.getElementById('user-email-nav');
@@ -398,22 +434,21 @@
          * Loads and listens for real-time updates to the user's dashboard data from Firestore.
          * @param {string} userId The UID of the currently logged-in user.
          * @param {string} userEmail The email of the currently logged-in user.
+         * @returns {object} An object containing unsubscribe functions for the listeners.
          */
         const loadDashboardData = (userId, userEmail) => {
+            // Listener for profile data
             const userProfileRef = doc(db, "artifacts", appId, "users", userId, "profile", "details");
-            const userDashboardRef = doc(db, "artifacts", appId, "users", userId, "dashboard", "summary");
-
-            // Listen for profile data
-            onSnapshot(userProfileRef, (docSnap) => {
+            const unsubProfile = onSnapshot(userProfileRef, (docSnap) => {
                 if (docSnap.exists()) {
                     const profileData = docSnap.data();
                     currentUserNameDisplay.textContent = profileData.name || 'Student'; // Display name or fallback
                     currentUserEmailDisplay.textContent = userEmail; // Display email
                 } else {
-                    console.log("No profile data found for user. Displaying email.");
+                    console.log("No profile data found for user. Displaying email and setting default.");
                     currentUserNameDisplay.textContent = 'Student'; // Default if no name
                     currentUserEmailDisplay.textContent = userEmail; // Display email
-                    // Potentially create a default profile here if desired
+                    // Potentially create a default profile here if desired (e.g., from an admin-added student record)
                     setDoc(userProfileRef, {
                         name: 'Student', // Default name
                         email: userEmail,
@@ -422,130 +457,179 @@
                 }
             }, (error) => {
                 console.error("Error listening to user profile data:", error);
-                currentUserEmailDisplay.textContent = userEmail; // Still show email on error
+                // Only show message box if user is still actually authenticated for this UID
+                if (auth.currentUser && auth.currentUser.uid === userId) {
+                    showMessageBox(`Error loading profile data: ${error.message}.`);
+                }
             });
 
-            // Listen for dashboard summary data
-            onSnapshot(userDashboardRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    console.log("Dashboard data fetched:", data);
-                    coursesEnrolledCount.textContent = data.coursesEnrolled || 0;
-                    assignmentsDueCount.textContent = data.assignmentsDue || 0;
-                    overallProgressPercentage.textContent = `${data.overallProgress || 0}%`;
+            // Listener for student record data from admin panel
+            // Query for the student document where the 'uid' matches the authenticated user's UID
+            const studentRecordQuery = query(collection(db, "artifacts", appId, "student_record"), where("uid", "==", userId));
+            const unsubStudentRecord = onSnapshot(studentRecordQuery, (querySnapshot) => {
+                if (!querySnapshot.empty) {
+                    const studentDoc = querySnapshot.docs[0]; // Assuming one student record per UID
+                    const data = studentDoc.data();
+                    console.log("Student record data fetched:", data);
 
-                    // Populate Recent Activity
-                    recentActivityList.innerHTML = '';
-                    if (data.recentActivity && data.recentActivity.length > 0) {
-                        data.recentActivity.forEach(activity => {
-                            const li = document.createElement('li');
-                            li.className = 'flex items-start';
-                            li.innerHTML = `
-                                <i class="${activity.icon} mt-1 mr-3 text-xl ${activity.color}"></i>
-                                <div>
-                                    <p class="text-gray-200">${activity.text}</p>
-                                    <span class="text-xs text-gray-400">${activity.time}</span>
-                                </div>
-                            `;
-                            recentActivityList.appendChild(li);
-                        });
+                    // Update Student ID and Enrollment Date
+                    studentIdDisplay.textContent = data.student_id || 'N/A';
+                    if (data.date_of_enrollment) {
+                        try {
+                            const enrollmentDate = new Date(data.date_of_enrollment);
+                            enrollmentDateDisplay.textContent = enrollmentDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                        } catch (e) {
+                            console.error("Error parsing enrollment date:", e);
+                            enrollmentDateDisplay.textContent = 'Invalid Date';
+                        }
                     } else {
-                        recentActivityList.innerHTML = '<li class="text-gray-400 text-center">No recent activity.</li>';
+                        enrollmentDateDisplay.textContent = 'N/A';
                     }
 
-                    // Populate My Courses
+                    // Update Courses Enrolled Count
+                    const enrolledCourses = Array.isArray(data.course_enrollment) ? data.course_enrollment : [];
+                    coursesEnrolledCount.textContent = enrolledCourses.length;
+
+                    // Populate My Registered Courses List
                     myCoursesList.innerHTML = '';
-                    if (data.myCourses && data.myCourses.length > 0) {
-                        data.myCourses.forEach(course => {
+                    if (enrolledCourses.length > 0) {
+                        enrolledCourses.forEach(course => {
                             const li = document.createElement('li');
-                            li.innerHTML = `<a href="#" class="text-[#FF8C00] hover:text-[#FF7F00] transition-colors duration-200"><i class="fa fa-graduation-cap mr-2"></i>${course}</a>`;
+                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center";
+                            li.innerHTML = `<i class="fa fa-book text-[#FF8C00] mr-3 text-xl"></i><span class="text-white text-lg">${course}</span>`;
                             myCoursesList.appendChild(li);
                         });
                     } else {
-                        myCoursesList.innerHTML = '<li class="text-gray-400 text-center">No courses enrolled.</li>';
+                        myCoursesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No courses registered.</li>';
+                    }
+
+                    // Display Enrollment Receipt URL
+                    const enrollmentReceiptSection = enrollmentReceiptLink.closest('div'); // Get parent div for visibility
+                    if (data.enrollment_receipt_url && data.enrollment_receipt_url.trim() !== '') {
+                        enrollmentReceiptLink.href = data.enrollment_receipt_url;
+                        enrollmentReceiptLink.textContent = "View Enrollment Receipt";
+                        enrollmentReceiptLink.classList.remove('hidden');
+                        enrollmentReceiptSection.classList.remove('hidden'); // Ensure section is visible
+                    } else {
+                        enrollmentReceiptLink.textContent = "No receipt URL provided.";
+                        enrollmentReceiptLink.removeAttribute('href');
+                        enrollmentReceiptLink.classList.add('hidden');
+                        // Optionally hide the entire section if no receipt
+                        // enrollmentReceiptSection.classList.add('hidden');
+                    }
+
+                    // Populate My Assignments List
+                    const assignments = Array.isArray(data.assignments) ? data.assignments : [];
+                    assignmentsCount.textContent = assignments.length; // Update assignment count
+                    myAssignmentsList.innerHTML = '';
+                    if (assignments.length > 0) {
+                        assignments.forEach((url, index) => {
+                            const li = document.createElement('li');
+                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center";
+                            li.innerHTML = `<i class="fa fa-file-text-o text-[#60A5FA] mr-3 text-xl"></i><a href="${url}" target="_blank" class="text-white hover:underline transition-colors duration-200 truncate flex-grow">Assignment ${index + 1}</a>`;
+                            myAssignmentsList.appendChild(li);
+                        });
+                    } else {
+                        myAssignmentsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No assignments provided.</li>';
+                    }
+
+                    // Populate My Certificates List
+                    const certificates = Array.isArray(data.certificates) ? data.certificates : [];
+                    myCertificatesList.innerHTML = '';
+                    if (certificates.length > 0) {
+                        certificates.forEach((url, index) => {
+                            const li = document.createElement('li');
+                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center";
+                            li.innerHTML = `<i class="fa fa-certificate text-[#10B981] mr-3 text-xl"></i><a href="${url}" target="_blank" class="text-white hover:underline transition-colors duration-200 truncate flex-grow">Certificate ${index + 1}</a>`;
+                            myCertificatesList.appendChild(li);
+                        });
+                    } else {
+                        myCertificatesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No certificates provided.</li>';
+                    }
+
+                    // Populate Overall Progress
+                    overallProgressPercentage.textContent = data.overall_progress !== null ? `${data.overall_progress}%` : 'N/A';
+
+                    // Populate My Notes Content
+                    const notes = data.notes || '';
+                    myNotesContent.innerHTML = '';
+                    if (notes.trim() !== '') {
+                        myNotesContent.innerHTML = `<p>${notes}</p>`;
+                    } else {
+                        myNotesContent.innerHTML = '<p class="text-gray-400 text-center">No notes provided by admin.</p>';
+                    }
+
+                    // Populate My Notes Attachments
+                    const notesAttachments = Array.isArray(data.notes_attachments) ? data.notes_attachments : [];
+                    myNotesAttachmentsList.innerHTML = '';
+                    if (notesAttachments.length > 0) {
+                        notesAttachments.forEach((url, index) => {
+                            const li = document.createElement('li');
+                            li.className = "flex items-center text-sm text-gray-300";
+                            li.innerHTML = `<i class="fa fa-link text-[#60A5FA] mr-2"></i><a href="${url}" target="_blank" class="hover:underline truncate">${url}</a>`;
+                            myNotesAttachmentsList.appendChild(li);
+                        });
+                    } else {
+                        myNotesAttachmentsList.innerHTML = '<li class="text-gray-400 text-center text-sm">No attachments.</li>';
                     }
 
                     // Populate Upcoming Deadlines
+                    const upcomingDeadlines = Array.isArray(data.upcoming_deadlines) ? data.upcoming_deadlines : [];
                     upcomingDeadlinesList.innerHTML = '';
-                    if (data.upcomingDeadlines && data.upcomingDeadlines.length > 0) {
-                        data.upcomingDeadlines.forEach(deadline => {
+                    if (upcomingDeadlines.length > 0) {
+                        upcomingDeadlines.forEach(item => {
                             const li = document.createElement('li');
-                            li.innerHTML = `
-                                <p class="text-gray-200"><i class="${deadline.icon} mr-2 ${deadline.color}"></i>${deadline.text} - <span class="font-bold">${deadline.date}</span></p>
-                                <span class="text-xs text-gray-400 ml-6">Course: ${deadline.course}</span>
-                            `;
+                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center";
+                            li.innerHTML = `<i class="fa fa-calendar text-[#FFC107] mr-3 text-xl"></i><span class="text-white">${item}</span>`;
                             upcomingDeadlinesList.appendChild(li);
                         });
                     } else {
-                        upcomingDeadlinesList.innerHTML = '<li class="text-gray-400 text-center">No upcoming deadlines.</li>';
+                        upcomingDeadlinesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No upcoming deadlines.</li>';
                     }
 
+                    // Populate Recent Activity
+                    const recentActivity = Array.isArray(data.recent_activity) ? data.recent_activity : [];
+                    recentActivityList.innerHTML = '';
+                    if (recentActivity.length > 0) {
+                        recentActivity.forEach(item => {
+                            const li = document.createElement('li');
+                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center";
+                            li.innerHTML = `<i class="fa fa-history text-[#00BCD4] mr-3 text-xl"></i><span class="text-white">${item}</span>`;
+                            recentActivityList.appendChild(li);
+                        });
+                    } else {
+                        recentActivityList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No recent activity.</li>';
+                    }
+
+
                 } else {
-                    console.log("No dashboard summary data found for user. Setting defaults.");
-                    // Initialize default data if document doesn't exist
-                    const defaultData = {
-                        coursesEnrolled: 0,
-                        assignmentsDue: 0,
-                        overallProgress: 0,
-                        recentActivity: [
-                            { icon: 'fa fa-info-circle', color: 'text-blue-400', text: 'Welcome to your dashboard!', time: 'Just now' }
-                        ],
-                        myCourses: [],
-                        upcomingDeadlines: []
-                    };
-                    setDoc(userDashboardRef, defaultData)
-                        .then(() => console.log("Default dashboard summary data set."))
-                        .catch((error) => console.error("Error setting default dashboard summary data:", error));
+                    console.log("No student record found for this user in 'student_record' collection.");
+                    // Reset dashboard if no record is found
+                    studentIdDisplay.textContent = 'N/A';
+                    enrollmentDateDisplay.textContent = 'N/A';
+                    coursesEnrolledCount.textContent = '0';
+                    assignmentsCount.textContent = '0';
+                    overallProgressPercentage.textContent = 'N/A';
+                    enrollmentReceiptLink.textContent = "No receipt URL provided.";
+                    enrollmentReceiptLink.removeAttribute('href');
+                    enrollmentReceiptLink.classList.add('hidden');
+                    myCoursesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No courses registered.</li>';
+                    myAssignmentsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No assignments provided.</li>';
+                    myCertificatesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No certificates provided.</li>';
+                    myNotesContent.innerHTML = '<p class="text-gray-400 text-center">No notes provided by admin.</p>';
+                    myNotesAttachmentsList.innerHTML = '<li class="text-gray-400 text-center text-sm">No attachments.</li>';
+                    recentActivityList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No recent activity.</li>';
+                    upcomingDeadlinesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No upcoming deadlines.</li>';
                 }
             }, (error) => {
-                console.error("Error listening to dashboard summary data:", error);
-                showMessageBox(`Error loading dashboard: ${error.message}. Please try again.`);
+                console.error("Error listening to student record data:", error);
+                // Only show message box if user is still actually authenticated for this UID
+                if (auth.currentUser && auth.currentUser.uid === userId) {
+                    showMessageBox(`Error loading student data: ${error.message}.`);
+                }
             });
+            return { unsubscribeProfile: unsubProfile, unsubscribeStudentRecord: unsubStudentRecord };
         };
-
-        /**
-         * Simulates progress and updates dashboard data in Firestore.
-         */
-        if (simulateProgressBtn) {
-            simulateProgressBtn.addEventListener('click', async () => {
-                if (!currentUserId) {
-                    showMessageBox("Please log in to simulate progress.");
-                    return;
-                }
-
-                const userDashboardRef = doc(db, "artifacts", appId, "users", currentUserId, "dashboard", "summary");
-
-                try {
-                    const docSnap = await getDoc(userDashboardRef);
-                    let currentData = docSnap.exists() ? docSnap.data() : {
-                        coursesEnrolled: 0,
-                        assignmentsDue: 0,
-                        overallProgress: 0,
-                        recentActivity: [],
-                        myCourses: [],
-                        upcomingDeadlines: []
-                    };
-
-                    currentData.coursesEnrolled = (currentData.coursesEnrolled || 0) + 1;
-                    currentData.overallProgress = Math.min(100, (currentData.overallProgress || 0) + 5);
-
-                    const newActivity = {
-                        icon: 'fa fa-plus-circle',
-                        color: 'text-purple-400',
-                        text: `Enrolled in a new course. Total: ${currentData.coursesEnrolled}`,
-                        time: new Date().toLocaleTimeString()
-                    };
-                    currentData.recentActivity = [newActivity, ...(currentData.recentActivity || [])].slice(0, 3); // Keep last 3
-
-                    await setDoc(userDashboardRef, currentData);
-                    showMessageBox("Progress simulated and saved!");
-                    console.log("Simulated progress saved.");
-                } catch (error) {
-                    console.error("Error simulating progress:", error);
-                    showMessageBox(`Failed to simulate progress: ${error.message}`);
-                }
-            });
-        }
 
 
         // Student Login Form Submission
@@ -596,7 +680,10 @@
                 if (mobileUserInfoDisplay) mobileUserInfoDisplay.classList.remove('hidden');
 
                 dashboardMainContent.classList.remove('hidden'); // Show dashboard content if logged in
-                loadDashboardData(currentUserId, user.email || 'N/A'); // Load personalized data and pass email
+                // Call loadDashboardData and store unsubscribe functions
+                const unsubs = loadDashboardData(currentUserId, user.email || 'N/A');
+                unsubscribeProfile = unsubs.unsubscribeProfile;
+                unsubscribeStudentRecord = unsubs.unsubscribeStudentRecord;
                 hideAllModals(); // Hide any open login/signup modals
             } else {
                 currentUserId = null;
@@ -609,6 +696,16 @@
 
                 dashboardMainContent.classList.add('hidden'); // Hide dashboard content if logged out
                 showStudentLoginModal(); // Show student login modal if not logged in
+
+                // Unsubscribe from Firestore listeners on logout
+                if (unsubscribeProfile) {
+                    unsubscribeProfile();
+                    unsubscribeProfile = null;
+                }
+                if (unsubscribeStudentRecord) {
+                    unsubscribeStudentRecord();
+                    unsubscribeStudentRecord = null;
+                }
             }
         });
 
