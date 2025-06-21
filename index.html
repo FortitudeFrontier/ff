@@ -400,21 +400,11 @@
         <div class="container flex justify-between items-center">
             <a href="#" class="md:text-xl"><img src="fflogo-removebg-preview.png" id="logoimg" alt="Fortitude Frontier Logo"></a>
             <div class="hidden sm:flex flex-wrap justify-end items-center sm:gap-x-4 sm:gap-y-2">
-                <a href="#about" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">About Us</a>
-                <!-- <a href="#" id="enrollment-nav-link" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Enrollment</a> Updated: Enrollment Link -->
-                <a href="#courses-offered" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Courses</a> <!-- New: Courses Offered Link -->
-                <!-- <a href="#quizzes" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Quizzes</a>
-                <a href="#fun-saturday" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Fun Saturday</a> -->
-                <!-- <a href="#course-playlist" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Course Playlist</a> -->
-                <!-- <a href="#ai-study-buddy" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">AI Study Buddy ✨</a> -->
-                <a href="#contact" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Contact</a>
-                <!-- New Student Dashboard link pointing to the separate HTML file -->
+                <a href="index.html" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Home</a>
+                <a href="index.html#quizzes" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Quizzes</a>
+                <a href="index.html#course-playlist" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Course Playlist</a>
                 <a href="student-dashboard.html" id="main-dashboard-link" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Student Dashboard</a>
-                <!-- User Info and Logout (always present, visibility controlled by JS) -->
-                <div id="user-info" class="hidden flex items-center sm:space-x-2">
-                    <span id="user-email" class="text-white text-sm whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px]"></span>
-                    <button id="logout-btn" class="action-button font-bold py-2 px-4 rounded-full text-sm">Logout</button>
-                </div>
+                <!-- Removed User Info and Logout from Navbar -->
             </div>
             <!-- Mobile Menu Button -->
             <button id="mobile-menu-button" class="sm:hidden text-[#FFFFFF] focus:outline-none">
@@ -430,21 +420,11 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
             </button>
-            <a href="#about" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">About Us</a>
-            <a href="#" id="mobile-enrollment-nav-link" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Enrollment</a> <!-- Updated: Enrollment Link Mobile -->
-            <a href="#courses-offered" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Courses</a> <!-- New: Courses Offered Link Mobile -->
-            <a href="#quizzes" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Quizzes</a>
-            <a href="#fun-saturday" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Fun Saturday</a>
-            <a href="#course-playlist" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Course Playlist</a>
-            <a href="#ai-study-buddy" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">AI Study Buddy ✨</a>
-            <a href="#contact" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Contact</a>
-            <!-- New Mobile Student Dashboard link pointing to the separate HTML file -->
+            <a href="index.html" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Home</a>
+            <a href="index.html#quizzes" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Quizzes</a>
+            <a href="index.html#course-playlist" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Course Playlist</a>
             <a href="student-dashboard.html" id="mobile-dashboard-link" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Student Dashboard</a>
-            <!-- Mobile User Info and Logout (always present, visibility controlled by JS) -->
-            <div id="mobile-user-info" class="hidden flex-col items-center space-y-2 sm:hidden">
-                <span id="mobile-user-email" class="text-white text-xl"></span>
-                <button id="mobile-logout-btn" class="action-button font-bold py-2 px-4 rounded-full text-xl">Logout</button>
-            </div>
+            <!-- Removed Mobile User Info and Logout -->
         </div>
     </nav>
 
@@ -772,15 +752,12 @@
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
         import { getAuth, signOut, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
-        // Firebase Storage is no longer needed for direct client-side uploads, but keeping the import just in case for future use
-        // import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-storage.js";
+        import { getFirestore, doc, setDoc, collection, addDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
 
         let app;
         let auth;
         let db;
-        // let storage; // Storage variable is no longer needed for this flow
         let currentUserId = null;
         let quizData = [];
 
@@ -790,7 +767,7 @@
             authDomain: "hausofhype-f4b1d.firebaseapp.com",
             databaseURL: "https://hausofhype-f4b1d-default-rtdb.firebaseio.com",
             projectId: "hausofhype-f4b1d",
-            storageBucket: "hausofhype-f4b1d.appspot.com", // Keeping for config completeness, but not actively used for payment screenshot upload now
+            storageBucket: "hausofhype-f4b1d.appspot.com",
             messagingSenderId: "979961834080",
             appId: "1:979961834080:web:20bacae5d268c57d82b105",
             measurementId: "G-61EXT0HJTC"
@@ -800,7 +777,6 @@
         app = initializeApp(firebaseConfig);
         auth = getAuth(app);
         db = getFirestore(app);
-        // storage = getStorage(app); // No longer initializing storage for payment flow
         console.log("Firebase services initialized.");
 
         // Define course details (QR codes and amounts are now descriptive for Google Form)
@@ -833,21 +809,22 @@
         };
 
         onAuthStateChanged(auth, async (user) => {
-            const logoutBtn = document.getElementById('logout-btn');
-            const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
-            const userInfoDisplay = document.getElementById('user-info');
-            const mobileUserInfoDisplay = document.getElementById('mobile-user-info');
-            const userEmailDisplay = document.getElementById('user-email');
-            const mobileUserEmailDisplay = document.getElementById('mobile-user-email');
+            // These elements are no longer in the HTML, so we don't need to interact with them
+            // const logoutBtn = document.getElementById('logout-btn');
+            // const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+            // const userInfoDisplay = document.getElementById('user-info');
+            // const mobileUserInfoDisplay = document.getElementById('mobile-user-info');
+            // const userEmailDisplay = document.getElementById('user-email');
+            // const mobileUserEmailDisplay = document.getElementById('mobile-user-email');
+
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
             if (user) {
                 currentUserId = user.uid;
                 console.log('Firebase: User is logged in:', user.email || 'Anonymous', 'UID:', user.uid);
 
-                if (userInfoDisplay) userInfoDisplay.classList.remove('hidden');
-                if (mobileUserInfoDisplay) mobileUserInfoDisplay.classList.remove('hidden');
-                if (userEmailDisplay) userEmailDisplay.textContent = user.email || 'Anonymous User';
-                if (mobileUserEmailDisplay) mobileUserEmailDisplay.textContent = user.email || 'Anonymous User';
+                // No longer displaying user info in the nav bar for index.html
+
             } else {
                 currentUserId = null;
                 console.log('Firebase: User is logged out.');
@@ -857,13 +834,10 @@
                     console.log("Firebase: Signed in anonymously.");
                 } catch (anonError) {
                     console.error("Firebase: Anonymous sign-in failed", anonError);
-                    showMessageBox(`Error: Could not sign in anonymously. Some features may not work. ${anonError.message}`);
+                    // showMessageBox(`Error: Could not sign in anonymously. Some features may not work. ${anonError.message}`); // Removed alert
                 }
 
-                if (userInfoDisplay) userInfoDisplay.classList.add('hidden');
-                if (mobileUserInfoDisplay) mobileUserInfoDisplay.classList.add('hidden');
-                if (userEmailDisplay) userEmailDisplay.textContent = '';
-                if (mobileUserEmailDisplay) mobileUserEmailDisplay.textContent = '';
+                // No longer displaying user info in the nav bar for index.html
             }
         });
 
@@ -983,15 +957,18 @@
                         });
 
                         if (!response.ok) {
-                            const errorData = await response.json();
-                            throw new Error(`API error: ${response.status} - ${errorData.message || 'Unknown error'}`);
+                            const errorData = await response.json().catch(() => ({}));
+                            const errorMessage = errorData.error && errorData.error.message ? errorData.error.message : response.statusText;
+                            throw new Error(`API request failed with status ${response.status}: ${errorMessage}`);
                         }
 
                         const result = await response.json();
+                        console.log("AI Quiz Generation Raw Result:", result);
+
                         if (result.candidates && result.candidates.length > 0 &&
                             result.candidates[0].content && result.candidates[0].content.parts &&
                             result.candidates[0].content.parts.length > 0) {
-                            const text = result.candidates[0].content.parts[0].text;
+                        const text = result.candidates[0].content.parts[0].text;
                             // Parse Markdown to HTML
                             studyBuddyOutput.innerHTML = marked.parse(text);
                         } else {
@@ -1026,34 +1003,23 @@
                             collegeName,
                             course: selectedCourse,
                             enrollmentDate: new Date().toISOString(),
-                            userId: currentUserId,
+                            // No longer tying enrollment directly to Firebase UID for index.html,
+                            // as it's meant for anonymous public access.
+                            // The actual student ID will be managed via the Admin Panel upon payment/admin action.
+                            // We can use a random ID or omit if not strictly needed for this Firestore record.
+                            // For now, let's use a random ID for this specific public enrollment record.
+                            userId: crypto.randomUUID(), // Generate a unique ID for this public enrollment submission
                             paymentStatus: 'pending_google_form' // New status for Google Form flow
                         };
 
                         try {
-                            // Ensure Firebase auth state is ready before trying to use currentUserId
-                            if (!auth.currentUser) {
-                                showMessageBox("Initializing user authentication. Please try submitting again in a moment.");
-                                await new Promise(resolve => setTimeout(resolve, 1000)); // Wait a bit
-                                if (!auth.currentUser) { // Check again after waiting
-                                     showMessageBox("User authentication failed. Please refresh the page.");
-                                     return;
-                                }
-                                currentUserId = auth.currentUser.uid; // Update currentUserId after potential anonymous sign-in
-                            }
-
-                            if (!currentUserId) {
-                                showMessageBox("Error: User ID not available for enrollment. Please refresh the page.");
-                                return;
-                            }
-
                             // Use the defined appId
                             const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-                            console.log("Firestore Path (Enrollment):", `artifacts/${appId}/users/${currentUserId}/enrollments`);
+                            console.log("Firestore Path (Enrollment - Public):", `artifacts/${appId}/public/enrollments`);
 
 
-                            // Save enrollment details to Firestore under user-specific path
-                            const enrollmentsCollectionRef = collection(db, `artifacts/${appId}/users/${currentUserId}/enrollments`);
+                            // Save enrollment details to Firestore under a public path
+                            const enrollmentsCollectionRef = collection(db, `artifacts/${appId}/public/enrollments`);
                             const newEnrollmentDoc = await addDoc(enrollmentsCollectionRef, currentEnrollmentDetails);
                             currentEnrollmentDocRef = newEnrollmentDoc; // Store the reference
 
@@ -1117,38 +1083,11 @@
             });
         };
 
-        // --- Logout Logic ---
-        const logoutBtn = document.getElementById('logout-btn');
-        const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
-
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', async () => {
-                try {
-                    await signOut(auth);
-                    console.log('Firebase: User logged out.');
-                    showMessageBox("Logged out successfully!");
-                } catch (error) {
-                    console.error('Firebase: Logout error:', error);
-                    showMessageBox(`Logout failed: ${error.message}`);
-                }
-            });
-        }
-
-        if (mobileLogoutBtn) {
-            mobileLogoutBtn.addEventListener('click', async () => {
-                try {
-                    await signOut(auth);
-                    console.log('Firebase: User logged out from mobile.');
-                    showMessageBox("Logged out successfully!");
-                    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
-                    if (mobileMenuOverlay) mobileMenuOverlay.classList.add('hidden');
-                }
-                catch (error) {
-                    console.error('Firebase: Mobile logout error:', error);
-                    showMessageBox(`Mobile logout failed: ${error.message}`);
-                }
-            });
-        }
+        // --- Logout Logic (Removed for index.html) ---
+        // const logoutBtn = document.getElementById('logout-btn');
+        // const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+        // If these buttons were somehow still in the DOM, their event listeners would be removed,
+        // but they are explicitly removed from the HTML for this public-facing page.
 
         // --- Fun Saturday Section Interactivity ---
         const learnMoreButtons = document.querySelectorAll('.learn-more-btn');
