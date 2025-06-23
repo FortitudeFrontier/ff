@@ -566,7 +566,22 @@
                     } else {
                         myNotesContent.innerHTML = '<p class="text-gray-400 text-center">No notes provided by admin.</p>';
                     }
-
+                    
+                    // Populate Feedback
+                    const assignments = Array.isArray(data.feedback) ? data.feedback : [];
+                    assignmentsCount.textContent = feedback.length; // Update feedback count
+                    Feedback.innerHTML = '';
+                    if (feedback.length > 0) {
+                        feedback.forEach((url, index) => {
+                            const li = document.createElement('li');
+                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center";
+                            li.innerHTML = `<i class="fa fa-file-text-o text-[#60A5FA] mr-3 text-xl"></i><a href="${url}" target="_blank" class="text-white hover:underline transition-colors duration-200 truncate flex-grow">feedback ${index + 1}</a>`;
+                            feedback.appendChild(li);
+                        });
+                    } else {
+                        myAssignmentsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No assignments provided.</li>';
+                    }
+                    
                     // Populate My Notes Attachments
                     const notesAttachments = Array.isArray(data.notes_attachments) ? data.notes_attachments : [];
                     myNotesAttachmentsList.innerHTML = '';
