@@ -282,7 +282,7 @@
                         <li class="text-gray-400 text-center">No assignments provided.</li>
                     </ul>
                 </div>
-
+                /*
                 <!-- My Feeback -->
                 <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8">
                     <h3 class="text-2xl font-semibold text-white mb-4">Feedback of the Sessions</h3>
@@ -290,7 +290,7 @@
                         <li class="text-gray-400 text-center">No Feedbacks provided.</li>
                     </ul>
                 </div>
-                
+                */
                 <!-- My Certificates -->
                 <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8">
                     <h3 class="text-2xl font-semibold text-white mb-4">My Certificates</h3>
@@ -567,9 +567,9 @@
                         myNotesContent.innerHTML = '<p class="text-gray-400 text-center">No notes provided by admin.</p>';
                     }
                     
-                    // Populate Feedback
+                 /*   // Populate Feedback
                     const assignments = Array.isArray(data.feedback) ? data.feedback : [];
-                    assignmentsCount.textContent = feedback.length; // Update feedback count
+                    feedbackcount.textContent = feedback.length; // Update feedback count
                     Feedback.innerHTML = '';
                     if (feedback.length > 0) {
                         feedback.forEach((url, index) => {
@@ -579,9 +579,9 @@
                             feedback.appendChild(li);
                         });
                     } else {
-                        myAssignmentsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No assignments provided.</li>';
+                        feedback.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No feedback provided.</li>';
                     }
-                    
+                    */
                     // Populate My Notes Attachments
                     const notesAttachments = Array.isArray(data.notes_attachments) ? data.notes_attachments : [];
                     myNotesAttachmentsList.innerHTML = '';
