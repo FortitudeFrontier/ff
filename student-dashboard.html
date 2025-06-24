@@ -29,11 +29,14 @@
             background-color: #FF8C00; /* Vibrant Orange */
             color: #0D0D0D; /* On-Primary: Dark text */
             transition: background-color 0.3s ease, transform 0.2s ease;
+            border-radius: 9999px; /* Fully rounded for sleek look */
+            padding: 0.75rem 1.5rem; /* More generous padding */
+            font-weight: 700; /* Extra bold */
         }
 
         .action-button:hover {
             background-color: #FF7F00; /* Darker Orange on hover */
-            transform: scale(1.05);
+            transform: translateY(-2px) scale(1.02); /* Slight lift and scale */
             color: #FFFFFF; /* On-Secondary: White text */
         }
 
@@ -57,6 +60,7 @@
         #logoimg{
            height: 10vh;
            padding: 0;
+           filter: drop-shadow(0 0 5px rgba(255,140,0,0.5)); /* Subtle logo glow */
         }
 
         /* Modal styling */
@@ -67,13 +71,13 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.8);
+            background-color: rgba(0,0,0,0.85); /* Slightly darker overlay */
             display: flex;
             justify-content: center;
             align-items: center;
             visibility: hidden;
             opacity: 0;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            transition: opacity 0.4s ease, visibility 0.4s ease; /* Slower, smoother transition */
         }
         .modal.show {
             visibility: visible;
@@ -83,32 +87,35 @@
             background-color: #1A1A1A;
             margin: auto;
             padding: 2.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-radius: 1.5rem; /* More rounded corners */
+            box-shadow: 0 8px 25px rgba(0,0,0,0.6); /* Stronger, deeper shadow */
             width: 90%;
-            max-width: 500px;
+            max-width: 550px; /* Slightly wider modal */
             position: relative;
-            transform: translateY(-20px);
-            transition: transform 0.3s ease;
+            transform: translateY(-30px) scale(0.95); /* More pronounced entry animation */
+            transition: transform 0.4s ease, opacity 0.4s ease;
             max-height: 90vh;
             overflow-y: auto;
+            border: 1px solid #333; /* Subtle border */
         }
         .modal.show .modal-content {
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
+            opacity: 1;
         }
         .close-button {
             color: #FFFFFF;
             position: absolute;
             top: 1rem;
             right: 1.5rem;
-            font-size: 2rem;
+            font-size: 2.2rem; /* Larger close button */
             font-weight: bold;
             cursor: pointer;
-            transition: color 0.2s ease;
+            transition: color 0.3s ease;
         }
         .close-button:hover,
         .close-button:focus {
             color: #FF8C00;
+            transform: rotate(90deg); /* Rotate on hover */
         }
         /* Message box styling */
         .message-box {
@@ -126,6 +133,7 @@
             min-width: 300px;
             max-width: 90%;
             display: none; /* Hidden by default */
+            animation: fadeIn 0.3s ease-out; /* Add fade in animation */
         }
         .message-box.show {
             display: block;
@@ -142,6 +150,110 @@
         .message-box button:hover {
             background-color: #FF7F00;
             transform: scale(1.05);
+        }
+
+        /* Card Hover Animations */
+        .dashboard-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            border: 1px solid rgba(255, 140, 0, 0.1); /* Subtle border */
+        }
+        .dashboard-card:hover {
+            transform: translateY(-8px) scale(1.03); /* More pronounced lift and scale */
+            box-shadow: 0 12px 25px rgba(255, 140, 0, 0.3); /* Stronger orange glow */
+            background-color: #3A3A3A; /* Slightly lighter on hover */
+        }
+
+        .list-item {
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            border-radius: 0.75rem; /* More rounded list items */
+            overflow: hidden; /* Ensure content fits */
+        }
+        .list-item:hover {
+            background-color: #3a3a3a !important; /* Slightly lighter dark gray on hover */
+            transform: translateX(5px); /* Slide effect on hover */
+        }
+
+        /* Specific section colors for icons/headers */
+        .section-header-feedback { color: #60A5FA; /* Blue */ }
+        .section-header-attendance { color: #10B981; /* Green */ }
+        .section-header-sessions { color: #EAB308; /* Yellow */ }
+
+        .icon-feedback { color: #60A5FA; }
+        .icon-attendance { color: #10B981; }
+        .icon-sessions { color: #EAB308; }
+        .icon-notes { color: #9B59B6; /* Purple */ } /* Added specific notes icon color */
+
+        /* NEW: Feedback item styling for cool look */
+        .feedback-item-card {
+            background-color: #3a3a3a; /* Slightly lighter background for the card */
+            border-left: 6px solid #60A5FA; /* Thicker accent border on the left */
+            padding: 1.2rem 1.8rem; /* More padding */
+            border-radius: 0.75rem; /* Consistent border-radius */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25); /* Enhanced shadow */
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-out forwards; /* Slower fade in animation */
+            margin-bottom: 0.75rem; /* Space between cards */
+        }
+        .feedback-item-card:last-child {
+            margin-bottom: 0; /* No margin for the last one */
+        }
+        .feedback-item-card:before {
+            content: "\f075"; /* Font Awesome comment icon */
+            font-family: 'FontAwesome';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 3.5em; /* Larger icon */
+            color: rgba(96, 165, 250, 0.15); /* Slightly more faded blue */
+            z-index: 0;
+            pointer-events: none;
+            transform: rotate(-10deg); /* Slight rotation for dynamic feel */
+        }
+        .feedback-item-card p {
+            position: relative; /* Ensure text is above pseudo-element */
+            z-index: 1;
+        }
+        .feedback-item-card .feedback-text {
+            color: #E2E8F0; /* Lighter text for contrast */
+            font-size: 1.15rem; /* Slightly larger text */
+            margin-bottom: 0.6rem; /* More space */
+            line-height: 1.5; /* Better line spacing */
+        }
+        .feedback-item-card .feedback-timestamp {
+            color: #B0B9C4; /* A bit lighter gray for timestamp */
+            font-size: 0.9rem; /* Slightly larger timestamp */
+            font-style: italic;
+        }
+
+        /* Animation for sections appearing */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Specific styling for attendance status */
+        .status-present { color: #34D399; /* Emerald Green */ }
+        .status-absent { color: #EF4444; /* Red */ }
+        .status-late { color: #FBBF24; /* Amber Yellow */ }
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); } /* More movement on fade-in */
+            to { opacity: 1; transform: translateY(0); }
+        }
+         @keyframes headerGlow {
+            0% { text-shadow: 0 0 5px rgba(255, 140, 0, 0.5); }
+            50% { text-shadow: 0 0 15px rgba(255, 140, 0, 0.8); }
+            100% { text-shadow: 0 0 5px rgba(255, 140, 0, 0.5); }
+        }
+        .glowing-header {
+            animation: headerGlow 3s infinite alternate; /* Apply glowing effect */
         }
     </style>
 </head>
@@ -169,7 +281,6 @@
                 </div>
                 <button type="submit" id="student-login-btn" class="w-full action-button font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105">Login as Student</button>
                 <p id="student-auth-message" class="text-center text-sm mt-4 text-red-400 hidden"></p>
-                <!-- Removed the link to admin-panel.html -->
             </form>
         </div>
     </div>
@@ -187,7 +298,7 @@
                     <!-- User Info and Logout (always present, visibility controlled by JS) -->
                     <div id="user-info" class="hidden flex items-center sm:space-x-2">
                         <span id="user-email-nav" class="text-white text-sm whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px]"></span>
-                        <button id="logout-btn" class="action-button font-bold py-2 px-4 rounded-full text-sm">Logout</button>
+                        <button id="logout-btn" class="action-button">Logout</button>
                     </div>
                 </div>
                 <!-- Mobile Menu Button -->
@@ -205,20 +316,20 @@
                     </svg>
                 </button>
                 <a href="index.html" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Home</a>
-                <a href="index.html#quizzes" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Quizzes</a>
-                <a href="index.html#course-playlist" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Course Playlist</a>
+                <a href="index.html#quizzes" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Course Playlist</a>
+                <a href="index.html#course-playlist" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Quizzes</a>
                 <a href="student-dashboard.html" class="nav-link text-[#FFFFFF] hover:text-white transition duration-300 active" onclick="document.getElementById('mobile-menu-overlay').classList.add('hidden'); document.body.classList.remove('overflow-hidden');">Student Dashboard</a>
                 <!-- Mobile User Info and Logout (always present, visibility controlled by JS) -->
                 <div id="mobile-user-info" class="hidden flex-col items-center space-y-2 sm:hidden">
                     <span id="mobile-user-email-nav" class="text-white text-xl"></span>
-                    <button id="mobile-logout-btn" class="action-button font-bold py-2 px-4 rounded-full text-xl">Logout</button>
+                    <button id="mobile-logout-btn" class="action-button">Logout</button>
                 </div>
             </div>
         </nav>
 
         <main id="dashboard-main-content" class="container mx-auto p-4 flex-grow pt-24 hidden"> <!-- Added pt-24 to offset fixed navbar, hidden by default -->
             <header class="text-center mb-12">
-                <h1 class="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-yellow-500 mb-4">
+                <h1 class="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-yellow-500 mb-4 glowing-header">
                     Student Dashboard
                 </h1>
                 <p class="text-xl text-gray-300">Welcome, <span id="current-user-name" class="font-bold">Student</span>!</p>
@@ -231,16 +342,16 @@
             <section id="student-dashboard-content" class="p-8 bg-gradient-to-br from-[#1A1A1A] to-[#0D0D0D] rounded-lg shadow-xl mb-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                     <!-- Dashboard Card 1: Courses Enrolled -->
-                    <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md flex items-center justify-between">
+                    <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md flex items-center justify-between dashboard-card">
                         <div>
                             <p class="text-sm font-semibold text-orange-300 uppercase">Courses Enrolled</p>
                             <p id="courses-enrolled-count" class="text-5xl font-bold text-white mt-2">0</p>
                         </div>
                         <i class="fa fa-book text-6xl text-[#FF8C00] opacity-50"></i>
                     </div>
-                    
+
                     <!-- Dashboard Card 2: Assignments Due -->
-                    <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md flex items-center justify-between">
+                    <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md flex items-center justify-between dashboard-card">
                         <div>
                             <p class="text-sm font-semibold text-orange-300 uppercase">Assignments Count</p>
                             <p id="assignments-count" class="text-5xl font-bold text-white mt-2">0</p>
@@ -249,7 +360,7 @@
                     </div>
 
                     <!-- Dashboard Card 3: Overall Progress -->
-                    <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md flex items-center justify-between">
+                    <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md flex items-center justify-between dashboard-card">
                         <div>
                             <p class="text-sm font-semibold text-orange-300 uppercase">Overall Progress</p>
                             <p id="overall-progress-percentage" class="text-5xl font-bold text-white mt-2">N/A</p>
@@ -259,73 +370,98 @@
                 </div>
 
                 <!-- Enrollment Details -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8">
-                    <h3 class="text-2xl font-semibold text-white mb-4">Enrollment Information</h3>
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                    <h3 class="text-2xl font-semibold text-white mb-4"><i class="fa fa-info-circle text-[#FF8C00] mr-2"></i>Enrollment Information</h3>
                     <div class="mb-4">
                         <p class="text-gray-300 font-semibold mb-2">Enrollment Receipt:</p>
-                        <a id="enrollment-receipt-link" href="#" target="_blank" class="text-[#60A5FA] hover:underline text-lg">No receipt URL provided.</a>
+                        <a id="enrollment-receipt-link" href="#" target="_blank" class="text-[#60A5FA] hover:underline text-lg flex items-center">
+                            <i class="fa fa-external-link mr-2 text-base"></i><span>No receipt URL provided.</span>
+                        </a>
                     </div>
                 </div>
 
                 <!-- My Courses (Detailed List) -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8">
-                    <h3 class="text-2xl font-semibold text-white mb-4">My Registered Courses</h3>
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                    <h3 class="text-2xl font-semibold text-white mb-4"><i class="fa fa-graduation-cap text-[#FF8C00] mr-2"></i>My Registered Courses</h3>
                     <ul id="my-courses-list" class="space-y-3">
-                        <li class="text-gray-400 text-center">No courses registered.</li>
+                        <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg shadow-inner list-item">No courses registered.</li>
                     </ul>
                 </div>
 
                 <!-- My Assignments -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8">
-                    <h3 class="text-2xl font-semibold text-white mb-4">My Assignments</h3>
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                    <h3 class="text-2xl font-semibold text-white mb-4"><i class="fa fa-tasks text-[#60A5FA] mr-2"></i>My Assignments</h3>
                     <ul id="my-assignments-list" class="space-y-3">
-                        <li class="text-gray-400 text-center">No assignments provided.</li>
+                        <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg shadow-inner list-item">No assignments provided.</li>
                     </ul>
                 </div>
-                
-                <!-- My Feeback -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8">
-                    <h3 class="text-2xl font-semibold text-white mb-4">Feedback of the Sessions</h3>
-                    <ul id="Feedback of the Sessions-list" class="space-y-3">
-                        <li class="text-gray-400 text-center">No Feedbacks provided.</li>
-                    </ul>
-                </div>
-                
+
                 <!-- My Certificates -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8">
-                    <h3 class="text-2xl font-semibold text-white mb-4">My Certificates</h3>
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                    <h3 class="text-2xl font-semibold text-white mb-4"><i class="fa fa-certificate text-[#10B981] mr-2"></i>My Certificates</h3>
                     <ul id="my-certificates-list" class="space-y-3">
-                        <li class="text-gray-400 text-center">No certificates provided.</li>
+                        <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg shadow-inner list-item">No certificates provided.</li>
                     </ul>
                 </div>
 
                 <!-- My Notes -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8">
-                    <h3 class="text-2xl font-semibold text-white mb-4">My Notes</h3>
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                    <h3 class="text-2xl font-semibold text-white mb-4"><i class="fa fa-pencil-square-o icon-notes mr-2"></i>My Notes</h3>
                     <div id="my-notes-content" class="text-gray-300 leading-relaxed mb-3">
                         <p class="text-gray-400 text-center">No notes provided.</p>
                     </div>
                     <p class="text-gray-300 font-semibold mb-2">Notes Attachments:</p>
                     <ul id="my-notes-attachments-list" class="space-y-2">
-                        <li class="text-gray-400 text-center text-sm">No attachments.</li>
+                        <li class="text-gray-400 text-center text-sm bg-[#1A1A1A] p-3 rounded-lg list-item">No attachments.</li>
                     </ul>
                 </div>
 
                 <!-- Recent Activity / Notifications -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8">
-                    <h3 class="text-2xl font-semibold text-white mb-4">Recent Activity</h3>
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                    <h3 class="text-2xl font-semibold text-white mb-4"><i class="fa fa-history text-[#00BCD4] mr-2"></i>Recent Activity</h3>
                     <ul id="recent-activity-list" class="space-y-4">
-                        <li class="text-gray-400 text-center">No recent activity.</li>
+                        <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg shadow-inner list-item">No recent activity.</li>
                     </ul>
                 </div>
 
                 <!-- Upcoming Deadlines -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-semibold text-white mb-4">Upcoming Deadlines</h3>
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                    <h3 class="text-2xl font-semibold text-white mb-4"><i class="fa fa-hourglass-half text-[#FFC107] mr-2"></i>Upcoming Deadlines</h3>
                     <ul id="upcoming-deadlines-list" class="space-y-3">
-                        <li class="text-gray-400 text-center">No upcoming deadlines.</li>
+                        <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg shadow-inner list-item">No upcoming deadlines.</li>
                     </ul>
                 </div>
+
+                <!-- NEW: Feedback Section - Renamed and Styled -->
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                    <h3 class="text-2xl font-semibold text-white mb-4 section-header-feedback">
+                        <i class="fa fa-comments-o icon-feedback mr-2"></i>Feedback From Teacher
+                    </h3>
+                    <ul id="feedback-list" class="space-y-4"> <!-- Increased space -->
+                        <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No feedback yet.</li>
+                    </ul>
+                </div>
+
+                <!-- NEW: Attendance History Section -->
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                    <h3 class="text-2xl font-semibold text-white mb-4 section-header-attendance">
+                        <i class="fa fa-check-square-o icon-attendance mr-2"></i>Attendance History
+                    </h3>
+                    <ul id="attendance-list" class="space-y-3">
+                        <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No attendance records.</li>
+                    </ul>
+                </div>
+
+                <!-- NEW: Recorded Sessions Section -->
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                    <h3 class="text-2xl font-semibold text-white mb-4 section-header-sessions">
+                        <i class="fa fa-video-camera icon-sessions mr-2"></i>Recorded Sessions
+                    </h3>
+                    <ul id="recorded-sessions-list" class="space-y-3">
+                        <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No recorded sessions.</li>
+                    </ul>
+                </div>
+
             </section>
         </main>
 
@@ -392,6 +528,11 @@
         const myCertificatesList = document.getElementById('my-certificates-list');
         const myNotesContent = document.getElementById('my-notes-content'); // Notes text
         const myNotesAttachmentsList = document.getElementById('my-notes-attachments-list'); // Notes URLs list
+
+        // NEW: Dashboard sections for Feedback, Attendance, Recorded Sessions
+        const feedbackList = document.getElementById('feedback-list');
+        const attendanceList = document.getElementById('attendance-list');
+        const recordedSessionsList = document.getElementById('recorded-sessions-list');
 
         // Navbar user info displays
         const userEmailNavDisplay = document.getElementById('user-email-nav');
@@ -503,23 +644,23 @@
                     if (enrolledCourses.length > 0) {
                         enrolledCourses.forEach(course => {
                             const li = document.createElement('li');
-                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center";
+                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center list-item";
                             li.innerHTML = `<i class="fa fa-book text-[#FF8C00] mr-3 text-xl"></i><span class="text-white text-lg">${course}</span>`;
                             myCoursesList.appendChild(li);
                         });
                     } else {
-                        myCoursesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No courses registered.</li>';
+                        myCoursesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No courses registered.</li>';
                     }
 
                     // Display Enrollment Receipt URL
                     const enrollmentReceiptSection = enrollmentReceiptLink.closest('div'); // Get parent div for visibility
                     if (data.enrollment_receipt_url && data.enrollment_receipt_url.trim() !== '') {
                         enrollmentReceiptLink.href = data.enrollment_receipt_url;
-                        enrollmentReceiptLink.textContent = "View Enrollment Receipt";
+                        enrollmentReceiptLink.querySelector('span').textContent = "View Enrollment Receipt";
                         enrollmentReceiptLink.classList.remove('hidden');
                         enrollmentReceiptSection.classList.remove('hidden'); // Ensure section is visible
                     } else {
-                        enrollmentReceiptLink.textContent = "No receipt URL provided.";
+                        enrollmentReceiptLink.querySelector('span').textContent = "No receipt URL provided.";
                         enrollmentReceiptLink.removeAttribute('href');
                         enrollmentReceiptLink.classList.add('hidden');
                         // Optionally hide the entire section if no receipt
@@ -533,12 +674,12 @@
                     if (assignments.length > 0) {
                         assignments.forEach((url, index) => {
                             const li = document.createElement('li');
-                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center";
+                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center list-item";
                             li.innerHTML = `<i class="fa fa-file-text-o text-[#60A5FA] mr-3 text-xl"></i><a href="${url}" target="_blank" class="text-white hover:underline transition-colors duration-200 truncate flex-grow">Assignment ${index + 1}</a>`;
                             myAssignmentsList.appendChild(li);
                         });
                     } else {
-                        myAssignmentsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No assignments provided.</li>';
+                        myAssignmentsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No assignments provided.</li>';
                     }
 
                     // Populate My Certificates List
@@ -547,12 +688,12 @@
                     if (certificates.length > 0) {
                         certificates.forEach((url, index) => {
                             const li = document.createElement('li');
-                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center";
+                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center list-item";
                             li.innerHTML = `<i class="fa fa-certificate text-[#10B981] mr-3 text-xl"></i><a href="${url}" target="_blank" class="text-white hover:underline transition-colors duration-200 truncate flex-grow">Certificate ${index + 1}</a>`;
                             myCertificatesList.appendChild(li);
                         });
                     } else {
-                        myCertificatesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No certificates provided.</li>';
+                        myCertificatesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No certificates provided.</li>';
                     }
 
                     // Populate Overall Progress
@@ -566,34 +707,19 @@
                     } else {
                         myNotesContent.innerHTML = '<p class="text-gray-400 text-center">No notes provided by admin.</p>';
                     }
-                    
-                 /*   // Populate Feedback
-                    const assignments = Array.isArray(data.feedback) ? data.feedback : [];
-                    feedbackcount.textContent = feedback.length; // Update feedback count
-                    Feedback.innerHTML = '';
-                    if (feedback.length > 0) {
-                        feedback.forEach((url, index) => {
-                            const li = document.createElement('li');
-                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center";
-                            li.innerHTML = `<i class="fa fa-file-text-o text-[#60A5FA] mr-3 text-xl"></i><a href="${url}" target="_blank" class="text-white hover:underline transition-colors duration-200 truncate flex-grow">feedback ${index + 1}</a>`;
-                            feedback.appendChild(li);
-                        });
-                    } else {
-                        feedback.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No feedback provided.</li>';
-                    }
-                    */
+
                     // Populate My Notes Attachments
                     const notesAttachments = Array.isArray(data.notes_attachments) ? data.notes_attachments : [];
                     myNotesAttachmentsList.innerHTML = '';
                     if (notesAttachments.length > 0) {
                         notesAttachments.forEach((url, index) => {
                             const li = document.createElement('li');
-                            li.className = "flex items-center text-sm text-gray-300";
+                            li.className = "flex items-center text-sm text-gray-300 bg-[#1A1A1A] p-3 rounded-lg list-item"; /* Added bg and padding */
                             li.innerHTML = `<i class="fa fa-link text-[#60A5FA] mr-2"></i><a href="${url}" target="_blank" class="hover:underline truncate">${url}</a>`;
                             myNotesAttachmentsList.appendChild(li);
                         });
                     } else {
-                        myNotesAttachmentsList.innerHTML = '<li class="text-gray-400 text-center text-sm">No attachments.</li>';
+                        myNotesAttachmentsList.innerHTML = '<li class="text-gray-400 text-center text-sm bg-[#1A1A1A] p-3 rounded-lg list-item">No attachments.</li>';
                     }
 
                     // Populate Upcoming Deadlines
@@ -602,12 +728,12 @@
                     if (upcomingDeadlines.length > 0) {
                         upcomingDeadlines.forEach(item => {
                             const li = document.createElement('li');
-                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center";
+                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center list-item";
                             li.innerHTML = `<i class="fa fa-calendar text-[#FFC107] mr-3 text-xl"></i><span class="text-white">${item}</span>`;
                             upcomingDeadlinesList.appendChild(li);
                         });
                     } else {
-                        upcomingDeadlinesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No upcoming deadlines.</li>';
+                        upcomingDeadlinesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No upcoming deadlines.</li>';
                     }
 
                     // Populate Recent Activity
@@ -616,17 +742,80 @@
                     if (recentActivity.length > 0) {
                         recentActivity.forEach(item => {
                             const li = document.createElement('li');
-                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center";
+                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center list-item";
                             li.innerHTML = `<i class="fa fa-history text-[#00BCD4] mr-3 text-xl"></i><span class="text-white">${item}</span>`;
                             recentActivityList.appendChild(li);
                         });
                     } else {
-                        recentActivityList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No recent activity.</li>';
+                        recentActivityList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No recent activity.</li>';
+                    }
+
+                    // NEW: Populate Feedback - Styled with feedback-item-card
+                    const feedback = Array.isArray(data.feedback) ? data.feedback : [];
+                    feedbackList.innerHTML = '';
+                    if (feedback.length > 0) {
+                        // Sort feedback by timestamp descending (newest first)
+                        feedback.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                        feedback.forEach(item => {
+                            const li = document.createElement('li');
+                            li.className = "feedback-item-card"; // Apply new styling class
+                            const feedbackDate = new Date(item.timestamp).toLocaleString();
+                            li.innerHTML = `
+                                <p class="feedback-text">${item.text}</p>
+                                <p class="feedback-timestamp">Sent: ${feedbackDate}</p>
+                            `;
+                            feedbackList.appendChild(li);
+                        });
+                    } else {
+                        feedbackList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No feedback yet.</li>';
+                    }
+
+                    // NEW: Populate Attendance History
+                    const attendance = Array.isArray(data.attendance) ? data.attendance : [];
+                    attendanceList.innerHTML = '';
+                    if (attendance.length > 0) {
+                        // Sort attendance by date descending (most recent first)
+                        attendance.sort((a, b) => new Date(b.date) - new Date(a.date));
+                        attendance.forEach(item => {
+                            const li = document.createElement('li');
+                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center list-item";
+                            const attendanceDate = new Date(item.date).toLocaleDateString();
+                            const statusColor = item.status === 'Present' ? 'status-present' : item.status === 'Absent' ? 'status-absent' : 'status-late';
+                            li.innerHTML = `
+                                <i class="fa fa-calendar-check-o icon-attendance mr-3 text-xl"></i>
+                                <span class="text-white">Date: ${attendanceDate}</span>
+                                <span class="ml-auto ${statusColor} font-semibold">${item.status}</span>
+                            `;
+                            attendanceList.appendChild(li);
+                        });
+                    } else {
+                        attendanceList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No attendance records.</li>';
+                    }
+
+                    // NEW: Populate Recorded Sessions
+                    const recordedSessions = Array.isArray(data.recorded_sessions) ? data.recorded_sessions : [];
+                    recordedSessionsList.innerHTML = '';
+                    if (recordedSessions.length > 0) {
+                         // Sort sessions by date descending (most recent first)
+                        recordedSessions.sort((a, b) => new Date(b.date) - new Date(a.date));
+                        recordedSessions.forEach((sessionObj, index) => {
+                            const li = document.createElement('li');
+                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex flex-col sm:flex-row sm:items-center list-item";
+                            const displayDate = new Date(sessionObj.date).toLocaleDateString();
+                            li.innerHTML = `
+                                <i class="fa fa-play-circle-o icon-sessions mr-3 text-xl"></i>
+                                <span class="text-white mr-2">Session on ${displayDate}:</span>
+                                <a href="${sessionObj.url}" target="_blank" class="text-[#EAB308] hover:underline transition-colors duration-200 truncate flex-grow mt-2 sm:mt-0">${sessionObj.url}</a>
+                            `;
+                            recordedSessionsList.appendChild(li);
+                        });
+                    } else {
+                        recordedSessionsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No recorded sessions.</li>';
                     }
 
 
                 } else {
-                    console.log("No student record found for this user in 'student_record' collection.");
+                    console.log("No student record found for this user in 'student_record' collection. Resetting dashboard.");
                     // Reset dashboard if no record is found
                     studentIdDisplay.textContent = 'N/A';
                     enrollmentDateDisplay.textContent = 'N/A';
@@ -636,13 +825,16 @@
                     enrollmentReceiptLink.textContent = "No receipt URL provided.";
                     enrollmentReceiptLink.removeAttribute('href');
                     enrollmentReceiptLink.classList.add('hidden');
-                    myCoursesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No courses registered.</li>';
-                    myAssignmentsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No assignments provided.</li>';
-                    myCertificatesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No certificates provided.</li>';
+                    myCoursesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No courses registered.</li>';
+                    myAssignmentsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No assignments provided.</li>';
+                    myCertificatesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No certificates provided.</li>';
                     myNotesContent.innerHTML = '<p class="text-gray-400 text-center">No notes provided by admin.</p>';
-                    myNotesAttachmentsList.innerHTML = '<li class="text-gray-400 text-center text-sm">No attachments.</li>';
-                    recentActivityList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No recent activity.</li>';
-                    upcomingDeadlinesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg">No upcoming deadlines.</li>';
+                    myNotesAttachmentsList.innerHTML = '<li class="text-gray-400 text-center text-sm list-item">No attachments.</li>';
+                    recentActivityList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No recent activity.</li>';
+                    upcomingDeadlinesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No upcoming deadlines.</li>';
+                    feedbackList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No feedback yet.</li>'; // Reset feedback
+                    attendanceList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No attendance records.</li>'; // Reset attendance
+                    recordedSessionsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No recorded sessions.</li>'; // Reset recorded sessions
                 }
             }, (error) => {
                 console.error("Error listening to student record data:", error);
@@ -732,7 +924,27 @@
             }
         });
 
+        // Intersection Observer for fade-in sections
+        const observerOptions = {
+            root: null, /* viewport */
+            rootMargin: '0px',
+            threshold: 0.1 /* element is 10% visible */
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, observerOptions);
+
         document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.fade-in-section').forEach(section => {
+                observer.observe(section);
+            });
+
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const closeMobileMenuButton = document.getElementById('close-mobile-menu');
             const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
