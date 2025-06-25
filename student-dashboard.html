@@ -177,11 +177,19 @@
         .section-header-feedback { color: #60A5FA; /* Blue */ }
         .section-header-attendance { color: #10B981; /* Green */ }
         .section-header-sessions { color: #EAB308; /* Yellow */ }
+        .section-header-student-feedback { color: #FACC15; /* Amber */ } /* NEW */
+        .section-header-timings { color: #8B5CF6; /* Purple for timings */ } /* NEW */
+        .section-header-assignments { color: #60A5FA; } /* Blue for Assignments */
+
 
         .icon-feedback { color: #60A5FA; }
         .icon-attendance { color: #10B981; }
         .icon-sessions { color: #EAB308; }
         .icon-notes { color: #9B59B6; /* Purple */ } /* Added specific notes icon color */
+        .icon-student-feedback { color: #FACC15; } /* NEW */
+        .icon-timings { color: #8B5CF6; } /* NEW */
+        .icon-assignments { color: #60A5FA; } /* Blue for Assignments */
+
 
         /* NEW: Feedback item styling for cool look */
         .feedback-item-card {
@@ -226,6 +234,72 @@
             font-style: italic;
         }
 
+        /* NEW: Student Feedback Send Section styling */
+        .student-feedback-send-card {
+            background-color: #2A2A2A;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: 1px solid rgba(250, 204, 21, 0.3); /* Yellowish border */
+        }
+
+        /* NEW: Reply styling within student feedback */
+        .admin-reply-card {
+            background-color: #4A4A4A; /* Darker background for replies */
+            border-left: 4px solid #60A5FA; /* Blue border for admin replies */
+            padding: 0.8rem 1.2rem;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            margin-left: 1.5rem; /* Indent replies */
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        .admin-reply-card .reply-timestamp {
+            font-size: 0.8rem;
+            color: #B0B9C4;
+            margin-top: 0.2rem;
+        }
+
+        /* NEW: Assignment Item Styling */
+        .assignment-item-card {
+            background-color: #3a3a3a;
+            border-left: 6px solid #60A5FA; /* Blue accent for assignments */
+            padding: 1.2rem 1.8rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            margin-bottom: 0.75rem;
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        .assignment-item-card .assignment-title {
+            font-weight: 600;
+            color: #E2E8F0;
+            font-size: 1.15rem;
+            margin-bottom: 0.4rem;
+        }
+        .assignment-item-card .assignment-details {
+            color: #B0B9C4;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        .assignment-item-card .assignment-url {
+            color: #60A5FA;
+            text-decoration: underline;
+            font-size: 0.95rem;
+            word-break: break-all; /* Ensure long URLs wrap */
+        }
+        .assignment-item-card .status-indicator {
+            font-weight: 700;
+            padding: 0.3em 0.6em;
+            border-radius: 0.5em;
+            display: inline-block;
+            margin-left: 0.5rem;
+            font-size: 0.85rem;
+        }
+        .assignment-item-card .status-pending { background-color: #FBBF24; color: #333; } /* Amber */
+        .assignment-item-card .status-submitted { background-color: #60A5FA; color: #FFF; } /* Blue */
+        .assignment-item-card .status-graded { background-color: #10B981; color: #FFF; } /* Green */
+
+
         /* Animation for sections appearing */
         .fade-in-section {
             opacity: 0;
@@ -254,6 +328,48 @@
         }
         .glowing-header {
             animation: headerGlow 3s infinite alternate; /* Apply glowing effect */
+        }
+
+        /* Styles for clickable headers */
+        .collapsible-header {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0; /* Add some padding */
+            transition: background-color 0.2s ease;
+        }
+        .collapsible-header:hover {
+            background-color: #333; /* Slightly highlight on hover */
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+        }
+        .collapsible-header .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+        .collapsible-header.collapsed .toggle-icon {
+            transform: rotate(-90deg); /* Rotate icon when collapsed */
+        }
+
+        /* Style for class timing list items */
+        .class-timing-item {
+            background-color: #1A1A1A;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            border-left: 5px solid #8B5CF6; /* Purple accent */
+        }
+        .class-timing-item p {
+            margin-bottom: 0.25rem;
+        }
+        .class-timing-item .class-name {
+            font-weight: 600;
+            color: #FFFFFF;
+            font-size: 1.1rem;
+        }
+        .class-timing-item .class-details {
+            color: #D1D5DB; /* Light gray */
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -336,6 +452,7 @@
                 <p id="current-user-email-display" class="text-sm text-gray-400 mt-2"></p>
                 <p id="student-id-display" class="text-base text-gray-300 mt-2">Student ID: <span class="font-semibold">N/A</span></p>
                 <p id="enrollment-date-display" class="text-base text-gray-300 mt-2">Enrolled On: <span class="font-semibold">N/A</span></p>
+                <p id="student-record-last-updated" class="text-sm text-gray-500 mt-2">Data Last Updated: N/A</p> <!-- NEW -->
             </header>
 
             <!-- Student Dashboard Content -->
@@ -371,95 +488,181 @@
 
                 <!-- Enrollment Details -->
                 <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
-                    <h3 class="text-2xl font-semibold text-white mb-4"><i class="fa fa-info-circle text-[#FF8C00] mr-2"></i>Enrollment Information</h3>
-                    <div class="mb-4">
-                        <p class="text-gray-300 font-semibold mb-2">Enrollment Receipt:</p>
-                        <a id="enrollment-receipt-link" href="#" target="_blank" class="text-[#60A5FA] hover:underline text-lg flex items-center">
-                            <i class="fa fa-external-link mr-2 text-base"></i><span>No receipt URL provided.</span>
-                        </a>
+                    <h3 class="text-2xl font-semibold text-white mb-4 collapsible-header" data-target="enrollment-info-wrapper">
+                        <span><i class="fa fa-info-circle text-[#FF8C00] mr-2"></i>Enrollment Information</span>
+                        <i class="fa fa-chevron-down toggle-icon text-lg"></i>
+                    </h3>
+                    <div id="enrollment-info-wrapper" class="hidden">
+                        <div class="mb-4">
+                            <p class="text-gray-300 font-semibold mb-2">Enrollment Receipt:</p>
+                            <a id="enrollment-receipt-link" href="#" target="_blank" class="text-[#60A5FA] hover:underline text-lg flex items-center">
+                                <i class="fa fa-external-link mr-2 text-base"></i><span>No receipt URL provided.</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- My Courses (Detailed List) -->
                 <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
-                    <h3 class="text-2xl font-semibold text-white mb-4"><i class="fa fa-graduation-cap text-[#FF8C00] mr-2"></i>My Registered Courses</h3>
-                    <ul id="my-courses-list" class="space-y-3">
-                        <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg shadow-inner list-item">No courses registered.</li>
-                    </ul>
+                    <h3 class="text-2xl font-semibold text-white mb-4 collapsible-header" data-target="my-courses-list-wrapper">
+                        <span><i class="fa fa-graduation-cap text-[#FF8C00] mr-2"></i>My Registered Courses</span>
+                        <i class="fa fa-chevron-down toggle-icon text-lg"></i>
+                    </h3>
+                    <div id="my-courses-list-wrapper" class="hidden">
+                        <ul id="my-courses-list" class="space-y-3">
+                            <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg shadow-inner list-item">No courses registered.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- NEW: Class Timings Section -->
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                    <h3 class="text-2xl font-semibold text-white mb-4 section-header-timings collapsible-header" data-target="class-timings-list-wrapper">
+                        <span><i class="fa fa-clock-o icon-timings mr-2"></i>My Class Timings</span>
+                        <i class="fa fa-chevron-down toggle-icon text-lg"></i>
+                    </h3>
+                    <div id="class-timings-list-wrapper" class="hidden">
+                        <ul id="class-timings-list" class="space-y-3">
+                            <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No class timings available for your enrolled courses.</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- My Assignments -->
                 <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
-                    <h3 class="text-2xl font-semibold text-white mb-4"><i class="fa fa-tasks text-[#60A5FA] mr-2"></i>My Assignments</h3>
-                    <ul id="my-assignments-list" class="space-y-3">
-                        <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg shadow-inner list-item">No assignments provided.</li>
-                    </ul>
+                    <h3 class="text-2xl font-semibold text-white mb-4 section-header-assignments collapsible-header" data-target="my-assignments-list-wrapper">
+                        <span><i class="fa fa-tasks icon-assignments mr-2"></i>My Assignments</span>
+                        <i class="fa fa-chevron-down toggle-icon text-lg"></i>
+                    </h3>
+                    <div id="my-assignments-list-wrapper" class="hidden"> <!-- Wrapper for toggling -->
+                        <ul id="my-assignments-list" class="space-y-3">
+                            <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg shadow-inner list-item">No assignments provided.</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- My Certificates -->
                 <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
-                    <h3 class="text-2xl font-semibold text-white mb-4"><i class="fa fa-certificate text-[#10B981] mr-2"></i>My Certificates</h3>
-                    <ul id="my-certificates-list" class="space-y-3">
-                        <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg shadow-inner list-item">No certificates provided.</li>
-                    </ul>
+                    <h3 class="text-2xl font-semibold text-white mb-4 collapsible-header" data-target="my-certificates-list-wrapper">
+                        <span><i class="fa fa-certificate text-[#10B981] mr-2"></i>My Certificates</span>
+                        <i class="fa fa-chevron-down toggle-icon text-lg"></i>
+                    </h3>
+                    <div id="my-certificates-list-wrapper" class="hidden">
+                        <ul id="my-certificates-list" class="space-y-3">
+                            <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg shadow-inner list-item">No certificates provided.</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- My Notes -->
                 <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
-                    <h3 class="text-2xl font-semibold text-white mb-4"><i class="fa fa-pencil-square-o icon-notes mr-2"></i>My Notes</h3>
-                    <div id="my-notes-content" class="text-gray-300 leading-relaxed mb-3">
-                        <p class="text-gray-400 text-center">No notes provided.</p>
+                    <h3 class="text-2xl font-semibold text-white mb-4 collapsible-header" data-target="my-notes-wrapper">
+                        <span><i class="fa fa-pencil-square-o icon-notes mr-2"></i>My Notes</span>
+                        <i class="fa fa-chevron-down toggle-icon text-lg"></i>
+                    </h3>
+                    <div id="my-notes-wrapper" class="hidden">
+                        <div id="my-notes-content" class="text-gray-300 leading-relaxed mb-3">
+                            <p class="text-gray-400 text-center">No notes provided.</p>
+                        </div>
+                        <p class="text-gray-300 font-semibold mb-2">Notes Attachments:</p>
+                        <ul id="my-notes-attachments-list" class="space-y-2">
+                            <li class="text-gray-400 text-center text-sm bg-[#1A1A1A] p-3 rounded-lg list-item">No attachments.</li>
+                        </ul>
                     </div>
-                    <p class="text-gray-300 font-semibold mb-2">Notes Attachments:</p>
-                    <ul id="my-notes-attachments-list" class="space-y-2">
-                        <li class="text-gray-400 text-center text-sm bg-[#1A1A1A] p-3 rounded-lg list-item">No attachments.</li>
-                    </ul>
                 </div>
 
                 <!-- Recent Activity / Notifications -->
                 <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
-                    <h3 class="text-2xl font-semibold text-white mb-4"><i class="fa fa-history text-[#00BCD4] mr-2"></i>Recent Activity</h3>
-                    <ul id="recent-activity-list" class="space-y-4">
-                        <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg shadow-inner list-item">No recent activity.</li>
-                    </ul>
+                    <h3 class="text-2xl font-semibold text-white mb-4 collapsible-header" data-target="recent-activity-list-wrapper">
+                        <span><i class="fa fa-history text-[#00BCD4] mr-2"></i>Recent Activity</span>
+                        <i class="fa fa-chevron-down toggle-icon text-lg"></i>
+                    </h3>
+                    <div id="recent-activity-list-wrapper" class="hidden">
+                        <ul id="recent-activity-list" class="space-y-4">
+                            <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg shadow-inner list-item">No recent activity.</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- Upcoming Deadlines -->
                 <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
-                    <h3 class="text-2xl font-semibold text-white mb-4"><i class="fa fa-hourglass-half text-[#FFC107] mr-2"></i>Upcoming Deadlines</h3>
-                    <ul id="upcoming-deadlines-list" class="space-y-3">
-                        <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg shadow-inner list-item">No upcoming deadlines.</li>
-                    </ul>
+                    <h3 class="text-2xl font-semibold text-white mb-4 collapsible-header" data-target="upcoming-deadlines-list-wrapper">
+                        <span><i class="fa fa-hourglass-half text-[#FFC107] mr-2"></i>Upcoming Deadlines</span>
+                        <i class="fa fa-chevron-down toggle-icon text-lg"></i>
+                    </h3>
+                    <div id="upcoming-deadlines-list-wrapper" class="hidden">
+                        <ul id="upcoming-deadlines-list" class="space-y-3">
+                            <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg shadow-inner list-item">No upcoming deadlines.</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <!-- NEW: Feedback Section - Renamed and Styled -->
+                <!-- NEW: Feedback Section - Renamed and Styled (Admin to Student) -->
                 <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
-                    <h3 class="text-2xl font-semibold text-white mb-4 section-header-feedback">
-                        <i class="fa fa-comments-o icon-feedback mr-2"></i>Feedback From Teacher
+                    <h3 class="text-2xl font-semibold text-white mb-4 section-header-feedback collapsible-header" data-target="feedback-list-wrapper">
+                        <span><i class="fa fa-comments-o icon-feedback mr-2"></i>Feedback From Teacher</span>
+                        <i class="fa fa-chevron-down toggle-icon text-lg"></i>
                     </h3>
-                    <ul id="feedback-list" class="space-y-4"> <!-- Increased space -->
-                        <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No feedback yet.</li>
-                    </ul>
+                    <div id="feedback-list-wrapper" class="hidden"> <!-- Wrapper for toggling -->
+                        <ul id="feedback-list" class="space-y-4"> <!-- Increased space -->
+                            <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No feedback yet.</li>
+                        </ul>
+                    </div>
                 </div>
+
+                <!-- NEW: My Sent Feedback to Admin (with Admin Replies) -->
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                    <h3 class="text-2xl font-semibold text-white mb-4 section-header-student-feedback collapsible-header" data-target="my-feedback-list-wrapper">
+                        <span><i class="fa fa-commenting icon-student-feedback mr-2"></i>My Sent Feedback to Admin</span>
+                        <i class="fa fa-chevron-down toggle-icon text-lg"></i>
+                    </h3>
+                    <div id="my-feedback-list-wrapper" class="hidden"> <!-- Wrapper for toggling -->
+                        <ul id="my-sent-feedback-list" class="space-y-4">
+                            <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No feedback sent yet.</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- NEW: Send Feedback to Admin Section (Student to Admin) -->
+                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section student-feedback-send-card">
+                    <h3 class="text-2xl font-semibold text-white mb-4 section-header-student-feedback collapsible-header" data-target="send-feedback-input-wrapper">
+                        <span><i class="fa fa-paper-plane icon-student-feedback mr-2"></i>Send New Feedback to Admin</span>
+                        <i class="fa fa-chevron-down toggle-icon text-lg"></i>
+                    </h3>
+                    <div id="send-feedback-input-wrapper" class="hidden"> <!-- Wrapper for toggling -->
+                        <textarea id="student-feedback-input" rows="4" class="w-full p-3 rounded-md bg-[#0D0D0D] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FACC15]" placeholder="Type your feedback message here..."></textarea>
+                        <button id="send-student-feedback-btn" class="w-full action-button font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 mt-4">
+                            Send Feedback
+                        </button>
+                    </div>
+                </div>
+
 
                 <!-- NEW: Attendance History Section -->
                 <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
-                    <h3 class="text-2xl font-semibold text-white mb-4 section-header-attendance">
-                        <i class="fa fa-check-square-o icon-attendance mr-2"></i>Attendance History
+                    <h3 class="text-2xl font-semibold text-white mb-4 section-header-attendance collapsible-header" data-target="attendance-list-wrapper">
+                        <span><i class="fa fa-check-square-o icon-attendance mr-2"></i>Attendance History</span>
+                        <i class="fa fa-chevron-down toggle-icon text-lg"></i>
                     </h3>
-                    <ul id="attendance-list" class="space-y-3">
-                        <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No attendance records.</li>
-                    </ul>
+                    <div id="attendance-list-wrapper" class="hidden"> <!-- Wrapper for toggling -->
+                        <ul id="attendance-list" class="space-y-3">
+                            <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No attendance records.</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- NEW: Recorded Sessions Section -->
                 <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
-                    <h3 class="text-2xl font-semibold text-white mb-4 section-header-sessions">
-                        <i class="fa fa-video-camera icon-sessions mr-2"></i>Recorded Sessions
+                    <h3 class="text-2xl font-semibold text-white mb-4 section-header-sessions collapsible-header" data-target="recorded-sessions-list-wrapper">
+                        <span><i class="fa fa-video-camera icon-sessions mr-2"></i>Recorded Sessions</span>
+                        <i class="fa fa-chevron-down toggle-icon text-lg"></i>
                     </h3>
-                    <ul id="recorded-sessions-list" class="space-y-3">
-                        <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No recorded sessions.</li>
-                    </ul>
+                    <div id="recorded-sessions-list-wrapper" class="hidden"> <!-- Wrapper for toggling -->
+                        <ul id="recorded-sessions-list" class="space-y-3">
+                            <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No recorded sessions.</li>
+                        </ul>
+                    </div>
                 </div>
 
             </section>
@@ -474,12 +677,15 @@
     <script type="module" defer>
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
         import { getAuth, signOut, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, query, where, getDocs, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
 
         let app;
         let auth;
         let db;
         let currentUserId = null;
+        let currentStudentDocId = null; // Store the Firestore document ID for the student's record
+        let enrolledCoursesForTimings = []; // To store the student's enrolled courses for filtering timings
+
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id'; // Using __app_id for Firestore paths
 
         const firebaseConfig = {
@@ -499,6 +705,7 @@
         // Variables to hold unsubscribe functions for Firestore listeners
         let unsubscribeProfile = null;
         let unsubscribeStudentRecord = null;
+        let unsubscribeClassTimings = null;
 
         // DOM elements for Student Login Modal
         const studentLoginModal = document.getElementById('student-login-modal');
@@ -529,10 +736,34 @@
         const myNotesContent = document.getElementById('my-notes-content'); // Notes text
         const myNotesAttachmentsList = document.getElementById('my-notes-attachments-list'); // Notes URLs list
 
-        // NEW: Dashboard sections for Feedback, Attendance, Recorded Sessions
-        const feedbackList = document.getElementById('feedback-list');
+        // Dashboard sections for Feedback, Attendance, Recorded Sessions, Class Timings
+        const feedbackList = document.getElementById('feedback-list'); // Feedback From Teacher (admin_sent_feedback)
         const attendanceList = document.getElementById('attendance-list');
         const recordedSessionsList = document.getElementById('recorded-sessions-list');
+        const classTimingsList = document.getElementById('class-timings-list'); // For displaying class timings
+
+        // Student Feedback Send elements
+        const studentFeedbackInput = document.getElementById('student-feedback-input');
+        const sendStudentFeedbackBtn = document.getElementById('send-student-feedback-btn');
+
+        // My Sent Feedback to Admin elements
+        const mySentFeedbackList = document.getElementById('my-sent-feedback-list');
+
+        // Toggle Buttons and Wrappers
+        const feedbackListWrapper = document.getElementById('feedback-list-wrapper');
+        const myFeedbackListWrapper = document.getElementById('my-feedback-list-wrapper');
+        const sendFeedbackInputWrapper = document.getElementById('send-feedback-input-wrapper');
+        const myAssignmentsListWrapper = document.getElementById('my-assignments-list-wrapper');
+        const attendanceListWrapper = document.getElementById('attendance-list-wrapper');
+        const recordedSessionsListWrapper = document.getElementById('recorded-sessions-list-wrapper');
+        const classTimingsListWrapper = document.getElementById('class-timings-list-wrapper');
+        const enrollmentInfoWrapper = document.getElementById('enrollment-info-wrapper');
+        const myCoursesListWrapper = document.getElementById('my-courses-list-wrapper');
+        const myCertificatesListWrapper = document.getElementById('my-certificates-list-wrapper');
+        const myNotesWrapper = document.getElementById('my-notes-wrapper');
+        const recentActivityListWrapper = document.getElementById('recent-activity-list-wrapper');
+        const upcomingDeadlinesListWrapper = document.getElementById('upcoming-deadlines-list-wrapper');
+
 
         // Navbar user info displays
         const userEmailNavDisplay = document.getElementById('user-email-nav');
@@ -580,6 +811,17 @@
         }
 
         /**
+         * Generic function to toggle visibility of a section and rotate the icon.
+         * @param {HTMLElement} headerElement The clickable header element.
+         * @param {HTMLElement} contentWrapperElement The content wrapper to toggle.
+         */
+        const toggleSectionVisibility = (headerElement, contentWrapperElement) => {
+            contentWrapperElement.classList.toggle('hidden');
+            headerElement.classList.toggle('collapsed'); // Add/remove 'collapsed' class for icon rotation
+        };
+
+
+        /**
          * Loads and listens for real-time updates to the user's dashboard data from Firestore.
          * @param {string} userId The UID of the currently logged-in user.
          * @param {string} userEmail The email of the currently logged-in user.
@@ -589,23 +831,24 @@
             // Listener for profile data
             const userProfileRef = doc(db, "artifacts", appId, "users", userId, "profile", "details");
             const unsubProfile = onSnapshot(userProfileRef, (docSnap) => {
+                console.log("[loadDashboardData] Profile Snapshot (users/profile):", docSnap.exists() ? docSnap.data() : "No profile exists");
                 if (docSnap.exists()) {
                     const profileData = docSnap.data();
                     currentUserNameDisplay.textContent = profileData.name || 'Student'; // Display name or fallback
                     currentUserEmailDisplay.textContent = userEmail; // Display email
                 } else {
-                    console.log("No profile data found for user. Displaying email and setting default.");
+                    console.log("[loadDashboardData] No profile data found for user. Displaying email and setting default.");
                     currentUserNameDisplay.textContent = 'Student'; // Default if no name
                     currentUserEmailDisplay.textContent = userEmail; // Display email
                     // Potentially create a default profile here if desired (e.g., from an admin-added student record)
                     setDoc(userProfileRef, {
                         name: 'Student', // Default name
                         email: userEmail,
-                        createdAt: new Date()
+                        createdAt: new Date().toISOString() // Ensure timestamp is ISO string
                     }, { merge: true }).catch(e => console.error("Error setting default profile:", e));
                 }
             }, (error) => {
-                console.error("Error listening to user profile data:", error);
+                console.error("[loadDashboardData] Error listening to user profile data:", error);
                 // Only show message box if user is still actually authenticated for this UID
                 if (auth.currentUser && auth.currentUser.uid === userId) {
                     showMessageBox(`Error loading profile data: ${error.message}.`);
@@ -614,14 +857,24 @@
 
             // Listener for student record data from admin panel
             // Query for the student document where the 'uid' matches the authenticated user's UID
-            const studentRecordQuery = query(collection(db, "artifacts", appId, "student_record"), where("uid", "==", userId));
+            const studentRecordCollectionRef = collection(db, "artifacts", appId, "student_record");
+            const studentRecordQuery = query(studentRecordCollectionRef, where("uid", "==", userId));
+            console.log("[loadDashboardData] Querying student_record for UID:", userId); // Log the UID being queried
+
             const unsubStudentRecord = onSnapshot(studentRecordQuery, (querySnapshot) => {
                 if (!querySnapshot.empty) {
                     const studentDoc = querySnapshot.docs[0]; // Assuming one student record per UID
+                    currentStudentDocId = studentDoc.id; // Store the Firestore document ID
                     const data = studentDoc.data();
-                    console.log("Student record data fetched:", data);
+                    console.log("[DEBUG] Student record data from snapshot (doc ID:", currentStudentDocId, "):", data); // Detailed debug log
 
-                    // Update Student ID and Enrollment Date
+                    // Store enrolled courses globally for class timings filtering
+                    enrolledCoursesForTimings = Array.isArray(data.course_enrollment) ? data.course_enrollment : [];
+                    console.log("[DEBUG] Enrolled courses for timings:", enrolledCoursesForTimings);
+                    loadClassTimingsForStudent(enrolledCoursesForTimings); // Load class timings based on enrolled courses
+
+
+                    // --- Populate Dashboard UI with data ---
                     studentIdDisplay.textContent = data.student_id || 'N/A';
                     if (data.date_of_enrollment) {
                         try {
@@ -635,11 +888,22 @@
                         enrollmentDateDisplay.textContent = 'N/A';
                     }
 
-                    // Update Courses Enrolled Count
+                    // NEW: Update "Data Last Updated" timestamp
+                    const studentRecordLastUpdated = document.getElementById('student-record-last-updated');
+                    if (data.lastUpdated) {
+                        try {
+                            const lastUpdatedDate = new Date(data.lastUpdated);
+                            studentRecordLastUpdated.textContent = `Data Last Updated: ${lastUpdatedDate.toLocaleString()}`;
+                        } catch (e) {
+                            console.error("Error parsing student record lastUpdated date:", e);
+                            studentRecordLastUpdated.textContent = `Data Last Updated: Invalid Date`;
+                        }
+                    } else {
+                        studentRecordLastUpdated.textContent = `Data Last Updated: N/A`;
+                    }
+
                     const enrolledCourses = Array.isArray(data.course_enrollment) ? data.course_enrollment : [];
                     coursesEnrolledCount.textContent = enrolledCourses.length;
-
-                    // Populate My Registered Courses List
                     myCoursesList.innerHTML = '';
                     if (enrolledCourses.length > 0) {
                         enrolledCourses.forEach(course => {
@@ -652,37 +916,42 @@
                         myCoursesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No courses registered.</li>';
                     }
 
-                    // Display Enrollment Receipt URL
-                    const enrollmentReceiptSection = enrollmentReceiptLink.closest('div'); // Get parent div for visibility
+                    const enrollmentReceiptSection = enrollmentReceiptLink.closest('div');
                     if (data.enrollment_receipt_url && data.enrollment_receipt_url.trim() !== '') {
                         enrollmentReceiptLink.href = data.enrollment_receipt_url;
                         enrollmentReceiptLink.querySelector('span').textContent = "View Enrollment Receipt";
                         enrollmentReceiptLink.classList.remove('hidden');
-                        enrollmentReceiptSection.classList.remove('hidden'); // Ensure section is visible
                     } else {
                         enrollmentReceiptLink.querySelector('span').textContent = "No receipt URL provided.";
                         enrollmentReceiptLink.removeAttribute('href');
                         enrollmentReceiptLink.classList.add('hidden');
-                        // Optionally hide the entire section if no receipt
-                        // enrollmentReceiptSection.classList.add('hidden');
                     }
 
-                    // Populate My Assignments List
                     const assignments = Array.isArray(data.assignments) ? data.assignments : [];
-                    assignmentsCount.textContent = assignments.length; // Update assignment count
+                    assignmentsCount.textContent = assignments.length;
                     myAssignmentsList.innerHTML = '';
                     if (assignments.length > 0) {
-                        assignments.forEach((url, index) => {
+                        assignments.forEach((assignment, index) => {
                             const li = document.createElement('li');
-                            li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center list-item";
-                            li.innerHTML = `<i class="fa fa-file-text-o text-[#60A5FA] mr-3 text-xl"></i><a href="${url}" target="_blank" class="text-white hover:underline transition-colors duration-200 truncate flex-grow">Assignment ${index + 1}</a>`;
+                            li.className = "assignment-item-card"; // Apply specific styling
+                            const statusClass = assignment.status ? `status-${assignment.status.toLowerCase()}` : 'status-pending';
+                            const scoreDisplay = assignment.score !== null ? `${assignment.score}/100` : 'N/A';
+                            const assignmentUrlHtml = assignment.url ? `<a href="${assignment.url}" target="_blank" class="assignment-url">View Assignment</a>` : 'No URL provided.';
+
+                            li.innerHTML = `
+                                <p class="assignment-title">
+                                    <i class="fa fa-file-text-o icon-assignments mr-2"></i>${assignment.description}
+                                    <span class="status-indicator ${statusClass}">${assignment.status || 'Pending'}</span>
+                                </p>
+                                <p class="assignment-details">Score: <span class="font-semibold">${scoreDisplay}</span></p>
+                                <p class="assignment-details">URL: ${assignmentUrlHtml}</p>
+                            `;
                             myAssignmentsList.appendChild(li);
                         });
                     } else {
                         myAssignmentsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No assignments provided.</li>';
                     }
 
-                    // Populate My Certificates List
                     const certificates = Array.isArray(data.certificates) ? data.certificates : [];
                     myCertificatesList.innerHTML = '';
                     if (certificates.length > 0) {
@@ -696,10 +965,10 @@
                         myCertificatesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No certificates provided.</li>';
                     }
 
-                    // Populate Overall Progress
+                    // Debug log for overall_progress
+                    console.log("[DEBUG] overall_progress (from snapshot):", data.overall_progress);
                     overallProgressPercentage.textContent = data.overall_progress !== null ? `${data.overall_progress}%` : 'N/A';
 
-                    // Populate My Notes Content
                     const notes = data.notes || '';
                     myNotesContent.innerHTML = '';
                     if (notes.trim() !== '') {
@@ -708,13 +977,12 @@
                         myNotesContent.innerHTML = '<p class="text-gray-400 text-center">No notes provided by admin.</p>';
                     }
 
-                    // Populate My Notes Attachments
                     const notesAttachments = Array.isArray(data.notes_attachments) ? data.notes_attachments : [];
                     myNotesAttachmentsList.innerHTML = '';
                     if (notesAttachments.length > 0) {
                         notesAttachments.forEach((url, index) => {
                             const li = document.createElement('li');
-                            li.className = "flex items-center text-sm text-gray-300 bg-[#1A1A1A] p-3 rounded-lg list-item"; /* Added bg and padding */
+                            li.className = "flex items-center text-sm text-gray-300 bg-[#1A1A1A] p-3 rounded-lg list-item";
                             li.innerHTML = `<i class="fa fa-link text-[#60A5FA] mr-2"></i><a href="${url}" target="_blank" class="hover:underline truncate">${url}</a>`;
                             myNotesAttachmentsList.appendChild(li);
                         });
@@ -722,7 +990,6 @@
                         myNotesAttachmentsList.innerHTML = '<li class="text-gray-400 text-center text-sm bg-[#1A1A1A] p-3 rounded-lg list-item">No attachments.</li>';
                     }
 
-                    // Populate Upcoming Deadlines
                     const upcomingDeadlines = Array.isArray(data.upcoming_deadlines) ? data.upcoming_deadlines : [];
                     upcomingDeadlinesList.innerHTML = '';
                     if (upcomingDeadlines.length > 0) {
@@ -736,7 +1003,6 @@
                         upcomingDeadlinesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No upcoming deadlines.</li>';
                     }
 
-                    // Populate Recent Activity
                     const recentActivity = Array.isArray(data.recent_activity) ? data.recent_activity : [];
                     recentActivityList.innerHTML = '';
                     if (recentActivity.length > 0) {
@@ -750,15 +1016,15 @@
                         recentActivityList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No recent activity.</li>';
                     }
 
-                    // NEW: Populate Feedback - Styled with feedback-item-card
-                    const feedback = Array.isArray(data.feedback) ? data.feedback : [];
+                    // Populate Feedback From Teacher (admin_sent_feedback)
+                    console.log("[DEBUG] admin_sent_feedback (from snapshot):", data.admin_sent_feedback); // Debug log
+                    const adminSentFeedback = Array.isArray(data.admin_sent_feedback) ? data.admin_sent_feedback : [];
                     feedbackList.innerHTML = '';
-                    if (feedback.length > 0) {
-                        // Sort feedback by timestamp descending (newest first)
-                        feedback.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-                        feedback.forEach(item => {
+                    if (adminSentFeedback.length > 0) {
+                        adminSentFeedback.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                        adminSentFeedback.forEach(item => {
                             const li = document.createElement('li');
-                            li.className = "feedback-item-card"; // Apply new styling class
+                            li.className = "feedback-item-card";
                             const feedbackDate = new Date(item.timestamp).toLocaleString();
                             li.innerHTML = `
                                 <p class="feedback-text">${item.text}</p>
@@ -770,11 +1036,43 @@
                         feedbackList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No feedback yet.</li>';
                     }
 
-                    // NEW: Populate Attendance History
+                    // Populate My Sent Feedback to Admin (student_feedback_received)
+                    console.log("[DEBUG] student_feedback_received (from snapshot):", data.student_feedback_received); // Debug log
+                    const studentFeedbackReceived = Array.isArray(data.student_feedback_received) ? data.student_feedback_received : [];
+                    mySentFeedbackList.innerHTML = '';
+                    if (studentFeedbackReceived.length > 0) {
+                        studentFeedbackReceived.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // Sort by newest first
+                        studentFeedbackReceived.forEach((item, index) => {
+                            const li = document.createElement('li');
+                            li.className = "feedback-item-card"; // Re-use styling
+                            li.style.borderLeftColor = '#FACC15'; // Amber border for sent feedback
+                            li.innerHTML = `
+                                <p class="feedback-text"><i class="fa fa-user-circle-o text-gray-400 mr-2"></i>You: ${item.text}</p>
+                                <p class="feedback-timestamp">Sent: ${new Date(item.timestamp).toLocaleString()}</p>
+                            `;
+                            // Add admin replies if they exist
+                            if (Array.isArray(item.replies) && item.replies.length > 0) {
+                                let repliesHtml = '<div class="mt-3 space-y-2">';
+                                item.replies.forEach(reply => {
+                                    repliesHtml += `
+                                        <div class="admin-reply-card">
+                                            <p><i class="fa fa-graduation-cap text-blue-300 mr-2"></i>Admin: ${reply.text}</p>
+                                            <p class="reply-timestamp">Replied: ${new Date(reply.timestamp).toLocaleString()}</p>
+                                        </div>
+                                    `;
+                                });
+                                repliesHtml += '</div>';
+                                li.innerHTML += repliesHtml;
+                            }
+                            mySentFeedbackList.appendChild(li);
+                        });
+                    } else {
+                        mySentFeedbackList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No feedback sent yet.</li>';
+                    }
+
                     const attendance = Array.isArray(data.attendance) ? data.attendance : [];
                     attendanceList.innerHTML = '';
                     if (attendance.length > 0) {
-                        // Sort attendance by date descending (most recent first)
                         attendance.sort((a, b) => new Date(b.date) - new Date(a.date));
                         attendance.forEach(item => {
                             const li = document.createElement('li');
@@ -792,11 +1090,9 @@
                         attendanceList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No attendance records.</li>';
                     }
 
-                    // NEW: Populate Recorded Sessions
                     const recordedSessions = Array.isArray(data.recorded_sessions) ? data.recorded_sessions : [];
                     recordedSessionsList.innerHTML = '';
                     if (recordedSessions.length > 0) {
-                         // Sort sessions by date descending (most recent first)
                         recordedSessions.sort((a, b) => new Date(b.date) - new Date(a.date));
                         recordedSessions.forEach((sessionObj, index) => {
                             const li = document.createElement('li');
@@ -813,12 +1109,16 @@
                         recordedSessionsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No recorded sessions.</li>';
                     }
 
-
                 } else {
-                    console.log("No student record found for this user in 'student_record' collection. Resetting dashboard.");
-                    // Reset dashboard if no record is found
+                    console.warn("[loadDashboardData] No student record found for this user in 'student_record' collection. Resetting dashboard UI.");
+                    currentStudentDocId = null; // Ensure it's null if no record is found
+                    enrolledCoursesForTimings = []; // Clear enrolled courses if no record
+                    loadClassTimingsForStudent([]); // Clear class timings display
+
+                    // --- Reset Dashboard UI to default states ---
                     studentIdDisplay.textContent = 'N/A';
                     enrollmentDateDisplay.textContent = 'N/A';
+                    document.getElementById('student-record-last-updated').textContent = `Data Last Updated: N/A`; // Reset last updated
                     coursesEnrolledCount.textContent = '0';
                     assignmentsCount.textContent = '0';
                     overallProgressPercentage.textContent = 'N/A';
@@ -832,19 +1132,90 @@
                     myNotesAttachmentsList.innerHTML = '<li class="text-gray-400 text-center text-sm list-item">No attachments.</li>';
                     recentActivityList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No recent activity.</li>';
                     upcomingDeadlinesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No upcoming deadlines.</li>';
-                    feedbackList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No feedback yet.</li>'; // Reset feedback
-                    attendanceList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No attendance records.</li>'; // Reset attendance
-                    recordedSessionsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No recorded sessions.</li>'; // Reset recorded sessions
+                    feedbackList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No feedback yet.</li>';
+                    mySentFeedbackList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No feedback sent yet.</li>';
+                    attendanceList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No attendance records.</li>';
+                    recordedSessionsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No recorded sessions.</li>';
                 }
             }, (error) => {
-                console.error("Error listening to student record data:", error);
-                // Only show message box if user is still actually authenticated for this UID
+                console.error("[loadDashboardData] Error listening to student record data:", error);
                 if (auth.currentUser && auth.currentUser.uid === userId) {
                     showMessageBox(`Error loading student data: ${error.message}.`);
                 }
             });
             return { unsubscribeProfile: unsubProfile, unsubscribeStudentRecord: unsubStudentRecord };
         };
+
+        /**
+         * Loads and displays class timings based on the student's enrolled courses.
+         * It listens to the public 'class_timings' document in Firestore.
+         * @param {string[]} enrolledCourses An array of course names the student is enrolled in.
+         */
+        async function loadClassTimingsForStudent(enrolledCourses) {
+            console.log("[loadClassTimingsForStudent] Loading timings for enrolled courses:", enrolledCourses);
+            if (unsubscribeClassTimings) {
+                unsubscribeClassTimings(); // Unsubscribe from previous listener if exists
+                unsubscribeClassTimings = null;
+            }
+
+            const timingsDocRef = doc(db, "artifacts", appId, "public", "data", "class_timings", "daily_timings");
+            classTimingsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">Loading class timings...</li>';
+
+            unsubscribeClassTimings = onSnapshot(timingsDocRef, (docSnap) => {
+                classTimingsList.innerHTML = ''; // Clear previous entries
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    const allTimings = Array.isArray(data.timings) ? data.timings : [];
+                    console.log("[DEBUG] All loaded class timings from public document:", allTimings);
+
+                    // Filter timings by enrolled courses
+                    const filteredTimings = allTimings.filter(timing => {
+                        // Check if the class name (e.g., "Python Basics") contains any of the enrolled course names (e.g., "Python")
+                        // This assumes "Class Name" in admin panel is descriptive and includes the course name
+                        return enrolledCourses.some(course =>
+                            timing.name && timing.name.toLowerCase().includes(course.toLowerCase())
+                        );
+                    });
+                    console.log("[DEBUG] Filtered class timings for student's courses:", filteredTimings);
+
+                    if (filteredTimings.length > 0) {
+                        // Sort filtered timings by date, then by start time
+                        filteredTimings.sort((a, b) => {
+                            const dateA = new Date(a.date);
+                            const dateB = new Date(b.date);
+                            if (dateA.getTime() === dateB.getTime()) {
+                                return a.start.localeCompare(b.start);
+                            }
+                            return dateA - dateB;
+                        });
+
+                        filteredTimings.forEach(timing => {
+                            const li = document.createElement('li');
+                            li.className = "class-timing-item flex flex-col list-item";
+                            const displayDate = new Date(timing.date).toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+                            li.innerHTML = `
+                                <div class="flex items-center mb-1">
+                                    <i class="fa fa-calendar-o icon-timings mr-2 text-xl"></i>
+                                    <p class="class-name">${timing.name}</p>
+                                </div>
+                                <p class="class-details ml-7">Date: ${displayDate}</p>
+                                <p class="class-details ml-7">Time: ${timing.start} - ${timing.end}</p>
+                            `;
+                            classTimingsList.appendChild(li);
+                        });
+                    } else {
+                        classTimingsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No class timings available for your enrolled courses.</li>';
+                    }
+                } else {
+                    console.log("[loadClassTimingsForStudent] No public class timings document found.");
+                    classTimingsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No class timings available for your enrolled courses.</li>';
+                }
+            }, (error) => {
+                console.error("[loadClassTimingsForStudent] Error listening to class timings:", error);
+                classTimingsList.innerHTML = `<li class="text-red-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">Error loading class timings: ${error.message}</li>`;
+            });
+        }
 
 
         // Student Login Form Submission
@@ -856,12 +1227,12 @@
                 studentAuthMessage.classList.add('hidden');
 
                 try {
+                    console.log("[Login] Attempting student sign-in with email:", email);
                     await signInWithEmailAndPassword(auth, email, password);
                     showMessageBox("Logged in successfully as student!");
                     hideAllModals();
-                    // onAuthStateChanged will handle showing the dashboard and loading data
                 } catch (error) {
-                    console.error("Student Login error:", error.code, error.message);
+                    console.error("[Login] Student Login error:", error.code, error.message);
                     let errorMessage = `Login failed: ${error.message}.`;
                     if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
                         errorMessage = "Invalid email or password. Please check your student credentials.";
@@ -878,6 +1249,68 @@
             });
         }
 
+        // Send Feedback to Admin functionality
+        if (sendStudentFeedbackBtn) {
+            sendStudentFeedbackBtn.addEventListener('click', async () => {
+                const feedbackText = studentFeedbackInput.value.trim();
+
+                if (!feedbackText) {
+                    showMessageBox("Please enter your feedback before sending.");
+                    return;
+                }
+
+                console.log("[Send Feedback] currentUserId:", currentUserId);
+                console.log("[Send Feedback] currentStudentDocId:", currentStudentDocId);
+
+                if (!currentUserId) {
+                    showMessageBox("You must be logged in as a student to send feedback.");
+                    console.error("[Send Feedback] currentUserId is null. User not authenticated.");
+                    return;
+                }
+                if (!currentStudentDocId) {
+                    showMessageBox("Your student record could not be found. Please contact support.");
+                    console.error("[Send Feedback] currentStudentDocId is null. Student record not loaded or does not exist for this UID.");
+                    return;
+                }
+
+                const studentDocRef = doc(db, "artifacts", appId, "student_record", currentStudentDocId);
+                console.log("[Send Feedback] Targeting Firestore document path:", studentDocRef.path);
+
+                try {
+                    // Before attempting update, let's explicitly get the document to log its current state,
+                    // especially the 'uid' field to verify rule conditions.
+                    const docSnap = await getDoc(studentDocRef);
+                    if (!docSnap.exists()) {
+                        console.error("[Send Feedback] Document does not exist at:", studentDocRef.path);
+                        showMessageBox("Your student record does not exist. Please contact support.");
+                        return;
+                    }
+                    const docData = docSnap.data();
+                    console.log("[Send Feedback] Data of target document BEFORE update:", docData);
+                    console.log("[Send Feedback] UID in target document (resource.data.uid):", docData.uid);
+                    console.log("[Send Feedback] Authenticated UID (request.auth.uid):", auth.currentUser.uid);
+
+
+                    await updateDoc(studentDocRef, {
+                        student_feedback_received: arrayUnion({
+                            text: feedbackText,
+                            timestamp: new Date().toISOString(),
+                            from: "student", // Indicate sender
+                            replies: [] // Initialize with empty replies array for future admin replies
+                        }),
+                        lastUpdated: new Date().toISOString() // Update general last updated timestamp on student record
+                    });
+                    showMessageBox("Feedback sent successfully to admin!");
+                    studentFeedbackInput.value = ''; // Clear input
+                    console.log("[Send Feedback] Successfully updated document.");
+                } catch (err) {
+                    console.error("[Send Feedback] Error sending student feedback:", err.message, "Code:", err.code);
+                    showMessageBox(`Error sending feedback: ${err.message}`);
+                }
+            });
+        }
+
+
         // OnAuthStateChanged listener to handle user state and show/hide dashboard
         onAuthStateChanged(auth, (user) => {
             const logoutBtn = document.getElementById('logout-btn');
@@ -887,32 +1320,36 @@
 
             if (user) {
                 currentUserId = user.uid;
-                // Update navbar email display
+                console.log("[onAuthStateChanged] User logged in. UID:", user.uid, "Email:", user.email);
+
                 if (userEmailNavDisplay) userEmailNavDisplay.textContent = user.email || '';
                 if (mobileUserEmailNavDisplay) mobileUserEmailNavDisplay.textContent = user.email || '';
 
                 if (userInfoDisplay) userInfoDisplay.classList.remove('hidden');
                 if (mobileUserInfoDisplay) mobileUserInfoDisplay.classList.remove('hidden');
 
-                dashboardMainContent.classList.remove('hidden'); // Show dashboard content if logged in
-                // Call loadDashboardData and store unsubscribe functions
+                dashboardMainContent.classList.remove('hidden');
                 const unsubs = loadDashboardData(currentUserId, user.email || 'N/A');
                 unsubscribeProfile = unsubs.unsubscribeProfile;
                 unsubscribeStudentRecord = unsubs.unsubscribeStudentRecord;
-                hideAllModals(); // Hide any open login/signup modals
+                // loadDashboardData handles class timings listener subscription
+                hideAllModals();
             } else {
+                console.log("[onAuthStateChanged] User logged out or not authenticated.");
                 currentUserId = null;
-                // Clear navbar email display
+                currentStudentDocId = null;
+                enrolledCoursesForTimings = []; // Clear enrolled courses on logout
+
                 if (userEmailNavDisplay) userEmailNavDisplay.textContent = '';
                 if (mobileUserEmailNavDisplay) mobileUserEmailNavDisplay.textContent = '';
 
                 if (userInfoDisplay) userInfoDisplay.classList.add('hidden');
                 if (mobileUserInfoDisplay) mobileUserInfoDisplay.classList.add('hidden');
 
-                dashboardMainContent.classList.add('hidden'); // Hide dashboard content if logged out
-                showStudentLoginModal(); // Show student login modal if not logged in
+                dashboardMainContent.classList.add('hidden');
+                showStudentLoginModal();
 
-                // Unsubscribe from Firestore listeners on logout
+                // Unsubscribe all active listeners on logout
                 if (unsubscribeProfile) {
                     unsubscribeProfile();
                     unsubscribeProfile = null;
@@ -920,6 +1357,10 @@
                 if (unsubscribeStudentRecord) {
                     unsubscribeStudentRecord();
                     unsubscribeStudentRecord = null;
+                }
+                if (unsubscribeClassTimings) {
+                    unsubscribeClassTimings();
+                    unsubscribeClassTimings = null;
                 }
             }
         });
@@ -935,7 +1376,7 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target); // Stop observing once visible
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
@@ -972,7 +1413,7 @@
                     try {
                         await signOut(auth);
                         showMessageBox("Logged out successfully! Redirecting to homepage.", () => {
-                            window.location.href = 'index.html'; // Redirect to home after logout
+                            window.location.href = 'index.html';
                         });
                     } catch (error) {
                         console.error('Logout error:', error);
@@ -988,7 +1429,7 @@
                         showMessageBox("Logged out successfully! Redirecting to homepage.", () => {
                             mobileMenuOverlay.classList.add('hidden');
                             document.body.classList.remove('overflow-hidden');
-                            window.location.href = 'index.html'; // Redirect to home after logout
+                            window.location.href = 'index.html';
                         });
                     } catch (error) {
                         console.error('Mobile logout error:', error);
@@ -996,6 +1437,28 @@
                     }
                 });
             }
+
+            // Listeners for all collapsible headers
+            const collapsibleHeaders = document.querySelectorAll('.collapsible-header');
+            collapsibleHeaders.forEach(header => {
+                // Initialize header as collapsed
+                header.classList.add('collapsed');
+
+                // Get the target content wrapper using the data-target attribute
+                const targetId = header.getAttribute('data-target');
+                const targetElement = document.getElementById(targetId);
+
+                // Hide the target content wrapper initially
+                if (targetElement) {
+                    targetElement.classList.add('hidden');
+                }
+
+                header.addEventListener('click', () => {
+                    if (targetElement) {
+                        toggleSectionVisibility(header, targetElement);
+                    }
+                });
+            });
         });
     </script>
 </body>
