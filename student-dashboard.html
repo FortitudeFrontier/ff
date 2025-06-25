@@ -371,6 +371,113 @@
             color: #D1D5DB; /* Light gray */
             font-size: 0.9rem;
         }
+
+        /* Calendar Styles */
+        .calendar-container {
+            background-color: #1A1A1A;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            margin-top: 1rem;
+            border: 1px solid rgba(16, 185, 129, 0.3); /* Greenish border */
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: #FFFFFF;
+        }
+
+        .calendar-header button {
+            background-color: #10B981; /* Green */
+            color: #0D0D0D;
+            padding: 0.5rem 0.8rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+        .calendar-header button:hover {
+            background-color: #059669; /* Darker Green */
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            text-align: center;
+        }
+
+        .calendar-day-header {
+            font-weight: 700;
+            color: #10B981; /* Green */
+            padding: 0.5rem 0;
+            border-bottom: 2px solid rgba(16, 185, 129, 0.5);
+        }
+
+        .calendar-day {
+            background-color: #2A2A2A;
+            padding: 0.75rem 0.25rem; /* Adjusted padding */
+            border-radius: 0.5rem;
+            position: relative;
+            cursor: default;
+            min-height: 48px; /* Ensure consistent height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.9rem; /* Smaller font for number */
+        }
+
+        .calendar-day.empty {
+            background-color: #1A1A1A;
+            color: #4A4A4A;
+        }
+
+        .calendar-day.today {
+            border: 2px solid #FF8C00; /* Orange border for today */
+            font-weight: bold;
+        }
+
+        .calendar-day .day-number {
+            font-weight: bold;
+            font-size: 1.1em; /* Make day number slightly larger */
+            margin-bottom: 0.2em;
+        }
+
+        .calendar-day .attendance-status {
+            font-size: 0.7rem; /* Smaller text for status */
+            font-weight: 600;
+            padding: 0.1em 0.4em;
+            border-radius: 0.3em;
+            text-transform: uppercase;
+            margin-top: 0.2em; /* Space between number and status */
+        }
+
+        .calendar-day.present {
+            background-color: #1C332D; /* Darker green */
+            border: 1px solid #34D399; /* Emerald Green */
+        }
+        .calendar-day.present .attendance-status {
+            color: #34D399;
+        }
+
+        .calendar-day.absent {
+            background-color: #331A1A; /* Darker red */
+            border: 1px solid #EF4444; /* Red */
+        }
+        .calendar-day.absent .attendance-status {
+            color: #EF4444;
+        }
+
+        .calendar-day.late {
+            background-color: #332B1A; /* Darker amber */
+            border: 1px solid #FBBF24; /* Amber Yellow */
+        }
+        .calendar-day.late .attendance-status {
+            color: #FBBF24;
+        }
     </style>
 </head>
 <body class="bg-[#0D0D0D] text-white">
@@ -641,11 +748,33 @@
 
                 <!-- NEW: Attendance History Section -->
                 <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
-                    <h3 class="text-2xl font-semibold text-white mb-4 section-header-attendance collapsible-header" data-target="attendance-list-wrapper">
+                    <h3 class="text-2xl font-semibold text-white mb-4 section-header-attendance collapsible-header" data-target="attendance-content-wrapper">
                         <span><i class="fa fa-check-square-o icon-attendance mr-2"></i>Attendance History</span>
                         <i class="fa fa-chevron-down toggle-icon text-lg"></i>
                     </h3>
-                    <div id="attendance-list-wrapper" class="hidden"> <!-- Wrapper for toggling -->
+                    <div id="attendance-content-wrapper" class="hidden"> <!-- Wrapper for toggling -->
+                        <!-- Calendar View for Attendance -->
+                        <div id="attendance-calendar-container" class="calendar-container mb-6">
+                            <div class="calendar-header">
+                                <button id="prev-month-btn">&laquo; Prev</button>
+                                <h4 id="current-month-year" class="text-2xl font-semibold"></h4>
+                                <button id="next-month-btn">Next &raquo;</button>
+                            </div>
+                            <div id="calendar-grid" class="calendar-grid">
+                                <!-- Day headers -->
+                                <div class="calendar-day-header">Sun</div>
+                                <div class="calendar-day-header">Mon</div>
+                                <div class="calendar-day-header">Tue</div>
+                                <div class="calendar-day-header">Wed</div>
+                                <div class="calendar-day-header">Thu</div>
+                                <div class="calendar-day-header">Fri</div>
+                                <div class="calendar-day-header">Sat</div>
+                                <!-- Calendar days will be generated here by JS -->
+                            </div>
+                        </div>
+
+                        <!-- List View for Attendance (Existing) -->
+                        <h4 class="text-xl font-semibold text-white mt-8 mb-4">Detailed Attendance List</h4>
                         <ul id="attendance-list" class="space-y-3">
                             <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No attendance records.</li>
                         </ul>
@@ -754,7 +883,7 @@
         const myFeedbackListWrapper = document.getElementById('my-feedback-list-wrapper');
         const sendFeedbackInputWrapper = document.getElementById('send-feedback-input-wrapper');
         const myAssignmentsListWrapper = document.getElementById('my-assignments-list-wrapper');
-        const attendanceListWrapper = document.getElementById('attendance-list-wrapper');
+        const attendanceContentWrapper = document.getElementById('attendance-content-wrapper'); // Changed from list-wrapper
         const recordedSessionsListWrapper = document.getElementById('recorded-sessions-list-wrapper');
         const classTimingsListWrapper = document.getElementById('class-timings-list-wrapper');
         const enrollmentInfoWrapper = document.getElementById('enrollment-info-wrapper');
@@ -764,10 +893,19 @@
         const recentActivityListWrapper = document.getElementById('recent-activity-list-wrapper');
         const upcomingDeadlinesListWrapper = document.getElementById('upcoming-deadlines-list-wrapper');
 
+        // Calendar elements
+        const currentMonthYearDisplay = document.getElementById('current-month-year');
+        const prevMonthBtn = document.getElementById('prev-month-btn');
+        const nextMonthBtn = document.getElementById('next-month-btn');
+        const calendarGrid = document.getElementById('calendar-grid');
+
+        let currentCalendarDate = new Date(); // To keep track of the month displayed in the calendar
+        let allAttendanceData = []; // Store all attendance data to filter by month
+
 
         // Navbar user info displays
         const userEmailNavDisplay = document.getElementById('user-email-nav');
-        const mobileUserEmailNavDisplay = document.getElementById('mobile-user-email-nav');
+        const mobileUserEmailNavDisplay = document.getElementById('mobile-user-nav');
 
         // Message Box function
         const showMessageBox = (message, onConfirm = null) => {
@@ -819,6 +957,87 @@
             contentWrapperElement.classList.toggle('hidden');
             headerElement.classList.toggle('collapsed'); // Add/remove 'collapsed' class for icon rotation
         };
+
+
+        /**
+         * Renders the attendance calendar for the given month and year,
+         * highlighting dates with attendance records.
+         * @param {Date} date The current date (used for month/year).
+         * @param {Array} attendanceData All attendance records for the student.
+         */
+        const renderAttendanceCalendar = (date, attendanceData) => {
+            calendarGrid.innerHTML = `
+                <div class="calendar-day-header">Sun</div>
+                <div class="calendar-day-header">Mon</div>
+                <div class="calendar-day-header">Tue</div>
+                <div class="calendar-day-header">Wed</div>
+                <div class="calendar-day-header">Thu</div>
+                <div class="calendar-day-header">Fri</div>
+                <div class="calendar-day-header">Sat</div>
+            `; // Clear and re-add headers
+
+            const year = date.getFullYear();
+            const month = date.getMonth(); // 0-indexed month
+
+            currentMonthYearDisplay.textContent = new Date(year, month).toLocaleString('en-US', { month: 'long', year: 'numeric' });
+
+            const firstDayOfMonth = new Date(year, month, 1).getDay(); // 0 for Sunday, 1 for Monday, etc.
+            const daysInMonth = new Date(year, month + 1, 0).getDate(); // Last day of the month
+
+            const today = new Date();
+            const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
+
+            // Add empty days for the start of the month
+            for (let i = 0; i < firstDayOfMonth; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.classList.add('calendar-day', 'empty');
+                calendarGrid.appendChild(emptyDay);
+            }
+
+            // Add days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.classList.add('calendar-day');
+
+                let status = '';
+                let statusClass = '';
+
+                // Check for attendance on this date
+                const attendanceRecord = attendanceData.find(record => {
+                    const recordDate = new Date(record.date);
+                    return recordDate.getFullYear() === year &&
+                           recordDate.getMonth() === month &&
+                           recordDate.getDate() === day;
+                });
+
+                if (attendanceRecord) {
+                    status = attendanceRecord.status;
+                    statusClass = status.toLowerCase(); // 'present', 'absent', 'late'
+                    dayElement.classList.add(statusClass);
+                }
+
+                if (isCurrentMonth && day === today.getDate()) {
+                    dayElement.classList.add('today');
+                }
+
+                dayElement.innerHTML = `
+                    <span class="day-number">${day}</span>
+                    ${status ? `<span class="attendance-status">${status}</span>` : ''}
+                `;
+                calendarGrid.appendChild(dayElement);
+            }
+        };
+
+        // Event listeners for calendar navigation
+        prevMonthBtn.addEventListener('click', () => {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+            renderAttendanceCalendar(currentCalendarDate, allAttendanceData);
+        });
+
+        nextMonthBtn.addEventListener('click', () => {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+            renderAttendanceCalendar(currentCalendarDate, allAttendanceData);
+        });
 
 
         /**
@@ -1070,11 +1289,12 @@
                         mySentFeedbackList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No feedback sent yet.</li>';
                     }
 
-                    const attendance = Array.isArray(data.attendance) ? data.attendance : [];
-                    attendanceList.innerHTML = '';
-                    if (attendance.length > 0) {
-                        attendance.sort((a, b) => new Date(b.date) - new Date(a.date));
-                        attendance.forEach(item => {
+                    // Handle attendance data for both list and calendar
+                    allAttendanceData = Array.isArray(data.attendance) ? data.attendance : [];
+                    attendanceList.innerHTML = ''; // Clear previous list entries
+                    if (allAttendanceData.length > 0) {
+                        allAttendanceData.sort((a, b) => new Date(b.date) - new Date(a.date));
+                        allAttendanceData.forEach(item => {
                             const li = document.createElement('li');
                             li.className = "bg-[#1A1A1A] p-4 rounded-lg shadow-inner flex items-center list-item";
                             const attendanceDate = new Date(item.date).toLocaleDateString();
@@ -1089,6 +1309,9 @@
                     } else {
                         attendanceList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No attendance records.</li>';
                     }
+                    // Render calendar with all attendance data
+                    renderAttendanceCalendar(currentCalendarDate, allAttendanceData);
+
 
                     const recordedSessions = Array.isArray(data.recorded_sessions) ? data.recorded_sessions : [];
                     recordedSessionsList.innerHTML = '';
@@ -1134,7 +1357,11 @@
                     upcomingDeadlinesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No upcoming deadlines.</li>';
                     feedbackList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No feedback yet.</li>';
                     mySentFeedbackList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No feedback sent yet.</li>';
+
+                    allAttendanceData = []; // Clear attendance data
                     attendanceList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No attendance records.</li>';
+                    renderAttendanceCalendar(currentCalendarDate, allAttendanceData); // Re-render empty calendar
+
                     recordedSessionsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No recorded sessions.</li>';
                 }
             }, (error) => {
