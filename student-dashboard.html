@@ -1159,7 +1159,7 @@
 
                             li.innerHTML = `
                                 <p class="assignment-title">
-                                    <i class="fa fa-file-text-o icon-assignments mr-2"></i>${assignment.description}
+                                    <i class="fa fa-file-text-o icon-assignments mr-2"></i>${assignment.description || `Assignment ${index + 1}`}
                                     <span class="status-indicator ${statusClass}">${assignment.status || 'Pending'}</span>
                                 </p>
                                 <p class="assignment-details">Score: <span class="font-semibold">${scoreDisplay}</span></p>
