@@ -180,6 +180,7 @@
         .section-header-student-feedback { color: #FACC15; /* Amber */ } /* NEW */
         .section-header-timings { color: #8B5CF6; /* Purple for timings */ } /* NEW */
         .section-header-assignments { color: #60A5FA; } /* Blue for Assignments */
+        .section-header-services { color: #A855F7; } /* Purple for Services */
 
 
         .icon-feedback { color: #60A5FA; }
@@ -189,6 +190,7 @@
         .icon-student-feedback { color: #FACC15; } /* NEW */
         .icon-timings { color: #8B5CF6; } /* NEW */
         .icon-assignments { color: #60A5FA; } /* Blue for Assignments */
+        .icon-services { color: #A855F7; } /* Purple for Services */
 
 
         /* NEW: Feedback item styling for cool look */
@@ -298,6 +300,35 @@
         .assignment-item-card .status-pending { background-color: #FBBF24; color: #333; } /* Amber */
         .assignment-item-card .status-submitted { background-color: #60A5FA; color: #FFF; } /* Blue */
         .assignment-item-card .status-graded { background-color: #10B981; color: #FFF; } /* Green */
+
+
+        /* NEW: Service Purchase Item Styling */
+        .service-item-card {
+            background-color: #3a3a3a;
+            border-left: 6px solid #A855F7; /* Purple accent for services */
+            padding: 1.2rem 1.8rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            margin-bottom: 0.75rem;
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        .service-item-card .service-title {
+            font-weight: 600;
+            color: #E2E8F0;
+            font-size: 1.15rem;
+            margin-bottom: 0.4rem;
+        }
+        .service-item-card .service-details {
+            color: #B0B9C4;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        .service-item-card .service-receipt-url {
+            color: #A855F7;
+            text-decoration: underline;
+            font-size: 0.95rem;
+            word-break: break-all;
+        }
 
 
         /* Animation for sections appearing */
@@ -478,6 +509,43 @@
         .calendar-day.late .attendance-status {
             color: #FBBF24;
         }
+
+        /* Course tag styling for enrollment modal */
+        .course-tag {
+            display: inline-flex;
+            align-items: center;
+            background-color: #f97316; /* Orange */
+            color: black;
+            padding: 6px 12px;
+            border-radius: 8px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 600; /* font-semibold */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .course-tag span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: calc(100% - 24px);
+        }
+        .course-tag .remove-tag {
+            margin-left: 8px;
+            background: none;
+            border: none;
+            color: black;
+            font-size: 1.1em;
+            cursor: pointer;
+            line-height: 1;
+            transition: transform 0.2s ease-in-out;
+        }
+        .course-tag .remove-tag:hover {
+            transform: scale(1.2);
+        }
     </style>
 </head>
 <body class="bg-[#0D0D0D] text-white">
@@ -507,6 +575,38 @@
             </form>
         </div>
     </div>
+
+    <!-- Enroll Course Modal (NEW) -->
+    <div id="enroll-course-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="enroll-course-close-button">&times;</span>
+            <h3 class="text-3xl font-bold text-[#FF8C00] mb-6 text-center">Enroll in New Course(s)</h3>
+            <div class="space-y-5">
+                <div>
+                    <label for="enroll-course-select" class="block text-gray-300 text-sm font-semibold mb-1">Select Course(s) to Enroll:</label>
+                    <div class="flex space-x-2 mb-2">
+                        <select id="enroll-course-select" class="flex-grow p-3 rounded-lg bg-[#333] text-white focus:outline-none focus:ring-2 focus:ring-[#f97316]">
+                            <option value="">Choose a Course</option>
+                            <option value="Java">Java</option>
+                            <option value="Python">Python</option>
+                            <option value="Web Development">Web Development</option>
+                            <option value="C">C</option>
+                            <option value="C++">C++</option>
+                            <option value="Data Analytics">Data Analytics</option>
+                        </select>
+                        <button type="button" id="add-enroll-course-tag-button" class="bg-[#f97316] hover:bg-[#e0640d] text-black px-4 py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-md">Add Course</button>
+                    </div>
+                    <div id="enroll-course-tags-container" class="flex flex-wrap gap-2 mt-2 p-2 bg-[#333] rounded-lg min-h-[40px] items-center">
+                        <!-- Course tags will be appended here -->
+                    </div>
+                </div>
+                <button type="button" id="confirm-enrollment-btn" class="w-full bg-[#10B981] hover:bg-[#0E8A63] text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-md">
+                    <i class="fa fa-check-circle mr-2"></i>Confirm Enrollment
+                </button>
+            </div>
+        </div>
+    </div>
+
 
     <div class="min-h-screen flex flex-col py-10 px-4">
         <!-- Navbar for Student Dashboard Page -->
@@ -593,8 +693,37 @@
                     </div>
                 </div>
 
+                <!-- NEW: Enroll Course Today Section (Visible only if no courses but has services) -->
+                <div id="enroll-course-today-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section hidden">
+                    <h3 class="text-2xl font-semibold text-white mb-4 text-center">
+                        <i class="fa fa-plus-circle text-[#10B981] mr-2"></i>Ready to Learn More?
+                    </h3>
+                    <p class="text-gray-300 text-center mb-4">You've registered for services. Now, enroll in a course to expand your skills and unlock more benefits!</p>
+                    <button id="enroll-course-today-btn" class="w-full action-button font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105">
+                        Enroll in a Course Today!
+                    </button>
+                    <p class="text-center text-gray-400 text-sm mt-4">
+                        Or fill out our quick form: <a href="https://forms.fillout.com/t/38fWVyXv1gus" target="_blank" class="text-[#60A5FA] hover:underline">Enrollment Form</a>
+                    </p>
+                </div>
+
+                <!-- NEW: Get Services Ad Section (Visible only if has courses but no services) -->
+                <div id="get-services-ad-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section hidden">
+                    <h3 class="text-2xl font-semibold text-white mb-4 text-center">
+                        <i class="fa fa-tags text-[#A855F7] mr-2"></i>Need More Support?
+                    </h3>
+                    <p class="text-gray-300 text-center mb-4">You're excelling in your courses! Get additional services from us at a reasonable price to boost your learning journey.</p>
+                    <button id="get-services-btn" class="w-full action-button font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105" style="background-color: #A855F7; color: white;">
+                        Explore Our Services!
+                    </button>
+                    <p class="text-center text-gray-400 text-sm mt-4">
+                        Or fill out our quick form: <a href="https://forms.fillout.com/t/38fWVyXv1gus" target="_blank" class="text-[#60A5FA] hover:underline">Service Request Form</a>
+                    </p>
+                </div>
+
+
                 <!-- Enrollment Details -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                <div id="enrollment-info-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section hidden">
                     <h3 class="text-2xl font-semibold text-white mb-4 collapsible-header" data-target="enrollment-info-wrapper">
                         <span><i class="fa fa-info-circle text-[#FF8C00] mr-2"></i>Enrollment Information</span>
                         <i class="fa fa-chevron-down toggle-icon text-lg"></i>
@@ -610,7 +739,7 @@
                 </div>
 
                 <!-- My Courses (Detailed List) -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                <div id="my-courses-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section hidden">
                     <h3 class="text-2xl font-semibold text-white mb-4 collapsible-header" data-target="my-courses-list-wrapper">
                         <span><i class="fa fa-graduation-cap text-[#FF8C00] mr-2"></i>My Registered Courses</span>
                         <i class="fa fa-chevron-down toggle-icon text-lg"></i>
@@ -622,8 +751,21 @@
                     </div>
                 </div>
 
+                <!-- NEW: My Registered Services Section -->
+                <div id="my-services-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section hidden">
+                    <h3 class="text-2xl font-semibold text-white mb-4 section-header-services collapsible-header" data-target="my-services-list-wrapper">
+                        <span><i class="fa fa-shopping-cart icon-services mr-2"></i>My Registered Services</span>
+                        <i class="fa fa-chevron-down toggle-icon text-lg"></i>
+                    </h3>
+                    <div id="my-services-list-wrapper" class="hidden">
+                        <ul id="my-services-list" class="space-y-3">
+                            <li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No services registered.</li>
+                        </ul>
+                    </div>
+                </div>
+
                 <!-- NEW: Class Timings Section -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                <div id="class-timings-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section hidden">
                     <h3 class="text-2xl font-semibold text-white mb-4 section-header-timings collapsible-header" data-target="class-timings-list-wrapper">
                         <span><i class="fa fa-clock-o icon-timings mr-2"></i>My Class Timings</span>
                         <i class="fa fa-chevron-down toggle-icon text-lg"></i>
@@ -636,7 +778,7 @@
                 </div>
 
                 <!-- My Assignments -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                <div id="my-assignments-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section hidden">
                     <h3 class="text-2xl font-semibold text-white mb-4 section-header-assignments collapsible-header" data-target="my-assignments-list-wrapper">
                         <span><i class="fa fa-tasks icon-assignments mr-2"></i>My Assignments</span>
                         <i class="fa fa-chevron-down toggle-icon text-lg"></i>
@@ -649,7 +791,7 @@
                 </div>
 
                 <!-- My Certificates -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                <div id="my-certificates-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section hidden">
                     <h3 class="text-2xl font-semibold text-white mb-4 collapsible-header" data-target="my-certificates-list-wrapper">
                         <span><i class="fa fa-certificate text-[#10B981] mr-2"></i>My Certificates</span>
                         <i class="fa fa-chevron-down toggle-icon text-lg"></i>
@@ -662,7 +804,7 @@
                 </div>
 
                 <!-- My Notes -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                <div id="my-notes-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section hidden">
                     <h3 class="text-2xl font-semibold text-white mb-4 collapsible-header" data-target="my-notes-wrapper">
                         <span><i class="fa fa-pencil-square-o icon-notes mr-2"></i>My Notes</span>
                         <i class="fa fa-chevron-down toggle-icon text-lg"></i>
@@ -679,7 +821,7 @@
                 </div>
 
                 <!-- Recent Activity / Notifications -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                <div id="recent-activity-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section hidden">
                     <h3 class="text-2xl font-semibold text-white mb-4 collapsible-header" data-target="recent-activity-list-wrapper">
                         <span><i class="fa fa-history text-[#00BCD4] mr-2"></i>Recent Activity</span>
                         <i class="fa fa-chevron-down toggle-icon text-lg"></i>
@@ -692,7 +834,7 @@
                 </div>
 
                 <!-- Upcoming Deadlines -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                <div id="upcoming-deadlines-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section hidden">
                     <h3 class="text-2xl font-semibold text-white mb-4 collapsible-header" data-target="upcoming-deadlines-list-wrapper">
                         <span><i class="fa fa-hourglass-half text-[#FFC107] mr-2"></i>Upcoming Deadlines</span>
                         <i class="fa fa-chevron-down toggle-icon text-lg"></i>
@@ -705,7 +847,7 @@
                 </div>
 
                 <!-- NEW: Feedback Section - Renamed and Styled (Admin to Student) -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                <div id="admin-feedback-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section hidden">
                     <h3 class="text-2xl font-semibold text-white mb-4 section-header-feedback collapsible-header" data-target="feedback-list-wrapper">
                         <span><i class="fa fa-comments-o icon-feedback mr-2"></i>Feedback From Teacher</span>
                         <i class="fa fa-chevron-down toggle-icon text-lg"></i>
@@ -718,7 +860,7 @@
                 </div>
 
                 <!-- NEW: My Sent Feedback to Admin (with Admin Replies) -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                <div id="student-feedback-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section hidden">
                     <h3 class="text-2xl font-semibold text-white mb-4 section-header-student-feedback collapsible-header" data-target="my-feedback-list-wrapper">
                         <span><i class="fa fa-commenting icon-student-feedback mr-2"></i>My Sent Feedback to Admin</span>
                         <i class="fa fa-chevron-down toggle-icon text-lg"></i>
@@ -732,7 +874,7 @@
 
 
                 <!-- NEW: Send Feedback to Admin Section (Student to Admin) -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section student-feedback-send-card">
+                <div id="send-feedback-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section student-feedback-send-card hidden">
                     <h3 class="text-2xl font-semibold text-white mb-4 section-header-student-feedback collapsible-header" data-target="send-feedback-input-wrapper">
                         <span><i class="fa fa-paper-plane icon-student-feedback mr-2"></i>Send New Feedback to Admin</span>
                         <i class="fa fa-chevron-down toggle-icon text-lg"></i>
@@ -747,7 +889,7 @@
 
 
                 <!-- NEW: Attendance History Section -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                <div id="attendance-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section hidden">
                     <h3 class="text-2xl font-semibold text-white mb-4 section-header-attendance collapsible-header" data-target="attendance-content-wrapper">
                         <span><i class="fa fa-check-square-o icon-attendance mr-2"></i>Attendance History</span>
                         <i class="fa fa-chevron-down toggle-icon text-lg"></i>
@@ -782,7 +924,7 @@
                 </div>
 
                 <!-- NEW: Recorded Sessions Section -->
-                <div class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section">
+                <div id="recorded-sessions-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section hidden">
                     <h3 class="text-2xl font-semibold text-white mb-4 section-header-sessions collapsible-header" data-target="recorded-sessions-list-wrapper">
                         <span><i class="fa fa-video-camera icon-sessions mr-2"></i>Recorded Sessions</span>
                         <i class="fa fa-chevron-down toggle-icon text-lg"></i>
@@ -845,6 +987,15 @@
         const studentLoginBtn = document.getElementById('student-login-btn');
         const studentAuthMessage = document.getElementById('student-auth-message');
 
+        // Enroll Course Modal elements (NEW)
+        const enrollCourseModal = document.getElementById('enroll-course-modal');
+        const enrollCourseCloseButton = document.getElementById('enroll-course-close-button');
+        const enrollCourseSelect = document.getElementById('enroll-course-select');
+        const addEnrollCourseTagButton = document.getElementById('add-enroll-course-tag-button');
+        const enrollCourseTagsContainer = document.getElementById('enroll-course-tags-container');
+        const confirmEnrollmentBtn = document.getElementById('confirm-enrollment-btn');
+        let selectedEnrollCourses = new Set(); // To store courses selected in the enrollment modal
+
         // Main dashboard content
         const dashboardMainContent = document.getElementById('dashboard-main-content');
 
@@ -864,6 +1015,7 @@
         const myCertificatesList = document.getElementById('my-certificates-list');
         const myNotesContent = document.getElementById('my-notes-content'); // Notes text
         const myNotesAttachmentsList = document.getElementById('my-notes-attachments-list'); // Notes URLs list
+        const myServicesList = document.getElementById('my-services-list'); // NEW: Services list
 
         // Dashboard sections for Feedback, Attendance, Recorded Sessions, Class Timings
         const feedbackList = document.getElementById('feedback-list'); // Feedback From Teacher (admin_sent_feedback)
@@ -878,20 +1030,41 @@
         // My Sent Feedback to Admin elements
         const mySentFeedbackList = document.getElementById('my-sent-feedback-list');
 
-        // Toggle Buttons and Wrappers
-        const feedbackListWrapper = document.getElementById('feedback-list-wrapper');
-        const myFeedbackListWrapper = document.getElementById('my-feedback-list-wrapper');
-        const sendFeedbackInputWrapper = document.getElementById('send-feedback-input-wrapper');
-        const myAssignmentsListWrapper = document.getElementById('my-assignments-list-wrapper');
-        const attendanceContentWrapper = document.getElementById('attendance-content-wrapper'); // Changed from list-wrapper
-        const recordedSessionsListWrapper = document.getElementById('recorded-sessions-list-wrapper');
-        const classTimingsListWrapper = document.getElementById('class-timings-list-wrapper');
+        // Dashboard Section Elements (for dynamic visibility)
+        const enrollmentInfoSection = document.getElementById('enrollment-info-section');
+        const myCoursesSection = document.getElementById('my-courses-section');
+        const myServicesSection = document.getElementById('my-services-section');
+        const classTimingsSection = document.getElementById('class-timings-section');
+        const myAssignmentsSection = document.getElementById('my-assignments-section');
+        const myCertificatesSection = document.getElementById('my-certificates-section');
+        const myNotesSection = document.getElementById('my-notes-section');
+        const recentActivitySection = document.getElementById('recent-activity-section');
+        const upcomingDeadlinesSection = document.getElementById('upcoming-deadlines-section');
+        const adminFeedbackSection = document.getElementById('admin-feedback-section');
+        const studentFeedbackSection = document.getElementById('student-feedback-section');
+        const sendFeedbackSection = document.getElementById('send-feedback-section');
+        const attendanceSection = document.getElementById('attendance-section');
+        const recordedSessionsSection = document.getElementById('recorded-sessions-section');
+        const enrollCourseTodaySection = document.getElementById('enroll-course-today-section'); // NEW: Enroll Course Today Section
+        const getServicesAdSection = document.getElementById('get-services-ad-section'); // NEW: Get Services Ad Section
+
+
+        // Toggle Buttons and Wrappers (from previous version, some might be redundant with new section visibility logic)
         const enrollmentInfoWrapper = document.getElementById('enrollment-info-wrapper');
         const myCoursesListWrapper = document.getElementById('my-courses-list-wrapper');
         const myCertificatesListWrapper = document.getElementById('my-certificates-list-wrapper');
         const myNotesWrapper = document.getElementById('my-notes-wrapper');
         const recentActivityListWrapper = document.getElementById('recent-activity-list-wrapper');
         const upcomingDeadlinesListWrapper = document.getElementById('upcoming-deadlines-list-wrapper');
+        const myServicesListWrapper = document.getElementById('my-services-list-wrapper');
+        const feedbackListWrapper = document.getElementById('feedback-list-wrapper');
+        const myFeedbackListWrapper = document.getElementById('my-feedback-list-wrapper');
+        const sendFeedbackInputWrapper = document.getElementById('send-feedback-input-wrapper');
+        const myAssignmentsListWrapper = document.getElementById('my-assignments-list-wrapper');
+        const attendanceContentWrapper = document.getElementById('attendance-content-wrapper');
+        const recordedSessionsListWrapper = document.getElementById('recorded-sessions-list-wrapper');
+        const classTimingsListWrapper = document.getElementById('class-timings-list-wrapper');
+
 
         // Calendar elements
         const currentMonthYearDisplay = document.getElementById('current-month-year');
@@ -926,6 +1099,7 @@
         // Function to show/hide modals
         const hideAllModals = () => {
             studentLoginModal.classList.remove('show');
+            enrollCourseModal.classList.remove('show'); // NEW: Hide enroll course modal
             document.body.classList.remove('overflow-hidden');
         };
 
@@ -943,6 +1117,17 @@
         if (studentLoginModal) {
             studentLoginModal.addEventListener('click', (e) => {
                 if (e.target === studentLoginModal) {
+                    hideAllModals();
+                }
+            });
+        }
+        // NEW: Enroll Course Modal Close Button
+        if (enrollCourseCloseButton) {
+            enrollCourseCloseButton.addEventListener('click', () => hideAllModals());
+        }
+        if (enrollCourseModal) {
+            enrollCourseModal.addEventListener('click', (e) => {
+                if (e.target === enrollCourseModal) {
                     hideAllModals();
                 }
             });
@@ -1037,6 +1222,76 @@
         nextMonthBtn.addEventListener('click', () => {
             currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
             renderAttendanceCalendar(currentCalendarDate, allAttendanceData);
+        });
+
+        /**
+         * Creates and appends a course tag to the specified container.
+         * Used in the "Enroll Course" modal.
+         * @param {string} courseName The name of the course.
+         * @param {HTMLElement} containerElement The container to append the tag to.
+         * @param {Set<string>} selectedSet The Set to manage selected courses.
+         */
+        function createCourseTag(courseName, containerElement, selectedSet) {
+            if (selectedSet.has(courseName)) {
+                showMessageBox(`Course "${courseName}" is already added.`);
+                return;
+            }
+
+            const tagDiv = document.createElement('div');
+            tagDiv.className = 'course-tag';
+            tagDiv.innerHTML = `
+                <span>${courseName}</span>
+                <button type="button" class="remove-tag" data-course="${courseName}">&times;</button>
+            `;
+            containerElement.appendChild(tagDiv);
+            selectedSet.add(courseName);
+
+            tagDiv.querySelector('.remove-tag').addEventListener('click', (e) => {
+                const courseToRemove = e.target.dataset.course;
+                selectedSet.delete(courseToRemove);
+                tagDiv.remove();
+            });
+        }
+
+        // NEW: Add Course button handler for Enroll Course Modal
+        addEnrollCourseTagButton.addEventListener('click', () => {
+            const selectedOption = enrollCourseSelect.value;
+            if (selectedOption) {
+                createCourseTag(selectedOption, enrollCourseTagsContainer, selectedEnrollCourses);
+                enrollCourseSelect.value = ''; // Reset dropdown
+            } else {
+                showMessageBox("Please select a course to add.");
+            }
+        });
+
+        // NEW: Confirm Enrollment button handler
+        confirmEnrollmentBtn.addEventListener('click', async () => {
+            if (selectedEnrollCourses.size === 0) {
+                showMessageBox("Please select at least one course to enroll.");
+                return;
+            }
+
+            if (!currentStudentDocId) {
+                showMessageBox("Student record not found. Cannot enroll in courses.");
+                return;
+            }
+
+            const coursesToAdd = Array.from(selectedEnrollCourses);
+            const studentDocRef = doc(db, "artifacts", appId, "student_record", currentStudentDocId);
+
+            try {
+                await updateDoc(studentDocRef, {
+                    course_enrollment: arrayUnion(...coursesToAdd), // Add new courses to the existing array
+                    lastUpdated: new Date().toISOString()
+                });
+                showMessageBox("Courses enrolled successfully!");
+                hideAllModals();
+                selectedEnrollCourses.clear(); // Clear selected courses after successful enrollment
+                enrollCourseTagsContainer.innerHTML = ''; // Clear tags in modal
+            } catch (error) {
+                console.error("Error enrolling in courses:", error);
+                showMessageBox(`Failed to enroll in courses: ${error.message}`);
+            }
         });
 
 
@@ -1153,7 +1408,7 @@
                         assignments.forEach((assignment, index) => {
                             const li = document.createElement('li');
                             li.className = "assignment-item-card"; // Apply specific styling
-                            const statusClass = assignment.status ? `status-${assignment.status.toLowerCase()}` : 'status-pending';
+                            const statusClass = assignment.status ? `status-${assignment.status.toLowerCase().replace(/\s/g, '-')}` : 'status-pending'; // Handle spaces in status
                             const scoreDisplay = assignment.score !== null ? `${assignment.score}/100` : 'N/A';
                             const assignmentUrlHtml = assignment.url ? `<a href="${assignment.url}" target="_blank" class="assignment-url">View Assignment</a>` : 'No URL provided.';
 
@@ -1183,6 +1438,34 @@
                     } else {
                         myCertificatesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No certificates provided.</li>';
                     }
+
+                    // NEW: Populate My Registered Services
+                    const servicePurchases = Array.isArray(data.service_purchases) ? data.service_purchases : [];
+                    myServicesList.innerHTML = '';
+                    if (servicePurchases.length > 0) {
+                        servicePurchases.sort((a, b) => new Date(b.purchasedDate) - new Date(a.purchasedDate)); // Sort by newest purchase
+                        servicePurchases.forEach((service, index) => {
+                            const li = document.createElement('li');
+                            li.className = "service-item-card"; // Apply specific styling
+                            const receiptUrlHtml = service.receipt ? `<a href="${service.receipt}" target="_blank" class="service-receipt-url">View Receipt</a>` : 'No receipt provided.';
+                            const purchasedDate = service.purchasedDate ? new Date(service.purchasedDate).toLocaleDateString() : 'N/A';
+                            const completionDate = service.completionDate ? new Date(service.completionDate).toLocaleDateString() : 'N/A';
+
+                            li.innerHTML = `
+                                <p class="service-title">
+                                    <i class="fa fa-tag icon-services mr-2"></i>${service.type || `Service ${index + 1}`}
+                                </p>
+                                <p class="service-details">Amount Paid: <span class="font-semibold">$${service.amount || 'N/A'}</span></p>
+                                <p class="service-details">Purchased Date: <span class="font-semibold">${purchasedDate}</span></p>
+                                <p class="service-details">Completion Date: <span class="font-semibold">${completionDate}</span></p>
+                                <p class="service-details">Receipt: ${receiptUrlHtml}</p>
+                            `;
+                            myServicesList.appendChild(li);
+                        });
+                    } else {
+                        myServicesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No services registered.</li>';
+                    }
+
 
                     // Debug log for overall_progress
                     console.log("[DEBUG] overall_progress (from snapshot):", data.overall_progress);
@@ -1332,6 +1615,58 @@
                         recordedSessionsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No recorded sessions.</li>';
                     }
 
+                    // Logic for "Enroll Course Today" and "Get Services Ad" section visibility
+                    const hasCourses = enrolledCourses.length > 0;
+                    const hasServices = servicePurchases.length > 0;
+
+                    if (enrollCourseTodaySection) {
+                        if (!hasCourses && hasServices) {
+                            enrollCourseTodaySection.classList.remove('hidden');
+                            getServicesAdSection.classList.add('hidden'); // Hide other ad
+                        } else {
+                            enrollCourseTodaySection.classList.add('hidden');
+                        }
+                    }
+                    if (getServicesAdSection) {
+                        if (hasCourses && !hasServices) {
+                            getServicesAdSection.classList.remove('hidden');
+                            enrollCourseTodaySection.classList.add('hidden'); // Hide other ad
+                        } else {
+                            getServicesAdSection.classList.add('hidden');
+                        }
+                    }
+
+                    // NEW: Apply dashboard view options from admin panel
+                    const dashboardViewOptions = data.dashboard_view_options || {};
+                    console.log("[DEBUG] Dashboard View Options:", dashboardViewOptions); // Debug log
+
+                    // Helper to toggle section visibility based on admin setting
+                    const toggleSection = (element, showKey) => {
+                        if (element) {
+                            if (dashboardViewOptions[showKey] === false) { // Explicitly check for false
+                                element.classList.add('hidden');
+                            } else {
+                                element.classList.remove('hidden');
+                            }
+                        }
+                    };
+
+                    toggleSection(enrollmentInfoSection, 'showEnrollmentInfo'); // New: Enrollment Info section
+                    toggleSection(myCoursesSection, 'showCourses');
+                    toggleSection(myServicesSection, 'showServicePurchases');
+                    toggleSection(classTimingsSection, 'showClassTimings'); // New: Class Timings section
+                    toggleSection(myAssignmentsSection, 'showAssignments');
+                    toggleSection(myCertificatesSection, 'showCertificates');
+                    toggleSection(myNotesSection, 'showNotes');
+                    toggleSection(recentActivitySection, 'showRecentActivity');
+                    toggleSection(upcomingDeadlinesSection, 'showUpcomingDeadlines');
+                    toggleSection(adminFeedbackSection, 'showAdminFeedback');
+                    toggleSection(studentFeedbackSection, 'showStudentFeedback');
+                    toggleSection(sendFeedbackSection, 'showStudentFeedback'); // Send feedback section also controlled by student feedback toggle
+                    toggleSection(attendanceSection, 'showAttendance');
+                    toggleSection(recordedSessionsSection, 'showRecordedSessions');
+
+
                 } else {
                     console.warn("[loadDashboardData] No student record found for this user in 'student_record' collection. Resetting dashboard UI.");
                     currentStudentDocId = null; // Ensure it's null if no record is found
@@ -1351,6 +1686,7 @@
                     myCoursesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No courses registered.</li>';
                     myAssignmentsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No assignments provided.</li>';
                     myCertificatesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No certificates provided.</li>';
+                    myServicesList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No services registered.</li>'; // Reset services
                     myNotesContent.innerHTML = '<p class="text-gray-400 text-center">No notes provided by admin.</p>';
                     myNotesAttachmentsList.innerHTML = '<li class="text-gray-400 text-center text-sm list-item">No attachments.</li>';
                     recentActivityList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No recent activity.</li>';
@@ -1363,6 +1699,29 @@
                     renderAttendanceCalendar(currentCalendarDate, allAttendanceData); // Re-render empty calendar
 
                     recordedSessionsList.innerHTML = '<li class="text-gray-400 text-center bg-[#1A1A1A] p-4 rounded-lg list-item">No recorded sessions.</li>';
+
+                    if (enrollCourseTodaySection) { // Hide enroll course section if no record
+                        enrollCourseTodaySection.classList.add('hidden');
+                    }
+                    if (getServicesAdSection) { // Hide services ad section if no record
+                        getServicesAdSection.classList.add('hidden');
+                    }
+
+                    // Hide all sections if no student record is found
+                    enrollmentInfoSection.classList.add('hidden');
+                    myCoursesSection.classList.add('hidden');
+                    myServicesSection.classList.add('hidden');
+                    classTimingsSection.classList.add('hidden');
+                    myAssignmentsSection.classList.add('hidden');
+                    myCertificatesSection.classList.add('hidden');
+                    myNotesSection.classList.add('hidden');
+                    recentActivitySection.classList.add('hidden');
+                    upcomingDeadlinesSection.classList.add('hidden');
+                    adminFeedbackSection.classList.add('hidden');
+                    studentFeedbackSection.classList.add('hidden');
+                    sendFeedbackSection.classList.add('hidden');
+                    attendanceSection.classList.add('hidden');
+                    recordedSessionsSection.classList.add('hidden');
                 }
             }, (error) => {
                 console.error("[loadDashboardData] Error listening to student record data:", error);
@@ -1686,6 +2045,30 @@
                     }
                 });
             });
+
+            // NEW: Event listener for "Enroll in a Course Today!" button
+            if (enrollCourseTodaySection) {
+                const enrollBtn = enrollCourseTodaySection.querySelector('#enroll-course-today-btn');
+                if (enrollBtn) {
+                    enrollBtn.addEventListener('click', () => {
+                        // Reset modal content
+                        enrollCourseTagsContainer.innerHTML = '';
+                        selectedEnrollCourses.clear();
+                        enrollCourseSelect.value = '';
+                        enrollCourseModal.classList.add('show');
+                        document.body.classList.add('overflow-hidden');
+                    });
+                }
+            }
+
+            // NEW: Event listener for "Explore Our Services!" button
+            const getServicesBtn = document.getElementById('get-services-btn');
+            if (getServicesBtn) {
+                getServicesBtn.addEventListener('click', () => {
+                    // Direct to the form link for services
+                    window.open('https://forms.fillout.com/t/38fWVyXv1gus', '_blank');
+                });
+            }
         });
     </script>
 </body>
