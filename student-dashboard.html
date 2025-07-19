@@ -694,13 +694,16 @@
                 </div>
 
                 <!-- NEW: Enroll Course Today Section (Visible only if no courses but has services) -->
+                 
                 <div id="enroll-course-today-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section hidden">
-                    <h3 class="text-2xl font-semibold text-white mb-4 text-center">
-                        <i class="fa fa-plus-circle text-[#10B981] mr-2"></i>Ready to Learn More?
-                    </h3>
-                    <p class="text-gray-300 text-center mb-4">You've registered for services. Now, enroll in a course to expand your skills and unlock more benefits!</p>
+                    <!-- Slideshow container for banners -->
+                    <div class="slideshow-container relative w-full h-auto overflow-hidden rounded-lg mb-4" style="padding-bottom: 30%;"> <!-- Added padding-bottom for aspect ratio -->
+                        <img src="1Banner.png" alt="Enroll in our courses banner 1" class="slideshow-banner absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-100">
+                        <img src="2Banner.png" alt="Enroll in our courses banner 2" class="slideshow-banner absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0">
+                        
+                    </div>
                     <button id="enroll-course-today-btn" class="w-full action-button font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105">
-                        Enroll in a Course Today!
+                        Enroll Now!
                     </button>
                     <p class="text-center text-gray-400 text-sm mt-4">
                         Or fill out our quick form: <a href="https://forms.fillout.com/t/38fWVyXv1gus" target="_blank" class="text-[#60A5FA] hover:underline">Enrollment Form</a>
@@ -709,12 +712,14 @@
 
                 <!-- NEW: Get Services Ad Section (Visible only if has courses but no services) -->
                 <div id="get-services-ad-section" class="bg-[#2A2A2A] p-6 rounded-lg shadow-md mb-8 fade-in-section hidden">
-                    <h3 class="text-2xl font-semibold text-white mb-4 text-center">
-                        <i class="fa fa-tags text-[#A855F7] mr-2"></i>Need More Support?
-                    </h3>
-                    <p class="text-gray-300 text-center mb-4">You're excelling in your courses! Get additional services from us at a reasonable price to boost your learning journey.</p>
+                    <!-- Slideshow container for services banners -->
+                    <div class="slideshow-container relative w-full h-auto overflow-hidden rounded-lg mb-4" style="padding-bottom: 30%;">
+                                            <img src="1Banner.png" alt="Enroll in our courses banner 1" class="slideshow-banner absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-100">
+                        <img src="2Banner.png" alt="Enroll in our courses banner 2" class="slideshow-banner absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out opacity-0">
+                       
+                    </div>
                     <button id="get-services-btn" class="w-full action-button font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105" style="background-color: #A855F7; color: white;">
-                        Explore Our Services!
+                        Buy Services!
                     </button>
                     <p class="text-center text-gray-400 text-sm mt-4">
                         Or fill out our quick form: <a href="https://forms.fillout.com/t/38fWVyXv1gus" target="_blank" class="text-[#60A5FA] hover:underline">Service Request Form</a>
@@ -2051,12 +2056,8 @@
                 const enrollBtn = enrollCourseTodaySection.querySelector('#enroll-course-today-btn');
                 if (enrollBtn) {
                     enrollBtn.addEventListener('click', () => {
-                        // Reset modal content
-                        enrollCourseTagsContainer.innerHTML = '';
-                        selectedEnrollCourses.clear();
-                        enrollCourseSelect.value = '';
-                        enrollCourseModal.classList.add('show');
-                        document.body.classList.add('overflow-hidden');
+                        // Direct to the form link for services
+                        window.open('https://forms.fillout.com/t/38fWVyXv1gus', '_blank');
                     });
                 }
             }
@@ -2069,6 +2070,30 @@
                     window.open('https://forms.fillout.com/t/38fWVyXv1gus', '_blank');
                 });
             }
+
+            // Generic Slideshow functionality for all elements with class 'slideshow-container'
+            document.querySelectorAll('.slideshow-container').forEach(slideshowContainer => {
+                const banners = slideshowContainer.querySelectorAll('.slideshow-banner');
+                let currentBannerIndex = 0;
+
+                const showNextBanner = () => {
+                    // Hide the current banner
+                    banners[currentBannerIndex].classList.remove('opacity-100');
+                    banners[currentBannerIndex].classList.add('opacity-0');
+
+                    // Move to the next banner
+                    currentBannerIndex = (currentBannerIndex + 1) % banners.length;
+
+                    // Show the next banner
+                    banners[currentBannerIndex].classList.remove('opacity-0');
+                    banners[currentBannerIndex].classList.add('opacity-100');
+                };
+
+                // Start slideshow only if there's more than one banner
+                if (banners.length > 1) {
+                    setInterval(showNextBanner, 2000); // Change banner every 2 seconds
+                }
+            });
         });
     </script>
 </body>
