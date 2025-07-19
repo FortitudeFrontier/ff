@@ -118,7 +118,7 @@
         .hero-button:hover {
             transform: scale(1.08) translateY(-3px);
             box-shadow: 0 8px 20px rgba(255, 140, 0, 0.4); /* Vibrant Orange shadow */
-            animation: none; /* Stop pulse on hover */
+            /* Removed animation: none; to prevent button from hiding */
         }
 
         @keyframes pulseButton {
@@ -379,6 +379,55 @@
         #study-buddy-output h4 { font-size: 1.25rem; }   /* text-xl */
         #study-buddy-output h5 { font-size: 1.125rem; }  /* text-lg */
         #study-buddy-output h6 { font-size: 1rem; }      /* text-base */
+
+        /* Ad Gallery Specific Styles */
+        .ad-gallery-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px; /* Adjust as needed */
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .ad-gallery-slide {
+            display: none; /* Hidden by default */
+            width: 100%;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .ad-gallery-slide.active {
+            display: block; /* Show active slide */
+            opacity: 1;
+        }
+
+        .ad-gallery-slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 1rem; /* Match container border-radius */
+        }
+
+        .ad-gallery-dots {
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .ad-dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 5px;
+            background-color: #555;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .ad-dot.active, .ad-dot:hover {
+            background-color: #FF8C00; /* Vibrant Orange */
+        }
     </style>
 </head>
 <body class="bg-[#0D0D0D] text-white">
@@ -580,6 +629,42 @@
         </div>
     </section>
 
+    <!-- Ad Gallery Section (NEW) -->
+    <section id="ad-gallery" class="py-16 md:py-24 bg-[#0D0D0D]">
+        <div class="container text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-12 text-[#FF8C00] scroll-reveal-item">Our Latest Offers & Updates</h2>
+            <div class="ad-gallery-container scroll-reveal-item" style="--delay: 0.1s;">
+                <a href="https://forms.fillout.com/t/38fWVyXv1gus" target="_blank" class="ad-gallery-slide fade">
+                    <img src="1Banner.png" alt="Enroll in our courses and get access to student dashboard">
+                </a>
+                <a href="https://forms.fillout.com/t/38fWVyXv1gus" target="_blank" class="ad-gallery-slide fade">
+                    <img src="2Banner.png" alt="Special Offer Banner">
+                </a>
+                <a href="https://forms.fillout.com/t/38fWVyXv1gus" target="_blank" class="ad-gallery-slide fade">
+                    <img src="3Banner.png" alt="Community Banner">
+                </a>
+                <a href="https://forms.fillout.com/t/38fWVyXv1gus" target="_blank" class="ad-gallery-slide fade">
+                    <img src="4Banner.png" alt="Community Banner">
+                </a>
+                <a href="https://forms.fillout.com/t/38fWVyXv1gus" target="_blank" class="ad-gallery-slide fade">
+                    <img src="5Banner.png" alt="Community Banner">
+                </a>
+            </div>
+            <div class="ad-gallery-dots">
+                <span class="ad-dot" onclick="currentSlide(1)"></span>
+                <span class="ad-dot" onclick="currentSlide(2)"></span>
+                <span class="ad-dot" onclick="currentSlide(3)"></span>
+                <span class="ad-dot" onclick="currentSlide(4)"></span>
+                <span class="ad-dot" onclick="currentSlide(5)"></span>
+            </div>
+            <!-- Contact info added to this section -->
+            <div class="mt-8 text-lg text-gray-300">
+                <p class="mb-2">📞 <a href="tel:+919352359645" class="hover:text-[#FF8C00] transition duration-300">93523-59645</a></p>
+                <p>📧 <a href="mailto:frontierfortitude26@gmail.com" class="hover:text-[#FF8C00] transition duration-300">frontierfortitude26@gmail.com</a></p>
+            </div>
+        </div>
+    </section>
+
     <!-- Quizzes Section -->
     <section id="quizzes" class="py-16 md:py-24 bg-[#0D0D0D]">
         <div class="container text-center">
@@ -756,8 +841,8 @@
                     <a href="mailto:frontierfortitude26@gmail.com?subject=enquire%20about%20fortitude%20frontier" class="hover:text-[#FF8C00] transition duration-300"><i class="fa fa-envelope" style="font-size:24px"></i></a>
                 </div>
             </div>
-            <p class="mt-8 text-lg">Email: frontierfortitude26@gmail.com</p>
-            <p class="text-lg">Phone: +91 99295110995</p>
+            <p class="mt-8 text-lg">Email: <a href="mailto:frontierfortitude26@gmail.com" class="hover:text-[#FF8C00] transition duration-300">frontierfortitude26@gmail.com</a></p>
+            <p class="text-lg">Phone: <a href="tel:+919352359645" class="hover:text-[#FF8C00] transition duration-300">+91 93523-59645</a></p>
         </div>
     </footer>
 
@@ -1092,6 +1177,7 @@
             console.log('window.load fired.');
             initScrollReveal();
             console.log('initScrollReveal called on window load');
+            initAdGallery(); // Initialize the ad gallery on window load
         });
 
         const initScrollReveal = () => {
@@ -1368,6 +1454,49 @@
                 document.body.classList.remove('overflow-hidden');
             });
         }
+
+        // --- Ad Gallery Logic (NEW) ---
+        let slideIndex = 0;
+        let slideInterval;
+        const autoSwapInterval = 5000; // 5 seconds
+
+        const showSlides = (n) => {
+            const slides = document.querySelectorAll('.ad-gallery-slide');
+            const dots = document.querySelectorAll('.ad-dot');
+
+            if (slides.length === 0) return;
+
+            if (n === undefined) { // For auto-play
+                slideIndex++;
+            } else { // For manual click
+                slideIndex = n;
+            }
+
+            if (slideIndex > slides.length) { slideIndex = 1; }
+            if (slideIndex < 1) { slideIndex = slides.length; }
+
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            slides[slideIndex - 1].classList.add('active');
+            dots[slideIndex - 1].classList.add('active');
+        };
+
+        const currentSlide = (n) => {
+            clearInterval(slideInterval); // Stop auto-swap on manual click
+            showSlides(n);
+            // Restart auto-swap after a short delay, giving user time to react
+            slideInterval = setInterval(showSlides, autoSwapInterval);
+        };
+
+        const initAdGallery = () => {
+            const slides = document.querySelectorAll('.ad-gallery-slide');
+            if (slides.length > 0) {
+                showSlides(1); // Show the first slide initially
+                slideInterval = setInterval(showSlides, autoSwapInterval);
+            }
+        };
+
     </script>
 </body>
 </html>
