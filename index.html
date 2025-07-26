@@ -555,6 +555,8 @@
                             <option value="Data Analyst Standard">Data Analyst (Standard)</option>
                             <option value="Data Analyst Pro">Data Analyst (Pro)</option>
                             <option value="Cyber Security">Cyber Security</option>
+                            <option value="C Programming">C Programming</option> <!-- New: C Programming -->
+                            <option value="DevOps">DevOps</option> <!-- New: DevOps -->
                         </select>
                     </div>
                     <button type="submit" class="action-button w-full font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">
@@ -647,6 +649,18 @@
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=Cyber+Sec" alt="Cyber Security Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Cyber Security</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Protect systems and data from cyber threats and vulnerabilities.</p>
+                </div>
+                 <!-- New Course Card: C Programming -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=C" alt="C Programming Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">C Programming</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Fundamentals of C, pointers, and memory management.</p>
+                </div>
+                <!-- New Course Card: DevOps -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=DevOps" alt="DevOps Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">DevOps</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">CI/CD, automation, and infrastructure as code.</p>
                 </div>
             </div>
         </div>
@@ -742,6 +756,20 @@
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Cyber Security</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Network security, cryptography, ethical hacking.</p>
                     <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="Cyber Security" style="--delay: 0.5s;">Generate Quiz ✨</button>
+                </div>
+                <!-- New Quiz Card: C Programming -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=C" alt="C Programming Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">C Programming</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Pointers, arrays, and basic data structures.</p>
+                    <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="C Programming" style="--delay: 0.5s;">Generate Quiz ✨</button>
+                </div>
+                <!-- New Quiz Card: DevOps -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=DEVOPS" alt="DevOps Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">DevOps</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">CI/CD pipelines, Docker, Kubernetes basics.</p>
+                    <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="DevOps" style="--delay: 0.5s;">Generate Quiz ✨</button>
                 </div>
             </div>
         </div>
@@ -941,7 +969,9 @@
             // New Courses
             "Data Analyst Standard": { amount: "₹1500" },
             "Data Analyst Pro": { amount: "₹2500" },
-            "Cyber Security": { amount: "₹2000" }
+            "Cyber Security": { amount: "₹2000" },
+            "C Programming": { amount: "₹699" }, // Added C Programming
+            "DevOps": { amount: "₹1800" } // Added DevOps
         };
 
         // Google Form URL
