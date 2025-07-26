@@ -1460,7 +1460,7 @@
                                 <p class="service-title">
                                     <i class="fa fa-tag icon-services mr-2"></i>${service.type || `Service ${index + 1}`}
                                 </p>
-                                <p class="service-details">Amount Paid: <span class="font-semibold">$${service.amount || 'N/A'}</span></p>
+                                <p class="service-details">Amount Paid: <span class="font-semibold">₹${service.amount || 'N/A'}</span></p>
                                 <p class="service-details">Purchased Date: <span class="font-semibold">${purchasedDate}</span></p>
                                 <p class="service-details">Completion Date: <span class="font-semibold">${completionDate}</span></p>
                                 <p class="service-details">Receipt: ${receiptUrlHtml}</p>
@@ -1675,7 +1675,7 @@
                 } else {
                     console.warn("[loadDashboardData] No student record found for this user in 'student_record' collection. Resetting dashboard UI.");
                     currentStudentDocId = null; // Ensure it's null if no record is found
-                    enrolledCoursesForTimings = []; // Clear enrolled courses if no record
+                    enrolledCoursesForTimings = []; // Clear enrolled courses on logout
                     loadClassTimingsForStudent([]); // Clear class timings display
 
                     // --- Reset Dashboard UI to default states ---
