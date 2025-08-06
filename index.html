@@ -428,6 +428,16 @@
         .ad-dot.active, .ad-dot:hover {
             background-color: #FF8C00; /* Vibrant Orange */
         }
+
+        /* Courses section - hidden by default for 'show more' */
+        .course-card.hidden-course {
+            display: none;
+        }
+
+        /* Quizzes section - hidden by default for 'show more' */
+        .quiz-card.hidden-quiz {
+            display: none;
+        }
     </style>
 </head>
 <body class="bg-[#0D0D0D] text-white">
@@ -456,8 +466,7 @@
                 <a href="#fun-saturday" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Fun Saturday</a> -->
                 <!-- <a href="#course-playlist" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Course Playlist</a> -->
                 <!-- <a href="#ai-study-buddy" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">AI Study Buddy ✨</a> -->
-                <a href="#contact" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Contact</a>
-                <a href="https://www.linkedin.com/company/fortitude-frontier/" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Carrers</a>
+                <a href="#contact" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Carrers</a>
                 <!-- New Student Dashboard link pointing to the separate HTML file -->
                 <a href="student-dashboard.html" id="main-dashboard-link" class="nav-link text-lg text-[#FFFFFF] hover:text-white transition duration-300">Student Dashboard</a>
                 <!-- User Info and Logout (always present, visibility controlled by JS) -->
@@ -557,6 +566,9 @@
                             <option value="Cyber Security">Cyber Security</option>
                             <option value="C Programming">C Programming</option> <!-- New: C Programming -->
                             <option value="DevOps">DevOps</option> <!-- New: DevOps -->
+                            <option value="Advanced Excel">Advanced Excel</option> <!-- New: Advanced Excel -->
+                            <option value="Generative AI">Generative AI</option> <!-- New: Generative AI -->
+                            <option value="RTU Theory Subjects">RTU Theory Subjects</option> <!-- New: RTU Theory Subjects -->
                         </select>
                     </div>
                     <button type="submit" class="action-button w-full font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">
@@ -607,60 +619,113 @@
         <div class="container text-center">
             <h2 class="text-4xl md:text-5xl font-bold mb-12 text-[#FFFFFF] scroll-reveal-item">Our Comprehensive Courses</h2>
             <p class="text-lg md:text-xl text-[#FFFFFF] mb-10 scroll-reveal-item" style="--delay: 0.1s;">Dive deep into specialized topics with our structured and engaging courses.</p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8">
+            <div id="course-cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8">
                 <!-- Course Card: Java -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center course-card">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=Java" alt="Java Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Java Programming</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Master object-oriented programming, data structures, and algorithms.</p>
                 </div>
                 <!-- Course Card: C++ -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center course-card">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=C++" alt="C++ Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">C++ Programming</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Learn powerful system-level programming and competitive coding.</p>
                 </div>
                 <!-- Course Card: Python -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center course-card">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=Python" alt="Python Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Python Programming</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Explore data science, web development, and automation with Python.</p>
                 </div>
                 <!-- Course Card: Web Development -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center course-card">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=WebDev" alt="Web Development Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Web Development</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Build dynamic and responsive websites from front-end to back-end.</p>
                 </div>
                 <!-- New Course Card: Data Analyst Standard -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center course-card hidden-course">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=Data+Analyst" alt="Data Analyst Standard Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Data Analyst (Standard)</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Foundational skills in data cleaning, analysis, and visualization.</p>
                 </div>
                 <!-- New Course Card: Data Analyst Pro -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center course-card hidden-course">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=Data+Pro" alt="Data Analyst Pro Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Data Analyst (Pro)</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Advanced analytics, machine learning basics, and big data tools.</p>
                 </div>
                 <!-- New Course Card: Cyber Security -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center course-card hidden-course">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=Cyber+Sec" alt="Cyber Security Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Cyber Security</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Protect systems and data from cyber threats and vulnerabilities.</p>
                 </div>
                  <!-- New Course Card: C Programming -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center course-card hidden-course">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=C" alt="C Programming Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">C Programming</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Fundamentals of C, pointers, and memory management.</p>
                 </div>
                 <!-- New Course Card: DevOps -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center course-card hidden-course">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=DevOps" alt="DevOps Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">DevOps</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">CI/CD, automation, and infrastructure as code.</p>
+                </div>
+                <!-- New Course Card: Advanced Excel -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center course-card hidden-course">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=Excel" alt="Advanced Excel Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Advanced Excel</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Master data analysis, pivot tables, and complex functions.</p>
+                </div>
+                <!-- New Course Card: Generative AI -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center course-card hidden-course">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=Gen+AI" alt="Generative AI Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Generative AI</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Explore AI models for content creation and innovation.</p>
+                </div>
+                <!-- New Course Card: RTU Theory Subjects -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center course-card hidden-course">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=RTU" alt="RTU Theory Subjects Course" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">RTU Theory Subjects</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Comprehensive coaching for Rajasthan Technical University theory exams.</p>
+                </div>
+            </div>
+            <button id="show-more-courses-btn" class="action-button font-bold py-3 px-8 rounded-full shadow-lg mt-10 transition duration-300 transform hover:scale-105">
+                Show More Courses
+            </button>
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-12 mt-20 text-[#FFFFFF] scroll-reveal-item">Challenges & Hackathons</h2>
+            <p class="text-lg md:text-xl text-[#FFFFFF] mb-10 scroll-reveal-item" style="--delay: 0.1s;">Put your skills to the test with our challenging coding competitions and hackathons!</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Challenge Card 1 -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=Code+Challenge" alt="Coding Challenge" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Weekly Coding Challenge</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Solve algorithmic problems and improve your coding skills.</p>
+                    <button class="action-button font-bold py-2 px-6 rounded-full learn-more-btn"
+                            data-activity-title="Weekly Coding Challenge"
+                            data-activity-info="Join our weekly coding challenges to sharpen your problem-solving abilities and master various algorithms. Compete with peers and climb the leaderboard!">Learn More</button>
+                </div>
+                <!-- Challenge Card 2 -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=Hackathon" alt="Hackathon" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Innovation Hackathons</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Collaborate, innovate, and build real-world solutions in a limited time.</p>
+                    <button class="action-button font-bold py-2 px-6 rounded-full learn-more-btn"
+                            data-activity-title="Innovation Hackathons"
+                            data-activity-info="Participate in our exciting hackathons where you can team up, brainstorm, and develop innovative solutions to real-world problems. A great opportunity to learn, network, and showcase your talent!">Learn More</button>
+                </div>
+                <!-- Challenge Card 3 -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=Data+Challenge" alt="Data Science Challenge" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Data Science Challenges</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Analyze datasets, build models, and gain insights from data.</p>
+                    <button class="action-button font-bold py-2 px-6 rounded-full learn-more-btn"
+                            data-activity-title="Data Science Challenges"
+                            data-activity-info="Dive into the world of data with our data science challenges. Apply your analytical skills to extract meaningful insights, build predictive models, and solve complex data-driven problems.">Learn More</button>
                 </div>
             </div>
         </div>
@@ -707,71 +772,95 @@
         <div class="container text-center">
             <h2 class="text-4xl md:text-5xl font-bold mb-12 text-[#FF8C00] scroll-reveal-item">Challenge Yourself with Quizzes!</h2>
             <p class="text-lg md:text-xl text-[#FFFFFF] mb-10 scroll-reveal-item" style="--delay: 0.1s;">Test your knowledge and sharpen your skills with our interactive quizzes, or generate new ones with AI!</p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"> <!-- Changed lg:grid-cols-3 to lg:grid-cols-4 to accommodate new quizzes -->
+            <div id="quiz-cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"> <!-- Changed lg:grid-cols-3 to lg:grid-cols-4 to accommodate new quizzes -->
                 <!-- Quiz Card 1: Java -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center quiz-card">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=JAVA" alt="Java Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Java Programming</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Core Java, OOP, Data Structures.</p>
                     <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="Java Programming" style="--delay: 0.5s;">Generate Quiz ✨</button>
                 </div>
                 <!-- Quiz Card 2: C++ -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center quiz-card">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=C++" alt="C++ Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">C++ Programming</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Pointers, Classes, STL.</p>
                     <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="C++ Programming" style="--delay: 0.5s;">Generate Quiz ✨</button>
                 </div>
                 <!-- Quiz Card 3: Web Development -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center quiz-card">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=WEB+DEV" alt="Web Development Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Web Development</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">HTML, JavaScript, APIs.</p>
                     <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="Web Development" style="--delay: 0.5s;">Generate Quiz ✨</button>
                 </div>
                 <!-- Quiz Card 4: Python (added a new card for Python) -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center quiz-card">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=PYTHON" alt="Python Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Python Basics</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Syntax, Data Types, Control Flow.</p>
                     <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="Python Programming" style="--delay: 0.5s;">Generate Quiz ✨</button>
                 </div>
                 <!-- New Quiz Card: Data Analyst Standard -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center quiz-card hidden-quiz">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=DATA+ANALYST+STD" alt="Data Analyst Standard Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Data Analyst (Standard)</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Data cleaning, SQL, basic visualization.</p>
                     <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="Data Analyst Standard" style="--delay: 0.5s;">Generate Quiz ✨</button>
                 </div>
                 <!-- New Quiz Card: Data Analyst Pro -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center quiz-card hidden-quiz">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=DATA+ANALYST+PRO" alt="Data Analyst Pro Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Data Analyst (Pro)</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Advanced Python, ML concepts, big data.</p>
                     <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="Data Analyst Pro" style="--delay: 0.5s;">Generate Quiz ✨</button>
                 </div>
                 <!-- New Quiz Card: Cyber Security -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center quiz-card hidden-quiz">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=CYBER+SECURITY" alt="Cyber Security Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Cyber Security</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Network security, cryptography, ethical hacking.</p>
                     <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="Cyber Security" style="--delay: 0.5s;">Generate Quiz ✨</button>
                 </div>
                 <!-- New Quiz Card: C Programming -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center quiz-card hidden-quiz">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=C" alt="C Programming Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">C Programming</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Pointers, arrays, and basic data structures.</p>
                     <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="C Programming" style="--delay: 0.5s;">Generate Quiz ✨</button>
                 </div>
                 <!-- New Quiz Card: DevOps -->
-                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center">
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center quiz-card hidden-quiz">
                     <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=DEVOPS" alt="DevOps Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
                     <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">DevOps</h3>
                     <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">CI/CD pipelines, Docker, Kubernetes basics.</p>
                     <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="DevOps" style="--delay: 0.5s;">Generate Quiz ✨</button>
                 </div>
+                <!-- New Quiz Card: Advanced Excel -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center quiz-card hidden-quiz">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=Excel" alt="Advanced Excel Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Advanced Excel</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Formulas, data validation, macros.</p>
+                    <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="Advanced Excel" style="--delay: 0.5s;">Generate Quiz ✨</button>
+                </div>
+                <!-- New Quiz Card: Generative AI -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center quiz-card hidden-quiz">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=Gen+AI" alt="Generative AI Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">Generative AI</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Models, applications, ethical considerations.</p>
+                    <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="Generative AI" style="--delay: 0.5s;">Generate Quiz ✨</button>
+                </div>
+                <!-- New Quiz Card: RTU Theory Subjects -->
+                <div class="interactive-card bg-[#2A2A2A] rounded-xl shadow-lg p-6 flex flex-col items-center quiz-card hidden-quiz">
+                    <img src="https://placehold.co/150x150/1A1A1A/FFFFFF?text=RTU" alt="RTU Theory Subjects Quiz" class="w-24 h-24 mb-4 rounded-full border-4 border-[#FF8C00] scroll-reveal-item" style="--delay: 0.2s;">
+                    <h3 class="text-2xl font-semibold text-white mb-2 scroll-reveal-item" style="--delay: 0.3s;">RTU Theory Subjects</h3>
+                    <p class="text-gray-400 mb-4 text-center scroll-reveal-item" style="--delay: 0.4s;">Comprehensive coaching for Rajasthan Technical University theory exams.</p>
+                    <button class="action-button font-bold py-2 px-6 rounded-full generate-quiz-btn scroll-reveal-item" data-topic="RTU Theory Subjects" style="--delay: 0.5s;">Generate Quiz ✨</button>
+                </div>
             </div>
+            <button id="show-more-quizzes-btn" class="action-button font-bold py-3 px-8 rounded-full shadow-lg mt-10 transition duration-300 transform hover:scale-105">
+                Show More Quizzes
+            </button>
         </div>
     </section>
 
@@ -859,10 +948,10 @@
         <div class="container text-center max-w-4xl">
             <h2 class="text-4xl md:text-5xl font-bold mb-8 text-[#FF8C00] scroll-reveal-item">AI Study Buddy ✨</h2>
             <p class="text-lg md:text-xl leading-relaxed text-[#FFFFFF] mb-6 scroll-reveal-item" style="--delay: 0.1s;">
-                Ask your AI Study Buddy to explain any concept, provide definitions, or summarize topics!
+                Ask your AI Study Buddy to explain any concept, provide definitions, or summarize topics! You can also ask about Fortitude Frontier!
             </p>
             <div class="bg-[#1A1A1A] rounded-xl shadow-lg p-8 scroll-reveal-item" style="--delay: 0.2s;">
-                <textarea id="study-buddy-input" class="w-full p-4 rounded-md bg-[#0D0D0D] text-[#FFFFFF] border border-[#FF8C00] focus:outline-none focus:ring-2 focus:ring-[#FF8C00]" rows="4" placeholder="e.g., Explain photosynthesis for a high school student..."></textarea>
+                <textarea id="study-buddy-input" class="w-full p-4 rounded-md bg-[#0D0D0D] text-[#FFFFFF] border border-[#FF8C00] focus:outline-none focus:ring-2 focus:ring-[#FF8C00]" rows="4" placeholder="e.g., Explain photosynthesis for a high school student... or Tell me about Fortitude Frontier"></textarea>
                 <button id="get-explanation-btn" class="action-button font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">Get Explanation ✨</button>
                 <div id="study-buddy-loading" class="loading-spinner hidden mt-4"></div>
                 <div id="study-buddy-output" class="text-left mt-6 p-4 bg-[#0D0D0D] rounded-md border border-[#FF8C00]">
@@ -971,7 +1060,10 @@
             "Data Analyst Pro": { amount: "₹2500" },
             "Cyber Security": { amount: "₹2000" },
             "C Programming": { amount: "₹699" }, // Added C Programming
-            "DevOps": { amount: "₹1800" } // Added DevOps
+            "DevOps": { amount: "₹1800" }, // Added DevOps
+            "Advanced Excel": { amount: "₹1000" }, // Added Advanced Excel
+            "Generative AI": { amount: "₹3000" }, // Added Generative AI
+            "RTU Theory Subjects": { amount: "₹1500" } // Added RTU Theory Subjects
         };
 
         // Google Form URL
@@ -1132,6 +1224,35 @@
                     studyBuddyOutput.innerHTML = ''; // Changed to innerHTML
                     studyBuddyLoading.classList.remove('hidden');
 
+                    // Check for Fortitude Frontier specific queries
+                    const ffKeywords = ["fortitude frontier", "ff", "about ff", "when did ff start", "ff courses", "how many courses in ff"];
+                    const founderKeywords = ["founder of ff", "divyansh dewani", "ceo of ff", "divyansh"];
+                    const ctoKeywords = ["cto of ff", "janvi patel", "janvi"];
+
+                    const lowerCasePrompt = prompt.toLowerCase();
+                    let ffResponse = "";
+
+                    if (ffKeywords.some(keyword => lowerCasePrompt.includes(keyword))) {
+                        ffResponse = "Fortitude Frontier is an educational institute dedicated to providing top-tier coaching and fostering academic excellence and personal growth. ";
+                        ffResponse += "It was founded by **Mr. Divyansh Dewani (Founder & CEO)** and **Ms. Janvi Patel (CTO)**. ";
+                        ffResponse += "Fortitude Frontier officially started on **May 26, 2025**. ";
+                        ffResponse += "Currently, Fortitude Frontier offers a comprehensive range of courses designed to empower students. These include: ";
+                        ffResponse += "Java Programming, C++ Programming, Python Programming, Web Development, Data Analyst (Standard), Data Analyst (Pro), Cyber Security, C Programming, DevOps, Advanced Excel, Generative AI, and RTU Theory Subjects. ";
+                        ffResponse += "In total, there are **12 courses** available.";
+                    } else if (founderKeywords.some(keyword => lowerCasePrompt.includes(keyword))) {
+                        ffResponse = "The Founder and CEO of Fortitude Frontier is **Mr. Divyansh Dewani**.";
+                    } else if (ctoKeywords.some(keyword => lowerCasePrompt.includes(keyword))) {
+                        ffResponse = "The CTO of Fortitude Frontier is **Ms. Janvi Patel**.";
+                    }
+
+
+                    if (ffResponse) {
+                        studyBuddyOutput.innerHTML = marked.parse(ffResponse);
+                        studyBuddyLoading.classList.add('hidden');
+                        return; // Exit function after providing FF specific response
+                    }
+
+
                     try {
                         let chatHistory = [];
                         chatHistory.push({ role: "user", parts: [{ text: prompt }] });
@@ -1256,6 +1377,8 @@
             initScrollReveal();
             console.log('initScrollReveal called on window load');
             initAdGallery(); // Initialize the ad gallery on window load
+            initCoursesSection(); // Initialize the courses section visibility
+            initQuizzesSection(); // Initialize the quizzes section visibility
         });
 
         const initScrollReveal = () => {
@@ -1572,6 +1695,62 @@
             if (slides.length > 0) {
                 showSlides(1); // Show the first slide initially
                 slideInterval = setInterval(showSlides, autoSwapInterval);
+            }
+        };
+
+        // --- Courses "Show More" Logic ---
+        const initCoursesSection = () => {
+            const courseCards = document.querySelectorAll('#course-cards-container .course-card');
+            const showMoreBtn = document.getElementById('show-more-courses-btn');
+            const initialVisibleCount = 4; // Show first 4 courses by default
+
+            if (courseCards.length <= initialVisibleCount) {
+                if (showMoreBtn) showMoreBtn.classList.add('hidden'); // Hide button if all courses are visible
+                return;
+            }
+
+            // Hide courses beyond the initial visible count
+            courseCards.forEach((card, index) => {
+                if (index >= initialVisibleCount) {
+                    card.classList.add('hidden-course');
+                }
+            });
+
+            if (showMoreBtn) {
+                showMoreBtn.addEventListener('click', () => {
+                    courseCards.forEach(card => {
+                        card.classList.remove('hidden-course');
+                    });
+                    showMoreBtn.classList.add('hidden'); // Hide button after showing all
+                });
+            }
+        };
+
+        // --- Quizzes "Show More" Logic ---
+        const initQuizzesSection = () => {
+            const quizCards = document.querySelectorAll('#quiz-cards-container .quiz-card');
+            const showMoreBtn = document.getElementById('show-more-quizzes-btn');
+            const initialVisibleCount = 4; // Show first 4 quizzes by default
+
+            if (quizCards.length <= initialVisibleCount) {
+                if (showMoreBtn) showMoreBtn.classList.add('hidden'); // Hide button if all quizzes are visible
+                return;
+            }
+
+            // Hide quizzes beyond the initial visible count
+            quizCards.forEach((card, index) => {
+                if (index >= initialVisibleCount) {
+                    card.classList.add('hidden-quiz');
+                }
+            });
+
+            if (showMoreBtn) {
+                showMoreBtn.addEventListener('click', () => {
+                    quizCards.forEach(card => {
+                        card.classList.remove('hidden-quiz');
+                    });
+                    showMoreBtn.classList.add('hidden'); // Hide button after showing all
+                });
             }
         };
 
